@@ -19,6 +19,8 @@ import com.base.rest.dtos.Log;
 import com.base.rest.dtos.Usuario;
 import com.base.rest.service.interfaces.LogService;
 import com.base.rest.service.interfaces.UsuarioService;
+import com.base.rest.views.View;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -30,6 +32,7 @@ public class UsuarioController extends BaseController {
 	@Autowired
 	private LogService logService;
 	
+	@JsonView(View.Public.class)
 	@GetMapping("/findAll")
 	//@PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<Usuario>> findAll() {
@@ -52,6 +55,7 @@ public class UsuarioController extends BaseController {
         return new ResponseEntity<String>("Operación correcta", HttpStatus.OK);
     }
 	
+	@JsonView(View.Public.class)
 	@GetMapping("/find")
 	//@PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Usuario> findById(@RequestParam Integer id) {

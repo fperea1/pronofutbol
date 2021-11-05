@@ -90,6 +90,7 @@ public class UsuarioController extends BaseController {
     }
 	
 	@PutMapping("/cambioPassword")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<String> cambioPasswordUser(@RequestParam Integer id, @RequestParam String oldPassword, @RequestParam String newPassword) {
 		Usuario usuario = usuarioService.findById(id);
 		usuarioService.cambioPasswordUser(id, oldPassword, newPassword);
@@ -98,6 +99,7 @@ public class UsuarioController extends BaseController {
     }
 	
 	@PutMapping("/cambioPasswordAdmin")
+	//@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<String> cambioPasswordAdmin(@RequestParam Integer id, @RequestParam String newPassword) {
 		Usuario usuario = usuarioService.findById(id);
 		usuarioService.cambioPasswordAdmin(id, newPassword);

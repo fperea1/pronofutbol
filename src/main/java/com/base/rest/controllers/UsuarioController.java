@@ -99,7 +99,6 @@ public class UsuarioController extends BaseController {
     }
 	
 	@PutMapping("/cambioPasswordAdmin")
-	//@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<String> cambioPasswordAdmin(@RequestParam Integer id, @RequestParam String newPassword) {
 		Usuario usuario = usuarioService.findById(id);
 		usuarioService.cambioPasswordAdmin(id, newPassword);

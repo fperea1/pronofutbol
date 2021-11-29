@@ -62,6 +62,7 @@ public class Usuario {
 	@Column(name = "fecha_desactivacion")
 	private Date fechaDesactivacion;
 	
+	@JsonView(View.Public.class)
 	@Column(name = "activo")
 	@NotNull(message = "Activo. Campo obligatorio")
 	private Boolean activo;

@@ -375,6 +375,7 @@ class UsuarioControllerTest {
 		    .perform(get("/usuarios/find")
 		    .param("id", "1")
 		    .header("Authorization", "Bearer " + token))
+		    .andDo(print())
 		    .andExpect(status().isOk())
 		    .andExpect(jsonPath("$[?(@.email === 'administrador@ezentis.com')]").exists());
 	}

@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    image: war-base-rest:1.0
+    ports:
+      - 8080:8080
+    container_name: BASEREST
+    depends_on:
+      - db
+  
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-CU14-ubuntu-20.04
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: FranDocker1974
+    ports:
+      - 1444:1433
+    container_name: SQLSERVERBASEREST
+    hostname: sqlserver
+    volumes:
+      - C:\sqlserverDocker\baseRest\volumes\data:/var/opt/mssql/data
+      - C:\sqlserverDocker\baseRest\volumes\log:/var/opt/mssql/log
+      - C:\sqlserverDocker\baseRest\volumes\secrets:/var/opt/mssql/secrets

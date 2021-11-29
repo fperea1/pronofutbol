@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.base.rest</groupId>
 	<artifactId>baseRest</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>war</packaging>
 	<name>baseRest</name>
 	<description>Base proyecto rest</description>
@@ -74,6 +74,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+			        <finalName>baseRest</finalName>
+			     </configuration>
 			</plugin>
 		</plugins>
 	</build>

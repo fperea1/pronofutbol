@@ -30,6 +30,8 @@ public class Usuario {
 	@Column(name = "id")
 	private Integer id;
 	
+	
+	// nombre
 	@JsonView(View.Public.class)
 	@Column(name = "nombre", length = 50)
 	@Size(min = 1, max = 50, message = "Nombre debe tener entre 1 y 50 caracteres")

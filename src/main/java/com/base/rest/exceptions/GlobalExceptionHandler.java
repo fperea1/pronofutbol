@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -68,7 +69,7 @@ public class GlobalExceptionHandler {
 	   protected ResponseEntity<String> handleAuthenticationException(AuthenticationException ex) {
 	      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<String>("Datos de login erroneos", HttpStatus.BAD_REQUEST);
+	       return new ResponseEntity<String>("Autenticación erronea", HttpStatus.BAD_REQUEST);
 	   }
 	   
 	   @ExceptionHandler(MissingServletRequestParameterException.class)
@@ -78,8 +79,8 @@ public class GlobalExceptionHandler {
 	       return new ResponseEntity<String>("Faltan parámetros en la petición", HttpStatus.BAD_REQUEST);
 	   }
 	   
-	   @ExceptionHandler(PasswordException.class)
-	   protected ResponseEntity<String> handlePasswordException(PasswordException ex) {
+	   @ExceptionHandler(PasswordLimitException.class)
+	   protected ResponseEntity<String> handlePasswordLimitException(PasswordLimitException ex) {
 	      
 		   logger.error(ex.getMessage(), ex);
 	       return new ResponseEntity<String>("Password debe tener entre 10 y 100 caracteres", HttpStatus.CONFLICT);
@@ -91,5 +92,12 @@ public class GlobalExceptionHandler {
 		   logger.error(ex.getMessage(), ex);
 	       return new ResponseEntity<String>("No existe la entidad", HttpStatus.BAD_REQUEST);
 	   }
-
+	   
+	   @ExceptionHandler(BadCredentialsException.class)
+	   protected ResponseEntity<String> handleBadCredentialsException(BadCredentialsException ex) {
+		      
+		   logger.error(ex.getMessage(), ex);
+	       return new ResponseEntity<String>("Credenciales erroneas", HttpStatus.BAD_REQUEST);
+	   }
+	   
 }

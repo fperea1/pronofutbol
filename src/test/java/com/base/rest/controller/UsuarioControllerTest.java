@@ -25,13 +25,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import com.base.rest.dtos.Rol;
 import com.base.rest.dtos.Usuario;
 import com.base.rest.exceptions.EntityNoExistsException;
-import com.base.rest.exceptions.PasswordException;
+import com.base.rest.exceptions.PasswordLimitException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -170,7 +171,7 @@ class UsuarioControllerTest {
 	    .header("Authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordException))
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordLimitException))
 	    .andExpect(content().string(containsString("Password debe tener entre 10 y 100 caracteres")));	
 	}
 	
@@ -189,7 +190,7 @@ class UsuarioControllerTest {
 	    .header("Authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordException))
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordLimitException))
 	    .andExpect(content().string(containsString("Password debe tener entre 10 y 100 caracteres")));	
 	}
 	
@@ -209,7 +210,7 @@ class UsuarioControllerTest {
 	    .header("Authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordException))
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordLimitException))
 	    .andExpect(content().string(containsString("Password debe tener entre 10 y 100 caracteres")));	
 	}
 	
@@ -489,6 +490,63 @@ class UsuarioControllerTest {
 		    .andDo(print())
 		    .andExpect(status().isUnauthorized())
 		    .andExpect(status().reason("No autorizado"));
+	}
+	
+	@Test
+	@Order(27) 
+	public void testCambioPasswordUserOk() throws Exception {
+		
+		mockMvc
+	    .perform(put("/usuarios/cambioPassword")
+	    .param("id", "2")
+	    .param("oldPassword", "passwordTest")
+	    .param("newPassword", "passwordTest2")
+	    .header("Authorization", "Bearer " + token))
+	    .andExpect(status().isOk())
+	    .andExpect(content().string(containsString("Operación correcta")));	
+	}
+	
+	@Test
+	@Order(28) 
+	public void testCambioPasswordUserKo() throws Exception {
+		
+		mockMvc
+	    .perform(put("/usuarios/cambioPassword")
+	    .param("id", "2")
+	    .param("oldPassword", "erronea")
+	    .param("newPassword", "passwordTest")
+	    .header("Authorization", "Bearer " + token))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof BadCredentialsException))
+	    .andExpect(content().string(containsString("Credenciales erroneas")));
+	}
+	
+	@Test
+	@Order(29) 
+	public void testCambioPasswordAdminOk() throws Exception {
+		
+		mockMvc
+	    .perform(put("/usuarios/cambioPasswordAdmin")
+	    .param("id", "2")
+	    .param("oldPassword", "passwordTest2")
+	    .param("newPassword", "passwordTest")
+	    .header("Authorization", "Bearer " + token))
+	    .andExpect(status().isOk())
+	    .andExpect(content().string(containsString("Operación correcta")));	
+	}
+	
+	@Test
+	@Order(30) 
+	public void testCambioPasswordAdminKo() throws Exception {
+		
+		mockMvc
+	    .perform(put("/usuarios/cambioPasswordAdmin")
+	    .param("id", "2000")
+	    .param("newPassword", "bbbb")
+	    .header("Authorization", "Bearer " + token))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
+	    .andExpect(content().string(containsString("No existe la entidad")));
 	}
 
 	private Usuario getUsuario(String username, String nombre, String password, String email) {

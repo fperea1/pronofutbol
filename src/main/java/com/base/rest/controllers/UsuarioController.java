@@ -93,8 +93,8 @@ public class UsuarioController extends BaseController {
 	//@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<String> cambioPasswordUser(@RequestParam Integer id, @RequestParam String oldPassword, @RequestParam String newPassword) {
 		Usuario usuario = usuarioService.findById(id);
-		usuarioService.cambioPasswordUser(id, oldPassword, newPassword);
-		logService.save(new Log(getCurrentUserName(), "Usuario", "Cambiar Password Usuario", "Usuario: " + usuario.getUsername(), new Date()));
+		usuarioService.cambioPasswordUser(id, usuario.getUsername(), oldPassword, newPassword);
+		logService.save(new Log(getCurrentUserName(), "Usuario", "Cambiar Password por Usuario", "Usuario: " + usuario.getUsername(), new Date()));
 		return new ResponseEntity<String>("Operación correcta", HttpStatus.OK);
     }
 	
@@ -102,7 +102,7 @@ public class UsuarioController extends BaseController {
 	public ResponseEntity<String> cambioPasswordAdmin(@RequestParam Integer id, @RequestParam String newPassword) {
 		Usuario usuario = usuarioService.findById(id);
 		usuarioService.cambioPasswordAdmin(id, newPassword);
-		logService.save(new Log(getCurrentUserName(), "Usuario", "Cambiar Password Administrador", "Usuario: " + usuario.getUsername(), new Date()));
+		logService.save(new Log(getCurrentUserName(), "Usuario", "Cambio Password de Usuario por Administrador", "Usuario: " + usuario.getUsername(), new Date()));
 		return new ResponseEntity<String>("Operación correcta", HttpStatus.OK);
     }
 }

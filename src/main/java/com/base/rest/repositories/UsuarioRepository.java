@@ -30,4 +30,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 	@Query("update Usuario set password = :password where id = :id")
 	Integer changePassword(@Param("password") String password, @Param("id") Integer id);
 
+	@Query("select password from Usuario where id = :id")
+	String getPassword(@Param("id") Integer id);
+
 }

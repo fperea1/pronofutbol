@@ -15,7 +15,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -51,8 +51,8 @@ class AuthenticationControllerTest {
 		    .param("password", "badPassword"))
 		    //.andDo(print())
 		    .andExpect(status().isBadRequest())
-		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof AuthenticationException))
-		    .andExpect(content().string(containsString("Datos de login erroneos")));
+		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof BadCredentialsException))
+		    .andExpect(content().string(containsString("Credenciales erroneas")));
 	}
 	
 	@Test

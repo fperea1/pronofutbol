@@ -20,7 +20,7 @@ public interface UsuarioService {
 	
 	public void activateById(Integer id);
 
-	public void cambioPasswordUser(Integer id, String oldPassword, String newPassword);
+	public void cambioPasswordUser(Integer id, String username, String oldPassword, String newPassword);
 
 	public void cambioPasswordAdmin(Integer id, String newPassword);
 }

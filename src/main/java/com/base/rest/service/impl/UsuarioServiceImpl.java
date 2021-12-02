@@ -4,12 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.base.rest.dtos.Usuario;
 import com.base.rest.exceptions.EntityNoExistsException;
-import com.base.rest.exceptions.PasswordException;
+import com.base.rest.exceptions.PasswordLimitException;
 import com.base.rest.repositories.UsuarioRepository;
 import com.base.rest.service.interfaces.UsuarioService;
 
@@ -21,6 +23,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
 	@Override
 	public List<Usuario> findAll() {
@@ -44,7 +49,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void update(Usuario usuario) {
 
 		//validarPassword(usuario.getPassword());
-		//usuario.setPassword(bcryptEncoder.encode(usuario.getPassword()));
+		usuario.setPassword(usuarioRepository.getPassword(usuario.getId()));
 		usuarioRepository.save(usuario);
 	}
 
@@ -88,24 +93,28 @@ public class UsuarioServiceImpl implements UsuarioService {
 		
 		if (password == null || password.isBlank()
 				|| password.length() < 10 || password.length() > 100) {
-			throw new PasswordException();
+			throw new PasswordLimitException();
 		}
 	}
 
-	public void cambioPasswordUser(Integer id, String oldPassword, String newPassword) {
+	public void cambioPasswordUser(Integer id, String username, String oldPassword, String newPassword) {
 		
 		Usuario u = findById(id);
-		if (!u.getPassword().equals(bcryptEncoder.encode(oldPassword))) {
+		if (u == null) {
 			throw new EntityNoExistsException();
-		}
+		} 
+		authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(username, oldPassword));
 		validarPassword(newPassword);
 		usuarioRepository.changePassword(bcryptEncoder.encode(newPassword), id);
 	}
 
 	public void cambioPasswordAdmin(Integer id, String newPassword) {
 		
-		@SuppressWarnings("unused")
 		Usuario u = findById(id);
+		if (u == null) {
+			throw new EntityNoExistsException();
+		}
 		validarPassword(newPassword);
 		usuarioRepository.changePassword(bcryptEncoder.encode(newPassword), id);
 	}

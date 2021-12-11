@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.base.rest.dtos.Log;
-import com.base.rest.dtos.Usuario;
+import com.base.rest.entities.Log;
+import com.base.rest.entities.Usuario;
 import com.base.rest.service.interfaces.LogService;
 import com.base.rest.service.interfaces.UsuarioService;
 import com.base.rest.views.View;

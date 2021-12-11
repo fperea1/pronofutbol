@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
 	   protected ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
 	      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<String>(ex.getRootCause().getMessage(), HttpStatus.CONFLICT);
+	       return new ResponseEntity<String>(ex.getRootCause() != null ? ex.getRootCause().getMessage() : "Excepción por infracción de integridad de datos", HttpStatus.CONFLICT);
 	   }
 	   
 	   @ExceptionHandler(MissingRequestHeaderException.class)

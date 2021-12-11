@@ -1,4 +1,4 @@
-package com.base.rest.dtos;
+package com.base.rest.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

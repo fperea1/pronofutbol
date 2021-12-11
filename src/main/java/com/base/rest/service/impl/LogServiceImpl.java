@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.base.rest.dtos.Log;
+import com.base.rest.entities.Log;
 import com.base.rest.repositories.LogRepository;
 import com.base.rest.service.interfaces.LogService;
 

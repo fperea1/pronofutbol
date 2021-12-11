@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.base.rest.dtos.Usuario;
+import com.base.rest.entities.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 

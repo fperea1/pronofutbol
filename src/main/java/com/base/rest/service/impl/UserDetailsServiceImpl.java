@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.base.rest.dtos.Rol;
-import com.base.rest.dtos.Usuario;
+import com.base.rest.entities.Rol;
+import com.base.rest.entities.Usuario;
 import com.base.rest.repositories.UsuarioRepository;
 
 @Service(value = "userDetailsService")

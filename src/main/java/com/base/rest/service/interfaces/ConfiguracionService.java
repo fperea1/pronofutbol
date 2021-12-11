@@ -2,7 +2,7 @@ package com.base.rest.service.interfaces;
 
 import java.util.List;
 
-import com.base.rest.dtos.Configuracion;
+import com.base.rest.entities.Configuracion;
 
 public interface ConfiguracionService {
 

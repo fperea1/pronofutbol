@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.base.rest.dtos.Configuracion;
+import com.base.rest.entities.Configuracion;
 import com.base.rest.exceptions.EntityNoExistsException;
 import com.base.rest.repositories.ConfiguracionRepository;
 import com.base.rest.service.interfaces.ConfiguracionService;
@@ -45,7 +45,7 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 		if (!configuracionRepository.existsById(id)) {
 			throw new EntityNoExistsException();
 		}
-		return configuracionRepository.findById(id).get();
+		return configuracionRepository.findById(id).orElse(null);
 	}
 
 	@Override

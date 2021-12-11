@@ -29,8 +29,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import com.base.rest.dtos.Rol;
-import com.base.rest.dtos.Usuario;
+import com.base.rest.entities.Rol;
+import com.base.rest.entities.Usuario;
 import com.base.rest.exceptions.EntityNoExistsException;
 import com.base.rest.exceptions.PasswordLimitException;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -9,7 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.base.rest.dtos.Usuario;
+import com.base.rest.entities.Usuario;
 import com.base.rest.exceptions.EntityNoExistsException;
 import com.base.rest.exceptions.PasswordLimitException;
 import com.base.rest.repositories.UsuarioRepository;
@@ -59,7 +59,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		if (!usuarioRepository.existsById(id)) {
 			throw new EntityNoExistsException();
 		}
-		return usuarioRepository.findById(id).get();
+		return usuarioRepository.findById(id).orElse(null);
 	}
 
 	@Override

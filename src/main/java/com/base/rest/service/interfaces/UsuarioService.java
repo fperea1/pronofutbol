@@ -2,7 +2,7 @@ package com.base.rest.service.interfaces;
 
 import java.util.List;
 
-import com.base.rest.dtos.Usuario;
+import com.base.rest.entities.Usuario;
 
 public interface UsuarioService {
 

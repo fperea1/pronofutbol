@@ -9,28 +9,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
-import com.base.rest.views.View;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
-import com.sun.istack.NotNull;
+import com.googlecode.jmapper.annotations.JMap;
 
 @Entity
 @Table(name = "roles")
 public class Rol {
 	
-	@JsonView(View.Public.class)
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JMap
 	private int id;
 	
-	@JsonView(View.Public.class)
 	@Column(name = "nombre", length = 50, unique = true)
 	@NotNull
+	@JMap
 	private String nombre;
 
     @ManyToMany(mappedBy = "roles")
-   // @JsonIgnore
     private Set<Usuario> users;
 
 	public int getId() {

@@ -48,7 +48,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public void update(Usuario usuario) {
 
-		//validarPassword(usuario.getPassword());
 		usuario.setPassword(usuarioRepository.getPassword(usuario.getId()));
 		usuarioRepository.save(usuario);
 	}

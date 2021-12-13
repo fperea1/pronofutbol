@@ -37,12 +37,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
+	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
 	
 	@Bean
-	public JwtAuthenticationFilter jwtAuthenticationFilterBean() throws Exception {
+	public JwtAuthenticationFilter jwtAuthenticationFilterBean() {
 		return new JwtAuthenticationFilter();
 	}
 	

@@ -9,8 +9,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.googlecode.jmapper.annotations.JGlobalMap;
+
 @Entity
 @Table(name = "configuracion")
+@JGlobalMap
 public class Configuracion {
 
 	@Id

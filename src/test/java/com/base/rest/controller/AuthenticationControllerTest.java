@@ -30,7 +30,7 @@ class AuthenticationControllerTest {
 	
 	@Test
 	@Order(1) 
-	public void testGetToken() throws Exception {
+	void testGetToken() throws Exception {
 
 		mockMvc
 		    .perform(post("/token/generate-token")
@@ -43,7 +43,7 @@ class AuthenticationControllerTest {
 	
 	@Test
 	@Order(2) 
-	public void testLoginErroneo() throws Exception {
+	void testLoginErroneo() throws Exception {
 
 		mockMvc
 		    .perform(post("/token/generate-token")
@@ -57,7 +57,7 @@ class AuthenticationControllerTest {
 	
 	@Test
 	@Order(3) 
-	public void testLoginMetodoNoSoportado() throws Exception {
+	void testLoginMetodoNoSoportado() throws Exception {
 
 		mockMvc
 		    .perform(get("/token/generate-token")
@@ -72,7 +72,7 @@ class AuthenticationControllerTest {
 	
 	@Test
 	@Order(4) 
-	public void testLoginNoUsername() throws Exception {
+	void testLoginNoUsername() throws Exception {
 
 		mockMvc
 		    .perform(post("/token/generate-token")
@@ -86,7 +86,7 @@ class AuthenticationControllerTest {
 	
 	@Test
 	@Order(5) 
-	public void testLoginNoPassword() throws Exception {
+	void testLoginNoPassword() throws Exception {
 
 		mockMvc
 		    .perform(post("/token/generate-token")
@@ -100,7 +100,7 @@ class AuthenticationControllerTest {
 	
 	@Test
 	@Order(6) 
-	public void testLoginNoLoginNoPassword() throws Exception {
+	void testLoginNoLoginNoPassword() throws Exception {
 
 		mockMvc
 		    .perform(post("/token/generate-token"))

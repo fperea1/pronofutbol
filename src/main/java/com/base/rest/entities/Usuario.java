@@ -17,26 +17,23 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.base.rest.views.View;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @Entity
 @Table(name = "usuarios")
+@JGlobalMap
 public class Usuario {
 	
-	@JsonView(View.Public.class)
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
 	
-	@JsonView(View.Public.class)
 	@Column(name = "nombre", length = 50)
 	@Size(min = 1, max = 50, message = "Nombre debe tener entre 1 y 50 caracteres")
 	@NotNull(message = "Nombre. Campo obligatorio")
 	private String nombre;
 	
-	@JsonView(View.Public.class)
 	@Column(name = "username", length = 50, unique = true)
 	@Size(min = 5, max = 50, message = "Username debe tener entre 5 y 50 caracteres")
 	@NotNull(message = "Username. Campo obligatorio")
@@ -47,27 +44,22 @@ public class Usuario {
 	@NotNull(message = "Password. Campo obligatorio")
 	private String password;
 	
-	@JsonView(View.Public.class)
 	@Column(name = "email", length = 100)
 	@NotNull(message = "Email. Campo obligatorio")
 	@Email(message = "Email mal formado")
 	private String email;
 	
-	@JsonView(View.Public.class)
 	@Column(name = "fecha_alta")
 	@NotNull(message = "Fecha de alta. Campo obligatorio")
 	private Date fechaAlta;
 	
-	@JsonView(View.Public.class)
 	@Column(name = "fecha_desactivacion")
 	private Date fechaDesactivacion;
 	
-	@JsonView(View.Public.class)
 	@Column(name = "activo")
 	@NotNull(message = "Activo. Campo obligatorio")
 	private Boolean activo;
 	
-	@JsonView(View.Public.class)
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "roles_usuario",
     			joinColumns = {@JoinColumn(name = "id_usuario", referencedColumnName = "id")},

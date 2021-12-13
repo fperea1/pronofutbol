@@ -1,6 +1,6 @@
 package com.base.rest.security;
 
-import static com.base.rest.security.Constantes.*;
+import static com.base.rest.security.ConstantesToken.*;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -67,7 +67,7 @@ public class TokenProvider implements Serializable {
                 .compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (
               username.equals(userDetails.getUsername())

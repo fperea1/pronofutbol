@@ -29,11 +29,11 @@ class LogControllerTest {
 	
 	private static String token;
 	
-	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+	static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 	
 	@Test
 	@Order(1) 
-	public void testGetToken() throws Exception {
+	void testGetToken() throws Exception {
 
 		ResultActions response = mockMvc
 		    .perform(post("/token/generate-token")
@@ -48,7 +48,7 @@ class LogControllerTest {
 	
 	@Test
 	@Order(2) 
-	public void testFindAll() throws Exception {
+	void testFindAll() throws Exception {
 		
 		mockMvc
 		    .perform(get("/logs/findAll")

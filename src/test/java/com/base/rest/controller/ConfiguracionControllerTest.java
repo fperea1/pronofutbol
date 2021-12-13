@@ -26,7 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import com.base.rest.entities.Configuracion;
+import com.base.rest.dtos.ConfiguracionDTO;
 import com.base.rest.exceptions.EntityNoExistsException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -45,11 +45,11 @@ class ConfiguracionControllerTest {
 	
 	private static String token;
 	
-	public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+	static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(), MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 	
 	@Test
 	@Order(1) 
-	public void testGetToken() throws Exception {
+	void testGetToken() throws Exception {
 
 		ResultActions response = mockMvc
 		    .perform(post("/token/generate-token")
@@ -64,9 +64,9 @@ class ConfiguracionControllerTest {
 	
 	@Test
 	@Order(2) 
-	public void testSave() throws Exception {
+	void testSave() throws Exception {
 		
-		Configuracion c = getConfiguracion("Prueba", "1234");
+		ConfiguracionDTO c = getConfiguracion("Prueba", "1234");
 		
 		String requestJson = getJson(c);
 		
@@ -81,7 +81,7 @@ class ConfiguracionControllerTest {
 	
 	@Test
 	@Order(3) 
-	public void testFindAll() throws Exception {
+	void testFindAll() throws Exception {
 		
 		mockMvc
 		    .perform(get("/configuracion/findAll")
@@ -96,9 +96,9 @@ class ConfiguracionControllerTest {
 	
 	@Test
 	@Order(4) 
-	public void testSaveKoNombreNull() throws Exception {
+	void testSaveKoNombreNull() throws Exception {
 		
-		Configuracion c = getConfiguracion(null, "1234");
+		ConfiguracionDTO c = getConfiguracion(null, "1234");
 		
 		String requestJson = getJson(c);
 		
@@ -115,9 +115,9 @@ class ConfiguracionControllerTest {
 	
 	@Test
 	@Order(5) 
-	public void testSaveKoValorNull() throws Exception {
+	void testSaveKoValorNull() throws Exception {
 		
-		Configuracion c = getConfiguracion("Prueba", null);
+		ConfiguracionDTO c = getConfiguracion("Prueba", null);
 		
 		String requestJson = getJson(c);
 		
@@ -134,9 +134,9 @@ class ConfiguracionControllerTest {
 	
 	@Test
 	@Order(6) 
-	public void testSaveKoNombreMinSize() throws Exception {
+	void testSaveKoNombreMinSize() throws Exception {
 		
-		Configuracion c = getConfiguracion("", "1234");
+		ConfiguracionDTO c = getConfiguracion("", "1234");
 		
 		String requestJson = getJson(c);
 		
@@ -153,9 +153,9 @@ class ConfiguracionControllerTest {
 	
 	@Test
 	@Order(7) 
-	public void testSaveKoNombreMaxSize() throws Exception {
+	void testSaveKoNombreMaxSize() throws Exception {
 		
-		Configuracion c = getConfiguracion("Nombre01234567890123456789012345678901234567890123456789", "1234");
+		ConfiguracionDTO c = getConfiguracion("Nombre01234567890123456789012345678901234567890123456789", "1234");
 		
 		String requestJson = getJson(c);
 		
@@ -172,9 +172,9 @@ class ConfiguracionControllerTest {
 	
 	@Test
 	@Order(8) 
-	public void testSaveKoValorMinSize() throws Exception {
+	void testSaveKoValorMinSize() throws Exception {
 		
-		Configuracion c = getConfiguracion("Prueba", "");
+		ConfiguracionDTO c = getConfiguracion("Prueba", "");
 		
 		String requestJson = getJson(c);
 		
@@ -191,14 +191,14 @@ class ConfiguracionControllerTest {
 	
 	@Test
 	@Order(9) 
-	public void testUpdateOk() throws Exception {
+	void testUpdateOk() throws Exception {
 		
 		ResultActions response = mockMvc
 	    .perform(get("/configuracion/find")
 	    .param("id", "1")
 	    .header("Authorization", "Bearer " + token));
 		
-		Configuracion c = getObjectFromJson(response.andReturn().getResponse().getContentAsString());
+		ConfiguracionDTO c = getObjectFromJson(response.andReturn().getResponse().getContentAsString());
 		c.setValor("4567");
 		
 		String requestJson = getJson(c);
@@ -214,9 +214,9 @@ class ConfiguracionControllerTest {
 	
 	@Test
 	@Order(10) 
-	public void testDeleteById() throws Exception {
+	void testDeleteById() throws Exception {
 		
-		Configuracion c = getConfiguracion("Borrar", "1234");
+		ConfiguracionDTO c = getConfiguracion("Borrar", "1234");
 		
 		String requestJson = getJson(c);
 		
@@ -237,7 +237,7 @@ class ConfiguracionControllerTest {
 	
 	@Test
 	@Order(11) 
-	public void testDeleteByIdUserNoExists() throws Exception {
+	void testDeleteByIdUserNoExists() throws Exception {
 		
 		mockMvc
 		    .perform(delete("/configuracion/delete")
@@ -248,14 +248,14 @@ class ConfiguracionControllerTest {
 		    .andExpect(content().string(containsString("No existe la entidad")));
 	}
 
-	private Configuracion getConfiguracion(String nombre, String valor) {
-		Configuracion c = new Configuracion();
+	private ConfiguracionDTO getConfiguracion(String nombre, String valor) {
+		ConfiguracionDTO c = new ConfiguracionDTO();
 		c.setNombre(nombre);
 		c.setValor(valor);
 		return c;
 	}
 
-	private String getJson(Configuracion c) throws JsonProcessingException {
+	private String getJson(ConfiguracionDTO c) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 	    mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
 	    ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
@@ -263,9 +263,9 @@ class ConfiguracionControllerTest {
 		return requestJson;
 	}
 	
-	private Configuracion getObjectFromJson(String s) throws JsonMappingException, JsonProcessingException {
-	    ObjectReader jsonObjectReader = new ObjectMapper().readerFor(Configuracion.class);
-	    Configuracion c = jsonObjectReader.readValue(s);
+	private ConfiguracionDTO getObjectFromJson(String s) throws JsonMappingException, JsonProcessingException {
+	    ObjectReader jsonObjectReader = new ObjectMapper().readerFor(ConfiguracionDTO.class);
+	    ConfiguracionDTO c = jsonObjectReader.readValue(s);
 	    return c;
 	}
 

@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.base.rest.constant.Constantes;
 import com.base.rest.entities.Log;
 import com.base.rest.security.TokenProvider;
 import com.base.rest.service.interfaces.LogService;
 
 @RestController
-@RequestMapping("/token")
+@RequestMapping(Constantes.TOKEN)
 public class AuthenticationController {
 	
 	Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
@@ -32,22 +33,18 @@ public class AuthenticationController {
 	@Autowired
 	private TokenProvider jwtTokenUtil;
 	
-//	@Autowired
-//	private BCryptPasswordEncoder bcryptEncoder;
-	
 	@Autowired
 	private LogService logService;
 	
-	@PostMapping(value = "/generate-token")
+	@PostMapping(value = Constantes.GENERAR_TOKEN)
 	public ResponseEntity<String> generateToken(@RequestParam String username, @RequestParam String password) {
 		
-		//String pass = bcryptEncoder.encode(password);
 		final Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(username, password));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		final String token = jwtTokenUtil.generateToken(authentication);
-		logService.save(new Log(username, "Usuario", "Login", "Usuario: " + username, new Date()));
-		return new ResponseEntity<String>(token, HttpStatus.OK);
+		logService.save(new Log(username, Constantes.USUARIO, Constantes.LOGIN, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + username, new Date()));
+		return new ResponseEntity<>(token, HttpStatus.OK);
 	}
 
 }

@@ -1,7 +1,7 @@
 package com.base.rest.security;
 
-import static com.base.rest.security.Constantes.HEADER_AUTHORIZACION_KEY;
-import static com.base.rest.security.Constantes.TOKEN_BEARER_PREFIX;
+import static com.base.rest.security.ConstantesToken.HEADER_AUTHORIZACION_KEY;
+import static com.base.rest.security.ConstantesToken.TOKEN_BEARER_PREFIX;
 
 import java.io.IOException;
 
@@ -39,13 +39,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
-                //logger.error("Se ha producido un error al recuperar el nombre del usuario del token.", e);
         		res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Se ha producido un error al recuperar el nombre del usuario del token.");
             } catch (ExpiredJwtException e) {
-                //logger.warn("Token caducado.", e);
         		res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Token caducado.");
-            } catch(SignatureException e){
-                //logger.error("Se ha producido un error. Username o Password no son válidos.");
+            } catch(SignatureException e) {
         		res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Se ha producido un error. Username o Password no son válidos.");
             }
         } else {

@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.base.rest.entities.Usuario;
 import com.base.rest.exceptions.EntityNoExistsException;
@@ -16,6 +17,7 @@ import com.base.rest.repositories.UsuarioRepository;
 import com.base.rest.service.interfaces.UsuarioService;
 
 @Service
+@Transactional(readOnly = true)
 public class UsuarioServiceImpl implements UsuarioService {
 
 	@Autowired
@@ -33,6 +35,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return usuarioRepository.findAll();
 	}
 
+	@Transactional
 	@Override
 	public void save(Usuario usuario) {
 
@@ -45,6 +48,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuarioRepository.save(usuario);
 	}
 
+	@Transactional
 	@Override
 	public void update(Usuario usuario) {
 
@@ -61,6 +65,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return usuarioRepository.findById(id).orElse(null);
 	}
 
+	@Transactional
 	@Override
 	public void deleteById(Integer id) {
 		
@@ -70,6 +75,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuarioRepository.deleteById(id);
 	}
 
+	@Transactional
 	@Override
 	public void deactivateById(Integer id) {
 		
@@ -79,6 +85,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuarioRepository.deactivateById(new Date(), id);
 	}
 
+	@Transactional
 	@Override
 	public void activateById(Integer id) {
 		
@@ -96,6 +103,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 	}
 
+	@Transactional
+	@Override
 	public void cambioPasswordUser(Integer id, String username, String oldPassword, String newPassword) {
 		
 		Usuario u = findById(id);
@@ -108,6 +117,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuarioRepository.changePassword(bcryptEncoder.encode(newPassword), id);
 	}
 
+	@Transactional
+	@Override
 	public void cambioPasswordAdmin(Integer id, String newPassword) {
 		
 		Usuario u = findById(id);

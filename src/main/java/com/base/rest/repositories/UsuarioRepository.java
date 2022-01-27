@@ -15,17 +15,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 
 	Usuario getByUsername(String username);
 
-	@Transactional
 	@Modifying
 	@Query("update Usuario set activo = 0, fechaDesactivacion = :fecha where id = :id")
 	Integer deactivateById(@Param("fecha") Date fecha, @Param("id") Integer id);
 
-	@Transactional
 	@Modifying
 	@Query("update Usuario set activo = 1, fechaDesactivacion = null where id = :id")
 	Integer activateById(@Param("id") Integer id);
 	
-	@Transactional
 	@Modifying
 	@Query("update Usuario set password = :password where id = :id")
 	Integer changePassword(@Param("password") String password, @Param("id") Integer id);

@@ -10,12 +10,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.base.rest.entities.Rol;
 import com.base.rest.entities.Usuario;
 import com.base.rest.repositories.UsuarioRepository;
 
 @Service(value = "userDetailsService")
+@Transactional(readOnly = true)
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.base.rest.entities.Configuracion;
 import com.base.rest.exceptions.EntityNoExistsException;
@@ -11,6 +12,7 @@ import com.base.rest.repositories.ConfiguracionRepository;
 import com.base.rest.service.interfaces.ConfiguracionService;
 
 @Service
+@Transactional(readOnly = true)
 public class ConfiguracionServiceImpl implements ConfiguracionService {
 
 	@Autowired
@@ -27,12 +29,14 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 		return configuracionRepository.findAll();
 	}
 
+	@Transactional
 	@Override
 	public void save(Configuracion configuracion) {
 
 		configuracionRepository.save(configuracion);
 	}
 
+	@Transactional
 	@Override
 	public void update(Configuracion configuracion) {
 
@@ -48,6 +52,7 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 		return configuracionRepository.findById(id).orElse(null);
 	}
 
+	@Transactional
 	@Override
 	public void deleteById(Integer id) {
 		

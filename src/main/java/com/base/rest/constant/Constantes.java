@@ -6,9 +6,11 @@ public final class Constantes {
 	
     // mapeo peticiones controller
 	
-	public static final String TOKEN = "/token";
+	public static final String AUTENTICATION = "autenticacion";
 	
-	public static final String GENERAR_TOKEN = "/generate-token";
+	public static final String GENERAR_TOKEN = "generate-token";
+	
+	public static final String CONTACTO = "contacto";
 	
 	public static final String CONFIG = "/configuracion";
 	
@@ -34,11 +36,13 @@ public final class Constantes {
 	
 	public static final String CAMBIO_PASSWORD_ADMIN = "/cambioPasswordAdmin";
 	
+	public static final String ENVIO_CONSULTA = "envioConsulta";
+	
 	// Funcionalidades
 	
 	public static final String CONFIGURACION = "Configuración";
 	
-	public static final String USUARIO = "Usuario";
+	public static final String USUARIO = "usuario";
 	
 	// Acciones Log
 	

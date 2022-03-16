@@ -22,7 +22,7 @@ import com.base.rest.security.TokenProvider;
 import com.base.rest.service.interfaces.LogService;
 
 @RestController
-@RequestMapping(Constantes.TOKEN)
+@RequestMapping(Constantes.AUTENTICATION)
 public class AuthenticationController {
 	
 	Logger logger = LoggerFactory.getLogger(AuthenticationController.class);

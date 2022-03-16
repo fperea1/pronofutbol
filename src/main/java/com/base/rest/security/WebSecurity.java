@@ -1,5 +1,7 @@
 package com.base.rest.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -21,6 +24,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
+	
+	Logger logger = LoggerFactory.getLogger(WebSecurity.class);
 
 	private UserDetailsService userDetailsService;
 	
@@ -61,12 +66,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.cors().and()
 			.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/token/*").permitAll()
-				.antMatchers("/usuarios/cambioPassword/*").authenticated()
-				.antMatchers("/usuarios/*", "/logs/*", "/configuracion/*").hasAnyRole("ADMIN")
+				.antMatchers("/autenticacion/*", "/contacto/*").permitAll()
+				.antMatchers("/usuarios/cambioPassword/*", "/logout").authenticated()
+				.antMatchers("/usuarios/*", "/logs/*", "/configuracion/*").hasAnyRole("SUPERUSUARIO","ADMINISTRADOR")
 				.anyRequest().authenticated()
 					.and()
-				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
+				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+					.and()
+				.logout(logout -> logout.logoutUrl("/logout"));
 		
 		httpSecurity
 				.addFilterBefore(jwtAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);

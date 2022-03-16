@@ -19,7 +19,7 @@ drop table usuarios
 CREATE TABLE "configuracion" (
 	"id" INT PRIMARY KEY IDENTITY (1,1),  
 	"nombre" NVARCHAR(50) NOT NULL CHECK (LEN(nombre) >= 1) UNIQUE,  
-	"valor" NVARCHAR(500) NOT NULL CHECK (LEN(valor) >= 1)
+	"valor" NVARCHAR(500)
 )
 
 CREATE TABLE "logs" (
@@ -36,8 +36,10 @@ CREATE TABLE "roles" (
 	"nombre" NVARCHAR(50) NOT NULL UNIQUE
 )
 
-insert into roles values ('ADMIN');
-insert into roles values ('USER');
+insert into roles values ('SUPERUSUARIO');
+insert into roles values ('ADMINISTRADOR');
+insert into roles values ('MODIFICACION');
+insert into roles values ('LECTURA');
 
 
 CREATE TABLE "usuarios" (
@@ -66,6 +68,11 @@ insert into usuarios values ('Usuario', 'usuario', '$2a$10$8FtOR9c8nkOQlit2GmkPX
 	'usuario@ezentis.com', GETDATE(), null, 1); -- Usuario123
 	
 insert into roles_usuario values (1, 1);
-insert into roles_usuario values (2, 1);
 
 insert into roles_usuario values (2, 2);
+
+insert into configuracion ("nombre", "valor") values ('mailFrom', 'mail.app@correo.es');
+insert into configuracion ("nombre", "valor") values ('mailAdministracion', 'fran.perea.74@gmail.com');
+insert into configuracion ("nombre", "valor") values ('mailAdministracionCC', '');
+insert into configuracion ("nombre", "valor") values ('mailAdministracionBCC', '');
+

@@ -33,7 +33,7 @@ class AuthenticationControllerTest {
 	void testGetToken() throws Exception {
 
 		mockMvc
-		    .perform(post("/token/generate-token")
+		    .perform(post("/autenticacion/generate-token")
 		    .param("username", "administrador")
 		    .param("password", "Administrador01"))
 		    //.andDo(print())
@@ -46,7 +46,7 @@ class AuthenticationControllerTest {
 	void testLoginErroneo() throws Exception {
 
 		mockMvc
-		    .perform(post("/token/generate-token")
+		    .perform(post("/autenticacion/generate-token")
 		    .param("username", "username")
 		    .param("password", "badPassword"))
 		    //.andDo(print())
@@ -60,7 +60,7 @@ class AuthenticationControllerTest {
 	void testLoginMetodoNoSoportado() throws Exception {
 
 		mockMvc
-		    .perform(get("/token/generate-token")
+		    .perform(get("/autenticacion/generate-token")
 		    .param("username", "username")
 		    .param("password", "badPassword"))
 		    //.andDo(print())
@@ -75,7 +75,7 @@ class AuthenticationControllerTest {
 	void testLoginNoUsername() throws Exception {
 
 		mockMvc
-		    .perform(post("/token/generate-token")
+		    .perform(post("/autenticacion/generate-token")
 		    .param("password", "password"))
 		    //.andDo(print())
 		    .andExpect(status().isBadRequest())
@@ -89,7 +89,7 @@ class AuthenticationControllerTest {
 	void testLoginNoPassword() throws Exception {
 
 		mockMvc
-		    .perform(post("/token/generate-token")
+		    .perform(post("/autenticacion/generate-token")
 		    .param("username", "username"))
 		    //.andDo(print())
 		    .andExpect(status().isBadRequest())
@@ -103,7 +103,7 @@ class AuthenticationControllerTest {
 	void testLoginNoLoginNoPassword() throws Exception {
 
 		mockMvc
-		    .perform(post("/token/generate-token"))
+		    .perform(post("/autenticacion/generate-token"))
 		    //.andDo(print())
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MissingServletRequestParameterException))

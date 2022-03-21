@@ -73,7 +73,7 @@ class UsuarioControllerTest {
 		
 		mockMvc
 		    .perform(get("/usuarios/findAll")
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andDo(print())
 		    .andExpect(status().isOk())
 		    .andExpect(jsonPath("$.length()").value(1))
@@ -94,7 +94,7 @@ class UsuarioControllerTest {
 		    .perform(post("/usuarios/save")
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isOk())
 		    .andExpect(content().string(containsString("Operación correcta")));	
 	}
@@ -111,7 +111,7 @@ class UsuarioControllerTest {
 	    .perform(post("/usuarios/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -130,7 +130,7 @@ class UsuarioControllerTest {
 	    .perform(post("/usuarios/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -149,7 +149,7 @@ class UsuarioControllerTest {
 	    .perform(post("/usuarios/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -168,7 +168,7 @@ class UsuarioControllerTest {
 	    .perform(post("/usuarios/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordLimitException))
@@ -187,7 +187,7 @@ class UsuarioControllerTest {
 	    .perform(post("/usuarios/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordLimitException))
@@ -207,7 +207,7 @@ class UsuarioControllerTest {
 	    .perform(post("/usuarios/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordLimitException))
@@ -226,7 +226,7 @@ class UsuarioControllerTest {
 	    .perform(post("/usuarios/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -245,7 +245,7 @@ class UsuarioControllerTest {
 	    .perform(post("/usuarios/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -264,7 +264,7 @@ class UsuarioControllerTest {
 	    .perform(post("/usuarios/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -283,7 +283,7 @@ class UsuarioControllerTest {
 	    .perform(post("/usuarios/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -302,7 +302,7 @@ class UsuarioControllerTest {
 	    .perform(post("/usuarios/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -316,7 +316,7 @@ class UsuarioControllerTest {
 		ResultActions response = mockMvc
 	    .perform(get("/usuarios/find")
 	    .param("id", "2")
-	    .header("Authorization", "Bearer " + token));
+	    .header("authorization", "Bearer " + token));
 		
 		UsuarioDTO u = getObjectFromJson(response.andReturn().getResponse().getContentAsString());
 		u.setActivo(false);
@@ -327,7 +327,7 @@ class UsuarioControllerTest {
 		    .perform(put("/usuarios/update")
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isOk())
 		    .andExpect(content().string(containsString("Operación correcta")));	
 	}
@@ -344,7 +344,7 @@ class UsuarioControllerTest {
 		    .perform(put("/usuarios/update")
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isConflict())
 		    .andExpect(content().string(containsString("Activo. Campo obligatorio")))
 		    .andExpect(content().string(containsString("Fecha de alta. Campo obligatorio")));	
@@ -363,7 +363,7 @@ class UsuarioControllerTest {
 		    .perform(put("/usuarios/noExisto")
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isNotFound());
 	}
 	
@@ -375,7 +375,7 @@ class UsuarioControllerTest {
 		mockMvc
 		    .perform(get("/usuarios/find")
 		    .param("id", "1")
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andDo(print())
 		    .andExpect(status().isOk())
 		    .andExpect(jsonPath("$[?(@.email === 'administrador@ezentis.com')]").exists());
@@ -388,7 +388,7 @@ class UsuarioControllerTest {
 		mockMvc
 	    .perform(get("/usuarios/find")
 	    .param("id", "5")
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
 	    .andExpect(content().string(containsString("No existe la entidad")));
@@ -406,14 +406,14 @@ class UsuarioControllerTest {
 		    .perform(post("/usuarios/save")
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isOk())
 		    .andExpect(content().string(containsString("Operación correcta")));	
 		
 		mockMvc
 	    .perform(delete("/usuarios/delete")
 	    .param("id", "3")
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isOk());
 	}
 	
@@ -424,7 +424,7 @@ class UsuarioControllerTest {
 		mockMvc
 		    .perform(delete("/usuarios/delete")
 		    .param("id", "30")
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
 		    .andExpect(content().string(containsString("No existe la entidad")));
@@ -437,7 +437,7 @@ class UsuarioControllerTest {
 		mockMvc
 		    .perform(put("/usuarios/deactivate")
 		    .param("id", "2")
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isOk())
 		    .andExpect(content().string(containsString("Operación correcta")));
 	}
@@ -449,7 +449,7 @@ class UsuarioControllerTest {
 		mockMvc
 		    .perform(put("/usuarios/deactivate")
 		    .param("id", "20")
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
 		    .andExpect(content().string(containsString("No existe la entidad")));
@@ -462,7 +462,7 @@ class UsuarioControllerTest {
 		mockMvc
 		    .perform(put("/usuarios/activate")
 		    .param("id", "2")
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isOk())
 		    .andExpect(content().string(containsString("Operación correcta")));
 	}
@@ -474,7 +474,7 @@ class UsuarioControllerTest {
 		mockMvc
 		    .perform(put("/usuarios/activate")
 		    .param("id", "20")
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
 		    .andExpect(content().string(containsString("No existe la entidad")));
@@ -501,7 +501,7 @@ class UsuarioControllerTest {
 	    .param("id", "2")
 	    .param("oldPassword", "passwordTest")
 	    .param("newPassword", "passwordTest2")
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isOk())
 	    .andExpect(content().string(containsString("Operación correcta")));	
 	}
@@ -515,7 +515,7 @@ class UsuarioControllerTest {
 	    .param("id", "2")
 	    .param("oldPassword", "erronea")
 	    .param("newPassword", "passwordTest")
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof BadCredentialsException))
 	    .andExpect(content().string(containsString("Credenciales erroneas")));
@@ -530,7 +530,7 @@ class UsuarioControllerTest {
 	    .param("id", "2")
 	    .param("oldPassword", "passwordTest2")
 	    .param("newPassword", "passwordTest")
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isOk())
 	    .andExpect(content().string(containsString("Operación correcta")));	
 	}
@@ -543,7 +543,7 @@ class UsuarioControllerTest {
 	    .perform(put("/usuarios/cambioPasswordAdmin")
 	    .param("id", "2000")
 	    .param("newPassword", "bbbb")
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
 	    .andExpect(content().string(containsString("No existe la entidad")));

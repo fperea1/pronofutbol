@@ -74,7 +74,7 @@ class ConfiguracionControllerTest {
 		    .perform(post("/configuracion/save")
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isOk())
 		    .andExpect(content().string(containsString("Operación correcta")));	
 	}
@@ -85,7 +85,7 @@ class ConfiguracionControllerTest {
 		
 		mockMvc
 		    .perform(get("/configuracion/findAll")
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andDo(print())
 		    .andExpect(status().isOk())
 		    .andExpect(jsonPath("$.length()").value(1))
@@ -106,7 +106,7 @@ class ConfiguracionControllerTest {
 	    .perform(post("/configuracion/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -125,7 +125,7 @@ class ConfiguracionControllerTest {
 	    .perform(post("/configuracion/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -144,7 +144,7 @@ class ConfiguracionControllerTest {
 	    .perform(post("/configuracion/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -163,7 +163,7 @@ class ConfiguracionControllerTest {
 	    .perform(post("/configuracion/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -182,7 +182,7 @@ class ConfiguracionControllerTest {
 	    .perform(post("/configuracion/save")
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
@@ -196,7 +196,7 @@ class ConfiguracionControllerTest {
 		ResultActions response = mockMvc
 	    .perform(get("/configuracion/find")
 	    .param("id", "1")
-	    .header("Authorization", "Bearer " + token));
+	    .header("authorization", "Bearer " + token));
 		
 		ConfiguracionDTO c = getObjectFromJson(response.andReturn().getResponse().getContentAsString());
 		c.setValor("4567");
@@ -207,7 +207,7 @@ class ConfiguracionControllerTest {
 		    .perform(put("/configuracion/update")
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isOk())
 		    .andExpect(content().string(containsString("Operación correcta")));	
 	}
@@ -224,14 +224,14 @@ class ConfiguracionControllerTest {
 		    .perform(post("/configuracion/save")
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isOk())
 		    .andExpect(content().string(containsString("Operación correcta")));	
 		
 		mockMvc
 	    .perform(delete("/configuracion/delete")
 	    .param("id", "2")
-	    .header("Authorization", "Bearer " + token))
+	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isOk());
 	}
 	
@@ -242,7 +242,7 @@ class ConfiguracionControllerTest {
 		mockMvc
 		    .perform(delete("/configuracion/delete")
 		    .param("id", "30")
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
 		    .andExpect(content().string(containsString("No existe la entidad")));

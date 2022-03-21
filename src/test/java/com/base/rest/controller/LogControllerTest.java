@@ -52,7 +52,7 @@ class LogControllerTest {
 		
 		mockMvc
 		    .perform(get("/logs/findAll")
-		    .header("Authorization", "Bearer " + token))
+		    .header("authorization", "Bearer " + token))
 		    .andDo(print())
 		    .andExpect(status().isOk())
 		    //.andExpect(jsonPath("$.length()").value(1))

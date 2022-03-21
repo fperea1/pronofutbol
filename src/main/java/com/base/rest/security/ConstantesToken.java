@@ -12,7 +12,7 @@ public final class ConstantesToken {
 	
 	public static final String SIGNING_KEY = "PassBaseRest2021?";
 	
-	public static final String HEADER_AUTHORIZACION_KEY = "Authorization";
+	public static final String HEADER_AUTHORIZACION_KEY = "authorization";
 	
 	public static final String TOKEN_BEARER_PREFIX = "Bearer ";
 }

@@ -16,12 +16,12 @@ public class EmailServiceImpl {
 		
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom(from);
-		message.setTo(to);
+		message.setTo(to.split(";"));
 		if (!StringUtils.isBlank(cc)) {
-			message.setCc(cc);
+			message.setCc(cc.split(";"));
 		}
 		if (!StringUtils.isBlank(bcc)) {
-			message.setBcc(bcc);
+			message.setBcc(bcc.split(";"));
 		}
 		message.setSubject(asunto);
 		message.setText(texto);

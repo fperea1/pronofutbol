@@ -1,5 +1,6 @@
 package com.base.rest.exceptions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -44,6 +47,19 @@ public class GlobalExceptionHandler {
 		   List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 	       return new ResponseEntity<>(messages, HttpStatus.CONFLICT);
+	   }
+	   
+	   @ExceptionHandler(MethodArgumentNotValidException.class)
+	   protected ResponseEntity<List<String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+		      
+		   logger.error(ex.getMessage(), ex);
+		   List<String> messages = new ArrayList<String>();
+		   ex.getBindingResult().getAllErrors()
+				      .stream()
+				      .filter(FieldError.class::isInstance)
+				      .map(FieldError.class::cast)
+				      .forEach(fieldError -> messages.add(fieldError.getDefaultMessage()));
+	       return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
 	   }
 	 
 	   @ExceptionHandler(DataIntegrityViolationException.class)

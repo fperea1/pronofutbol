@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import com.googlecode.jmapper.annotations.JMap;
 
@@ -23,7 +23,7 @@ public class Rol {
 	private int id;
 	
 	@Column(name = "nombre", length = 50, unique = true)
-	@NotNull
+	@NotBlank
 	@JMap
 	private String nombre;
 

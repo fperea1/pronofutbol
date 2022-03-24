@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -25,22 +26,22 @@ public class Log {
 	
 	@Column(name = "username", length = 50)
 	@Size(min = 5, max = 50, message = "Username debe tener entre 5 y 50 caracteres")
-	@NotNull(message = "Username. Campo obligatorio")
+	@NotBlank(message = "Username. Campo obligatorio")
 	private String username;
 	
 	@Column(name = "entidad", length = 50)
 	@Size(min = 1, max = 50, message = "Entidad debe tener entre 1 y 50 caracteres")
-	@NotNull(message = "Entidad. Campo obligatorio")
+	@NotBlank(message = "Entidad. Campo obligatorio")
 	private String entidad;
 	
 	@Column(name = "accion", length = 50)
 	@Size(min = 1, max = 50, message = "Acción debe tener entre 1 y 50 caracteres")
-	@NotNull(message = "Acción. Campo obligatorio")
+	@NotBlank(message = "Acción. Campo obligatorio")
 	private String accion;
 	
 	@Column(name = "observaciones", length = 500)
 	@Size(min = 1, max = 500, message = "Observaciones debe tener entre 1 y 500 caracteres")
-	@NotNull(message = "Observaciones. Campo obligatorio")
+	@NotBlank(message = "Observaciones. Campo obligatorio")
 	private String observaciones;
 	
 	@Column(name = "fecha")

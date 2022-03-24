@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -31,21 +32,21 @@ public class Usuario {
 	
 	@Column(name = "nombre", length = 50)
 	@Size(min = 1, max = 50, message = "Nombre debe tener entre 1 y 50 caracteres")
-	@NotNull(message = "Nombre. Campo obligatorio")
+	@NotBlank(message = "Nombre. Campo obligatorio")
 	private String nombre;
 	
 	@Column(name = "username", length = 50, unique = true)
 	@Size(min = 5, max = 50, message = "Username debe tener entre 5 y 50 caracteres")
-	@NotNull(message = "Username. Campo obligatorio")
+	@NotBlank(message = "Username. Campo obligatorio")
 	private String username;
 	
 	@Column(name = "password", length = 100, updatable=false)
 	@Size(min = 10, max = 100, message = "Password debe tener entre 10 y 100 caracteres")
-	@NotNull(message = "Password. Campo obligatorio")
+	@NotBlank(message = "Password. Campo obligatorio")
 	private String password;
 	
 	@Column(name = "email", length = 100)
-	@NotNull(message = "Email. Campo obligatorio")
+	@NotBlank(message = "Email. Campo obligatorio")
 	@Email(message = "Email mal formado")
 	private String email;
 	

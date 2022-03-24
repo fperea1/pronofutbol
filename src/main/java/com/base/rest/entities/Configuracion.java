@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.googlecode.jmapper.annotations.JGlobalMap;
@@ -23,12 +23,12 @@ public class Configuracion {
 	
 	@Column(name = "nombre", length = 50, unique = true)
 	@Size(min = 1, max = 50, message = "Nombre debe tener entre 1 y 50 caracteres")
-	@NotNull(message = "Nombre. Campo obligatorio")
+	@NotBlank(message = "Nombre. Campo obligatorio")
 	private String nombre;
 	
 	@Column(name = "valor", length = 500)
 	@Size(min = 1, max = 500, message = "Valor debe tener entre 1 y 500 caracteres")
-	@NotNull(message = "Valor. Campo obligatorio")
+	@NotBlank(message = "Valor. Campo obligatorio")
 	private String valor;
 
 	public Integer getId() {

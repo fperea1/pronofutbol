@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailAuthenticationException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
@@ -114,6 +115,13 @@ public class GlobalExceptionHandler {
 	   
 	   @ExceptionHandler(BadCredentialsException.class)
 	   protected ResponseEntity<String> handleBadCredentialsException(BadCredentialsException ex) {
+		      
+		   logger.error(ex.getMessage(), ex);
+	       return new ResponseEntity<>(Constantes.EXC_CREDENCIALES_ERRONEAS, HttpStatus.BAD_REQUEST);
+	   }
+	   
+	   @ExceptionHandler(MailAuthenticationException.class)
+	   protected ResponseEntity<String> handleMailAuthenticationException(MailAuthenticationException ex) {
 		      
 		   logger.error(ex.getMessage(), ex);
 	       return new ResponseEntity<>(Constantes.EXC_CREDENCIALES_ERRONEAS, HttpStatus.BAD_REQUEST);

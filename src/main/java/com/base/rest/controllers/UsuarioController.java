@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +49,7 @@ public class UsuarioController extends BaseController {
     }
 	
 	@PostMapping(Constantes.SAVE)
-    public ResponseEntity<String> save(@RequestBody UsuarioDTO usuario) {
+    public ResponseEntity<String> save(@Valid @RequestBody UsuarioDTO usuario) {
 		JMapper<Usuario, UsuarioDTO> mapper = new JMapper<>(Usuario.class, UsuarioDTO.class);
 		usuarioService.save(mapper.getDestination(usuario));
 		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.ALTA, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
@@ -55,7 +57,7 @@ public class UsuarioController extends BaseController {
     }
 	
 	@PutMapping(Constantes.UPDATE)
-    public ResponseEntity<String> update(@RequestBody UsuarioDTO usuario) {
+    public ResponseEntity<String> update(@Valid @RequestBody UsuarioDTO usuario) {
 		JMapper<Usuario, UsuarioDTO> mapper = new JMapper<>(Usuario.class, UsuarioDTO.class);
 		usuarioService.update(mapper.getDestination(usuario));
 		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.EDICION, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));

@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +46,7 @@ public class ConfiguracionController extends BaseController {
     }
 	
 	@PostMapping(Constantes.SAVE)
-    public ResponseEntity<String> save(@RequestBody ConfiguracionDTO configuracion) {
+    public ResponseEntity<String> save(@Valid @RequestBody ConfiguracionDTO configuracion) {
 		JMapper<Configuracion, ConfiguracionDTO> mapper = new JMapper<>(Configuracion.class, ConfiguracionDTO.class);
 		configuracionService.save(mapper.getDestination(configuracion));
 		logService.save(new Log(getCurrentUserName(), Constantes.CONFIGURACION, Constantes.ALTA, Constantes.CONFIGURACION + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre(), new Date()));
@@ -52,7 +54,7 @@ public class ConfiguracionController extends BaseController {
     }
 	
 	@PutMapping(Constantes.UPDATE)
-    public ResponseEntity<String> update(@RequestBody ConfiguracionDTO configuracion) {
+    public ResponseEntity<String> update(@Valid @RequestBody ConfiguracionDTO configuracion) {
 		JMapper<Configuracion, ConfiguracionDTO> mapper = new JMapper<>(Configuracion.class, ConfiguracionDTO.class);
 		configuracionService.update(mapper.getDestination(configuracion));
 		logService.save(new Log(getCurrentUserName(), Constantes.CONFIGURACION, Constantes.EDICION, Constantes.CONFIGURACION + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre(), new Date()));

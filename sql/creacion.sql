@@ -73,6 +73,6 @@ insert into roles_usuario values (2, 2);
 
 insert into configuracion ("nombre", "valor") values ('mailFrom', 'mail.app@correo.es');
 insert into configuracion ("nombre", "valor") values ('mailAdministracion', 'fran.perea.74@gmail.com');
-insert into configuracion ("nombre", "valor") values ('mailAdministracionCC', '');
-insert into configuracion ("nombre", "valor") values ('mailAdministracionBCC', '');
+insert into configuracion ("nombre", "valor") values ('mailAdministracionCC', '-');
+insert into configuracion ("nombre", "valor") values ('mailAdministracionBCC', '-');
 

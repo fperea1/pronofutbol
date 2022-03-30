@@ -13,8 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.nio.charset.Charset;
 
-import javax.validation.ConstraintViolationException;
-
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -25,7 +23,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import com.base.rest.dtos.AutenticacionDTO;
 import com.base.rest.dtos.ConfiguracionDTO;
 import com.base.rest.exceptions.EntityNoExistsException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,11 +50,15 @@ class ConfiguracionControllerTest {
 	@Test
 	@Order(1) 
 	void testGetToken() throws Exception {
+		
+		AutenticacionDTO a = getAutenticacion("administrador", "Administrador01");
+		
+		String requestJson = getJson(a);
 
 		ResultActions response = mockMvc
-		    .perform(post("/token/generate-token")
-		    .param("username", "administrador")
-		    .param("password", "Administrador01"))
+		    .perform(post("/autenticacion/generate-token")
+		    .contentType(APPLICATION_JSON_UTF8)
+			.content(requestJson))
 		    .andExpect(status().isOk());
 		
 		token = response.andReturn().getResponse().getContentAsString();
@@ -75,6 +79,7 @@ class ConfiguracionControllerTest {
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
+		    .andDo(print())
 		    .andExpect(status().isOk())
 		    .andExpect(content().string(containsString("Operación correcta")));	
 	}
@@ -88,7 +93,7 @@ class ConfiguracionControllerTest {
 		    .header("authorization", "Bearer " + token))
 		    .andDo(print())
 		    .andExpect(status().isOk())
-		    .andExpect(jsonPath("$.length()").value(1))
+		    .andExpect(jsonPath("$.length()").value(5))
 		    .andExpect(jsonPath("$[?(@.nombre === 'Prueba')]").exists());
 		
 		//System.out.println(response.andReturn().getResponse().getContentAsString());
@@ -108,8 +113,8 @@ class ConfiguracionControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Nombre. Campo obligatorio")));	
 	}
 	
@@ -127,8 +132,8 @@ class ConfiguracionControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Valor. Campo obligatorio")));	
 	}
 	
@@ -146,8 +151,8 @@ class ConfiguracionControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Nombre debe tener entre 1 y 50 caracteres")));	
 	}
 	
@@ -165,8 +170,8 @@ class ConfiguracionControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Nombre debe tener entre 1 y 50 caracteres")));	
 	}
 	
@@ -184,8 +189,8 @@ class ConfiguracionControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Valor debe tener entre 1 y 500 caracteres")));	
 	}
 	
@@ -267,6 +272,21 @@ class ConfiguracionControllerTest {
 	    ObjectReader jsonObjectReader = new ObjectMapper().readerFor(ConfiguracionDTO.class);
 	    ConfiguracionDTO c = jsonObjectReader.readValue(s);
 	    return c;
+	}
+	
+	private AutenticacionDTO getAutenticacion(String username, String password) {
+		AutenticacionDTO a = new AutenticacionDTO();
+		a.setUsername(username);
+		a.setPassword(password);
+		return a;
+	}
+
+	private String getJson(AutenticacionDTO a) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+	    mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+	    ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+	    String requestJson=ow.writeValueAsString(a);
+		return requestJson;
 	}
 
 }

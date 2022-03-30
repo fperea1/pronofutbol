@@ -3,6 +3,11 @@ package com.base.rest.dtos;
 import java.util.Date;
 import java.util.Set;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.base.rest.views.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.googlecode.jmapper.annotations.JGlobalMap;
@@ -14,14 +19,20 @@ public class UsuarioDTO {
 	private Integer id;
 	
 	@JsonView(View.Public.class)
+	@Size(min = 1, max = 50, message = "Nombre debe tener entre 1 y 50 caracteres")
+	@NotBlank(message = "Nombre. Campo obligatorio")
 	private String nombre;
 	
 	@JsonView(View.Public.class)
+	@Size(min = 5, max = 50, message = "Username debe tener entre 5 y 50 caracteres")
+	@NotBlank(message = "Username. Campo obligatorio")
 	private String username;
 	
 	private String password;
 	
 	@JsonView(View.Public.class)
+	@NotBlank(message = "Email. Campo obligatorio")
+	@Email(message = "Email mal formado")
 	private String email;
 	
 	@JsonView(View.Public.class)

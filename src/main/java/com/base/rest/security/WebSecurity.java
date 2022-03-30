@@ -68,7 +68,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/autenticacion/*", "/contacto/*").permitAll()
 				.antMatchers("/usuarios/cambioPassword/*", "/logout").authenticated()
-				.antMatchers("/usuarios/*", "/logs/*", "/configuracion/*").hasAnyRole("SUPERUSUARIO","ADMINISTRADOR")
+				.antMatchers("/usuarios/*", "/logs/*", "/configuracion/*").hasAnyAuthority("SUPERUSUARIO","ADMINISTRADOR")
 				.anyRequest().authenticated()
 					.and()
 				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler)

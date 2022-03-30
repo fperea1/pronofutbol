@@ -17,10 +17,10 @@ public class EmailServiceImpl {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom(from);
 		message.setTo(to.split(";"));
-		if (!StringUtils.isBlank(cc)) {
+		if (!StringUtils.isBlank(cc) && !cc.equals("-")) {
 			message.setCc(cc.split(";"));
 		}
-		if (!StringUtils.isBlank(bcc)) {
+		if (!StringUtils.isBlank(bcc) && !bcc.equals("-")) {
 			message.setBcc(bcc.split(";"));
 		}
 		message.setSubject(asunto);

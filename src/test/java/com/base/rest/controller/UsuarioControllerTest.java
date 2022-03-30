@@ -28,7 +28,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import com.base.rest.dtos.AutenticacionDTO;
 import com.base.rest.dtos.RolDTO;
 import com.base.rest.dtos.UsuarioDTO;
 import com.base.rest.exceptions.EntityNoExistsException;
@@ -56,10 +58,14 @@ class UsuarioControllerTest {
 	@Order(1) 
 	void testGetToken() throws Exception {
 
+		AutenticacionDTO a = getAutenticacion("administrador", "Administrador01");
+		
+		String requestJson = getJson(a);
+
 		ResultActions response = mockMvc
-		    .perform(post("/token/generate-token")
-		    .param("username", "administrador")
-		    .param("password", "Administrador01"))
+		    .perform(post("/autenticacion/generate-token")
+		    .contentType(APPLICATION_JSON_UTF8)
+			.content(requestJson))
 		    .andExpect(status().isOk());
 		
 		token = response.andReturn().getResponse().getContentAsString();
@@ -113,8 +119,8 @@ class UsuarioControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Username. Campo obligatorio")));	
 	}
 	
@@ -132,8 +138,8 @@ class UsuarioControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Username debe tener entre 5 y 50 caracteres")));	
 	}
 	
@@ -151,8 +157,8 @@ class UsuarioControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Username debe tener entre 5 y 50 caracteres")));	
 	}
 	
@@ -228,8 +234,8 @@ class UsuarioControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Nombre. Campo obligatorio")));	
 	}
 	
@@ -247,8 +253,8 @@ class UsuarioControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Nombre debe tener entre 1 y 50 caracteres")));	
 	}
 	
@@ -266,8 +272,8 @@ class UsuarioControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Nombre debe tener entre 1 y 50 caracteres")));	
 	}
 	
@@ -285,8 +291,8 @@ class UsuarioControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Email. Campo obligatorio")));	
 	}
 	
@@ -304,8 +310,8 @@ class UsuarioControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+	    .andExpect(status().isBadRequest())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
 	    .andExpect(content().string(containsString("Email mal formado")));	
 	}
 	
@@ -575,5 +581,20 @@ class UsuarioControllerTest {
 	    ObjectReader jsonObjectReader = new ObjectMapper().readerFor(UsuarioDTO.class);
 	    UsuarioDTO u = jsonObjectReader.readValue(s);
 	    return u;
+	}
+	
+	private AutenticacionDTO getAutenticacion(String username, String password) {
+		AutenticacionDTO a = new AutenticacionDTO();
+		a.setUsername(username);
+		a.setPassword(password);
+		return a;
+	}
+
+	private String getJson(AutenticacionDTO a) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+	    mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+	    ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+	    String requestJson=ow.writeValueAsString(a);
+		return requestJson;
 	}
 }

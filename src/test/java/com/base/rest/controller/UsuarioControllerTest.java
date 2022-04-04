@@ -15,8 +15,6 @@ import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.ConstraintViolationException;
-
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

@@ -70,9 +70,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.antMatchers("/usuarios/*", "/logs/*", "/configuracion/*").hasAnyAuthority("SUPERUSUARIO","ADMINISTRADOR")
 				.anyRequest().authenticated()
 					.and()
-				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-					.and()
-				.logout(logout -> logout.logoutUrl("/logout"));
+				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
 		
 		httpSecurity
 				.addFilterBefore(jwtAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);

@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.AutenticacionDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,14 +61,36 @@ class LogControllerTest {
 	@Order(2) 
 	void testFindAll() throws Exception {
 		
+		String filtro = "{\"first\":0,\"rows\":10,\"sortOrder\":1,\"filters\":{},\"globalFilter\":null}";
 		mockMvc
-		    .perform(get("/logs/findAll")
+		    .perform(get(Constantes.LOGS + Constantes.FIND_BY_FILTER)
+		    .param("filtro", filtro)
 		    .header("authorization", "Bearer " + token))
 		    .andDo(print())
 		    .andExpect(status().isOk())
 		    //.andExpect(jsonPath("$.length()").value(1))
 		    .andExpect(jsonPath("$.length()").isNotEmpty())
-		    .andExpect(jsonPath("$[?(@.username === 'administrador')]").exists());
+		    .andExpect(jsonPath("$.list[0].username").value("administrador"));
+		    //.andExpect(jsonPath("$[?(@.username === 'administrador')]").exists());
+		
+		//System.out.println(response.andReturn().getResponse().getContentAsString());
+	}
+	
+	@Test
+	@Order(3) 
+	void testFindLogout() throws Exception {
+		
+		String filtro = "{\"first\":0,\"rows\":10,\"sortOrder\":1,\"filters\":{\"username\":{\"value\":null,\"matchMode\":\"startsWith\"},\"entidad\":{\"value\":null,\"matchMode\":\"startsWith\"},\"accion\":{\"value\":\"logout\",\"matchMode\":\"startsWith\"},\"observaciones\":{\"value\":null,\"matchMode\":\"startsWith\"},\"fecha\":{\"value\":null,\"matchMode\":\"startsWith\"}},\"globalFilter\":null}";
+		mockMvc
+		    .perform(get(Constantes.LOGS + Constantes.FIND_BY_FILTER)
+		    .param("filtro", filtro)
+		    .header("authorization", "Bearer " + token))
+		    .andDo(print())
+		    .andExpect(status().isOk())
+		    //.andExpect(jsonPath("$.length()").value(1))
+		    .andExpect(jsonPath("$.length()").isNotEmpty())
+		    .andExpect(jsonPath("$.totalRecords").value("0"));
+		    //.andExpect(jsonPath("$[?(@.username === 'administrador')]").exists());
 		
 		//System.out.println(response.andReturn().getResponse().getContentAsString());
 	}

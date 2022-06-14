@@ -5,9 +5,7 @@ import java.util.Date;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @JGlobalMap
-public class LogDTO {
-
-	private Integer id;
+public class LogDTO extends BaseDTO {
 	
 	private String username;
 	
@@ -18,14 +16,6 @@ public class LogDTO {
 	private String observaciones;
 	
 	private Date fecha;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getUsername() {
 		return username;

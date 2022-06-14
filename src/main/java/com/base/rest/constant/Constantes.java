@@ -10,6 +10,8 @@ public final class Constantes {
 	
 	public static final String GENERAR_TOKEN = "generate-token";
 	
+	public static final String LOGOUT = "logout";
+	
 	public static final String CONTACTO = "contacto";
 	
 	public static final String CONFIG = "/configuracion";
@@ -21,6 +23,8 @@ public final class Constantes {
 	public static final String FIND_ALL = "/findAll";
 	
 	public static final String FIND = "/find";
+	
+	public static final String FIND_BY_FILTER = "/findByFilter";
 	
 	public static final String SAVE = "/save";
 	
@@ -38,15 +42,19 @@ public final class Constantes {
 	
 	public static final String ENVIO_CONSULTA = "envioConsulta";
 	
+	public static final String GET_REPORT_EXCEL = "/getReportExcel";
+	
 	// Funcionalidades
 	
 	public static final String CONFIGURACION = "Configuración";
 	
-	public static final String USUARIO = "usuario";
+	public static final String USUARIO = "Usuario";
 	
 	// Acciones Log
 	
-	public static final String LOGIN = "login";
+	public static final String LOGIN = "Login";
+	
+	public static final String LOGOUT_LOG = "Logout";
 	
 	public static final String ALTA = "Alta";
 	
@@ -84,7 +92,48 @@ public final class Constantes {
 	
 	public static final String EXC_CREDENCIALES_ERRONEAS = "Credenciales erroneas";
 	
+	public static final String EXC_JSON_PARSE = "Error en mapeo de objeto json";
+	
 	// Símbolos
 	
 	public static final String SEPARADOR_DOS_PUNTOS = ": ";
+	
+	// EXCEL
+	
+	public static final int MAX_ROWS_XLSX = 1048576;
+	
+	// MATCH MODE PARA BUSQUEDAS
+	
+	public static final String STARTS_WITH = "startsWith";
+	
+	public static final String ENDS_WITH = "endsWith";
+	
+	public static final String CONTAINS = "contains";
+	
+	public static final String NOT_CONTAINS = "notContains";
+	
+	public static final String EQUALS = "equals";
+	
+	public static final String NOT_EQUALS = "notEquals";
+	
+	// FORMATOS FECHAS
+	
+	public static final String DD_MM_YYYY = "dd/MM/yyyy";
+	
+	public static final String DD_MM_YYYY_HH_MM_SS = "dd/MM/yyyy HH:mm:ss";
+	
+	// NOMBRE PESTAÑAS EXCEL
+	
+	public static final String SHEET_LOGS = "Logs";
+	
+	// CONTENT TYPE
+	
+	public static final String CONTENT_EXCEL = "application/vnd.ms-excel";
+	
+	// ATTACHMENTS
+	
+	public static final String ATTACHMENTS_EXCEL = "attachment; filename=reporte.xlsx";
+	
+	
+			
 }

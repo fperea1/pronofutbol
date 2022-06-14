@@ -14,7 +14,7 @@ import com.googlecode.jmapper.annotations.JGlobalMap;
 @Entity
 @Table(name = "configuracion")
 @JGlobalMap
-public class Configuracion {
+public class Configuracion extends BaseEntity {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

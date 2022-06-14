@@ -127,4 +127,11 @@ public class GlobalExceptionHandler {
 	       return new ResponseEntity<>(Constantes.EXC_CREDENCIALES_ERRONEAS, HttpStatus.BAD_REQUEST);
 	   }
 	   
+	   @ExceptionHandler(JsonException.class)
+	   protected ResponseEntity<String> handleJsonException(JsonException ex) {
+		      
+		   logger.error(ex.getMessage(), ex);
+	       return new ResponseEntity<>(Constantes.EXC_JSON_PARSE, HttpStatus.BAD_REQUEST);
+	   }
+	   
 }

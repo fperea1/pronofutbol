@@ -15,7 +15,7 @@ import com.googlecode.jmapper.annotations.JMap;
 
 @Entity
 @Table(name = "roles")
-public class Rol {
+public class Rol extends BaseEntity {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

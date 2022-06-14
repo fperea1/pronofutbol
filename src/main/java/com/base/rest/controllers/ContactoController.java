@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.base.rest.ConfiguracionEnum;
 import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.ContactoDTO;
+import com.base.rest.enums.ConfiguracionEnum;
 import com.base.rest.service.interfaces.ConfiguracionService;
-import com.base.rest.utils.EmailServiceImpl;
+import com.base.rest.utils.mail.EmailServiceImpl;
 
 @RestController
 @RequestMapping(Constantes.CONTACTO)

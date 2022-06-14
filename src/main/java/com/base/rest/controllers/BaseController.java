@@ -9,4 +9,5 @@ public class BaseController {
 		
 		return ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
 	}
+	
 }

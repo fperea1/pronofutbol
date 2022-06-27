@@ -6,9 +6,7 @@ import javax.validation.constraints.Size;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @JGlobalMap
-public class ConfiguracionDTO {
-
-	private Integer id;
+public class ConfiguracionDTO extends BaseDTO {
 	
 	@Size(min = 1, max = 50, message = "Nombre debe tener entre 1 y 50 caracteres")
 	@NotBlank(message = "Nombre. Campo obligatorio.")
@@ -17,14 +15,6 @@ public class ConfiguracionDTO {
 	@Size(min = 1, max = 500, message = "Valor debe tener entre 1 y 500 caracteres")
 	@NotBlank(message = "Valor. Campo obligatorio")
 	private String valor;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getNombre() {
 		return nombre;

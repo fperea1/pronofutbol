@@ -46,7 +46,7 @@ public class LogController extends BaseController {
     }
 	
 	@GetMapping(value = Constantes.GET_REPORT_EXCEL)
-	public ResponseEntity<Resource> getReportExcel(@RequestParam String filtro) throws IOException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	public ResponseEntity<Resource> getReportExcel(@RequestParam String filtro) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException {
 		
 		List<BaseDTO> listado = new Converter<Log, LogDTO>().
 				convertList(logService.findByFilter(filtro, true), Log.class, LogDTO.class);

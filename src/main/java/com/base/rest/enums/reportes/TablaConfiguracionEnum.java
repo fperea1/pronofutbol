@@ -2,19 +2,16 @@ package com.base.rest.enums.reportes;
 
 import java.util.stream.Stream;
 
-public enum TablaLogsEnum {
+public enum TablaConfiguracionEnum {
 	
-	USUARIO("Usuario", "username"),
-	ENTIDAD("Entidad", "entidad"),
-	ACCION("Acción", "accion"),
-	OBSERVACIONES("Observaciones", "observaciones"),
-	FECHA("Fecha", "fecha");
+	NOMBRE("Nombre", "nombre"),
+	VALOR("Valor", "valor");
 
 	public String titulo;
 	
 	public String column;
 
-	private TablaLogsEnum(String titulo, String column) {
+	private TablaConfiguracionEnum(String titulo, String column) {
 		this.titulo = titulo;
 		this.column = column;
 	}
@@ -35,8 +32,8 @@ public enum TablaLogsEnum {
 		this.column = column;
 	}
 
-	public static Stream<TablaLogsEnum> stream() {
-        return Stream.of(TablaLogsEnum.values()); 
+	public static Stream<TablaConfiguracionEnum> stream() {
+        return Stream.of(TablaConfiguracionEnum.values()); 
     }
-	
+
 }

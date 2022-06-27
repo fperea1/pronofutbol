@@ -134,4 +134,11 @@ public class GlobalExceptionHandler {
 	       return new ResponseEntity<>(Constantes.EXC_JSON_PARSE, HttpStatus.BAD_REQUEST);
 	   }
 	   
+	   @ExceptionHandler(POIException.class)
+	   protected ResponseEntity<String> handlePOIException(POIException ex) {
+		      
+		   logger.error(ex.getMessage(), ex);
+	       return new ResponseEntity<>(Constantes.EXC_REPORT_POI, HttpStatus.BAD_REQUEST);
+	   }
+	   
 }

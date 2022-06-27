@@ -94,6 +94,8 @@ public final class Constantes {
 	
 	public static final String EXC_JSON_PARSE = "Error en mapeo de objeto json";
 	
+	public static final String EXC_REPORT_POI = "Error al crear report xlsx";
+	
 	// Símbolos
 	
 	public static final String SEPARADOR_DOS_PUNTOS = ": ";
@@ -125,6 +127,8 @@ public final class Constantes {
 	// NOMBRE PESTAÑAS EXCEL
 	
 	public static final String SHEET_LOGS = "Logs";
+	
+	public static final String SHEET_CONFIGURACION = "Configuración";
 	
 	// CONTENT TYPE
 	

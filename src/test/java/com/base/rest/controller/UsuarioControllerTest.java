@@ -28,6 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.AutenticacionDTO;
 import com.base.rest.dtos.RolDTO;
 import com.base.rest.dtos.UsuarioDTO;
@@ -75,13 +76,16 @@ class UsuarioControllerTest {
 	@Order(2) 
 	void testFindAll() throws Exception {
 		
+		String filtro = "{\"first\":0,\"rows\":10,\"sortOrder\":1,\"filters\":{},\"globalFilter\":null}";
 		mockMvc
-		    .perform(get("/usuarios/findAll")
+		    .perform(get(Constantes.USUARIOS + Constantes.FIND_BY_FILTER)
+		    .param("filtro", filtro)
 		    .header("authorization", "Bearer " + token))
 		    .andDo(print())
 		    .andExpect(status().isOk())
-		    .andExpect(jsonPath("$.length()").value(1))
-		    .andExpect(jsonPath("$[?(@.email === 'administrador@ezentis.com')]").exists());
+		    //.andExpect(jsonPath("$.length()").value(1))
+		    .andExpect(jsonPath("$.length()").isNotEmpty())
+		    .andExpect(jsonPath("$.list[0].email").value("administrador@ezentis.com"));
 		
 		//System.out.println(response.andReturn().getResponse().getContentAsString());
 	}

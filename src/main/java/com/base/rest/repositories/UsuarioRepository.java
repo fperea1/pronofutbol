@@ -4,13 +4,15 @@ package com.base.rest.repositories;
 import java.util.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.base.rest.entities.BaseEntity;
 import com.base.rest.entities.Usuario;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer>, JpaSpecificationExecutor<BaseEntity> {
 
 	Usuario getByUsername(String username);
 

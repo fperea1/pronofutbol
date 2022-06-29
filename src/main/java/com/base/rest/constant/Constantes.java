@@ -130,6 +130,8 @@ public final class Constantes {
 	
 	public static final String SHEET_CONFIGURACION = "Configuración";
 	
+	public static final String SHEET_USUARIOS = "Usuarios";
+	
 	// CONTENT TYPE
 	
 	public static final String CONTENT_EXCEL = "application/vnd.ms-excel";

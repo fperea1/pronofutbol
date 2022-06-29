@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.AutenticacionDTO;
 import com.base.rest.dtos.ConfiguracionDTO;
 import com.base.rest.exceptions.EntityNoExistsException;
@@ -88,13 +89,16 @@ class ConfiguracionControllerTest {
 	@Order(3) 
 	void testFindAll() throws Exception {
 		
+		String filtro = "{\"first\":0,\"rows\":10,\"sortOrder\":1,\"filters\":{},\"globalFilter\":null}";
 		mockMvc
-		    .perform(get("/configuracion/findAll")
+		    .perform(get(Constantes.CONFIG + Constantes.FIND_BY_FILTER)
+		    .param("filtro", filtro)
 		    .header("authorization", "Bearer " + token))
 		    .andDo(print())
 		    .andExpect(status().isOk())
-		    .andExpect(jsonPath("$.length()").value(5))
-		    .andExpect(jsonPath("$[?(@.nombre === 'Prueba')]").exists());
+		    //.andExpect(jsonPath("$.length()").value(1))
+		    .andExpect(jsonPath("$.length()").isNotEmpty())
+		    .andExpect(jsonPath("$.list[0].nombre").value("Prueba"));
 		
 		//System.out.println(response.andReturn().getResponse().getContentAsString());
 	}

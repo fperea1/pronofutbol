@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @JGlobalMap
-public class UsuarioDTO {
+public class UsuarioDTO extends BaseDTO {
 
 	@JsonView(View.Public.class)
 	private Integer id;

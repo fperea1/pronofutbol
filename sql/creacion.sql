@@ -38,8 +38,8 @@ CREATE TABLE "roles" (
 
 insert into roles values ('SUPERUSUARIO');
 insert into roles values ('ADMINISTRADOR');
-insert into roles values ('MODIFICACION');
-insert into roles values ('LECTURA');
+insert into roles values ('GESTOR');
+insert into roles values ('CONSULTOR');
 
 
 CREATE TABLE "usuarios" (

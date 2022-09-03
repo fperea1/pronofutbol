@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.base.rest.constant.Constantes;
 import com.base.rest.entities.BaseEntity;
 import com.base.rest.entities.Configuracion;
-import com.base.rest.exceptions.EntityNoExistsException;
+import com.base.rest.exceptions.ServiceException;
 import com.base.rest.repositories.ConfiguracionRepository;
 import com.base.rest.service.interfaces.ConfiguracionService;
 import com.base.rest.specification.BaseSpecificationsBuilder;
@@ -80,7 +80,7 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 	public Configuracion findById(Integer id) {
 		
 		if (!configuracionRepository.existsById(id)) {
-			throw new EntityNoExistsException();
+			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
 		return configuracionRepository.findById(id).orElse(null);
 	}
@@ -90,7 +90,7 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 	public void deleteById(Integer id) {
 		
 		if (!configuracionRepository.existsById(id)) {
-			throw new EntityNoExistsException();
+			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
 		configuracionRepository.deleteById(id);
 	}

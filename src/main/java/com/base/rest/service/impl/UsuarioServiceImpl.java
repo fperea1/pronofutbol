@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.base.rest.constant.Constantes;
 import com.base.rest.entities.BaseEntity;
 import com.base.rest.entities.Usuario;
-import com.base.rest.exceptions.EntityNoExistsException;
-import com.base.rest.exceptions.PasswordLimitException;
+import com.base.rest.exceptions.ServiceException;
 import com.base.rest.repositories.UsuarioRepository;
 import com.base.rest.service.interfaces.UsuarioService;
 import com.base.rest.specification.BaseSpecificationsBuilder;
@@ -40,8 +40,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-
-	
 	@Override
 	public Page<BaseEntity> findByFilter(String filtroWeb, boolean exportar) {
 		
@@ -73,7 +71,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public void save(Usuario usuario) {
 
-		validarPassword(usuario.getPassword());
+		validarPassword(usuario.getPassword(), null);
 		usuario.setPassword(bcryptEncoder.encode(usuario.getPassword()));
 		if (usuario.getId() == null) {
 			usuario.setFechaAlta(new Date());
@@ -94,7 +92,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario findById(Integer id) {
 		
 		if (!usuarioRepository.existsById(id)) {
-			throw new EntityNoExistsException();
+			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
 		return usuarioRepository.findById(id).orElse(null);
 	}
@@ -104,7 +102,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void deleteById(Integer id) {
 		
 		if (!usuarioRepository.existsById(id)) {
-			throw new EntityNoExistsException();
+			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
 		usuarioRepository.deleteById(id);
 	}
@@ -114,7 +112,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void deactivateById(Integer id) {
 		
 		if (!usuarioRepository.existsById(id)) {
-			throw new EntityNoExistsException();
+			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
 		usuarioRepository.deactivateById(new Date(), id);
 	}
@@ -124,43 +122,52 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void activateById(Integer id) {
 		
 		if (!usuarioRepository.existsById(id)) {
-			throw new EntityNoExistsException();
+			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
 		usuarioRepository.activateById(id);
 	}
 	
-	private void validarPassword(String password) {
+	private void validarPassword(String password, String newPassword2) {
+		
+		if (newPassword2 != null && !password.equals(newPassword2)) {
+			throw new ServiceException(Constantes.EXC_PASSWORDS_DIFERENTES);
+		}
 		
 		if (password == null || password.isBlank()
 				|| password.length() < 10 || password.length() > 100) {
-			throw new PasswordLimitException();
+			throw new ServiceException(Constantes.EXC_LIMITE_CARACTERES_PASSWORD);
 		}
 	}
 
 	@Transactional
 	@Override
-	public void cambioPasswordUser(Integer id, String username, String oldPassword, String newPassword) {
+	public void cambioPasswordUser(Integer id, String username, String oldPassword, String newPassword, String newPassword2) {
 		
-		Usuario u = findById(id);
-		if (u == null) {
-			throw new EntityNoExistsException();
-		} 
-		authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(username, oldPassword));
-		validarPassword(newPassword);
+		try {
+			authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(username, oldPassword));
+		} catch (AuthenticationException e) {
+			throw new ServiceException(Constantes.EXC_PASSWORD_ANT_ERRONEA);
+		}
+		validarPassword(newPassword, newPassword2);
 		usuarioRepository.changePassword(bcryptEncoder.encode(newPassword), id);
 	}
 
 	@Transactional
 	@Override
-	public void cambioPasswordAdmin(Integer id, String newPassword) {
+	public void cambioPasswordAdmin(Integer id, String newPassword, String newPassword2) {
 		
 		Usuario u = findById(id);
 		if (u == null) {
-			throw new EntityNoExistsException();
+			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		validarPassword(newPassword);
+		validarPassword(newPassword, newPassword2);
 		usuarioRepository.changePassword(bcryptEncoder.encode(newPassword), id);
+	}
+
+	@Override
+	public Usuario findByUsername(String username) {
+		return usuarioRepository.getByUsername(username);
 	}
 
 }

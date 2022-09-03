@@ -7,6 +7,8 @@ import com.googlecode.jmapper.annotations.JGlobalMap;
 @JGlobalMap
 public class LogDTO extends BaseDTO {
 	
+	private Integer id;
+	
 	private String username;
 	
 	private String entidad;
@@ -16,6 +18,14 @@ public class LogDTO extends BaseDTO {
 	private String observaciones;
 	
 	private Date fecha;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getUsername() {
 		return username;
@@ -55,6 +65,12 @@ public class LogDTO extends BaseDTO {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+
+	@Override
+	public String getNombre() {
+		// Creado por herencia
+		return "";
 	}
 	
 }

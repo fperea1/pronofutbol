@@ -104,7 +104,7 @@ public class UsuarioController extends BaseController {
     }
 	
 	@PutMapping(Constantes.DEACTIVATE)
-    public ResponseEntity<String> deactivateById(@RequestParam Integer id) {
+    public ResponseEntity<String> deactivateById(@RequestBody Integer id) {
 		Usuario usuario = usuarioService.findById(id);
 		usuarioService.deactivateById(id);
 		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.DESACTIVAR, Constantes.USUARIO +Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
@@ -112,25 +112,17 @@ public class UsuarioController extends BaseController {
     }
 	
 	@PutMapping(Constantes.ACTIVATE)
-    public ResponseEntity<String> activateById(@RequestParam Integer id) {
+    public ResponseEntity<String> activateById(@RequestBody Integer id) {
 		Usuario usuario = usuarioService.findById(id);
 		usuarioService.activateById(id);
 		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.ACTIVAR, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
 		return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
     }
 	
-	@PutMapping(Constantes.CAMBIO_PASSWORD)
-	public ResponseEntity<String> cambioPasswordUser(@RequestParam Integer id, @RequestParam String oldPassword, @RequestParam String newPassword) {
-		Usuario usuario = usuarioService.findById(id);
-		usuarioService.cambioPasswordUser(id, usuario.getUsername(), oldPassword, newPassword);
-		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.CAMBIO_PASS_USUARIO, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
-		return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
-    }
-	
 	@PutMapping(Constantes.CAMBIO_PASSWORD_ADMIN)
-	public ResponseEntity<String> cambioPasswordAdmin(@RequestParam Integer id, @RequestParam String newPassword) {
+	public ResponseEntity<String> cambioPasswordAdmin(@RequestParam Integer id, @RequestParam String newPassword, @RequestParam String newPassword2) {
 		Usuario usuario = usuarioService.findById(id);
-		usuarioService.cambioPasswordAdmin(id, newPassword);
+		usuarioService.cambioPasswordAdmin(id, newPassword, newPassword2);
 		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.CAMBIO_PASS_ADMIN, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
 		return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
     }

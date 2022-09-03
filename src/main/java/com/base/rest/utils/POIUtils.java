@@ -3,7 +3,9 @@ package com.base.rest.utils;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -77,6 +79,20 @@ public final class POIUtils {
 		if (valor.getType() == Date.class) {
 			cell.setCellStyle(cellStyleDateTime);
 			cell.setCellValue((Date) valor.get(record));
+		} else if (valor.getType() == Boolean.class) {
+			Boolean bol = (Boolean)valor.get(record);
+			cell.setCellValue((bol != null && bol) ? "Si" : "No");
+		} else if (valor.getType() == Set.class) {
+			@SuppressWarnings("unchecked")
+			Set<BaseDTO> set = (HashSet<BaseDTO>)valor.get(record);
+			String nombre = "";
+			if (!set.isEmpty()) {
+				for (BaseDTO b: set) {
+					nombre += ", " +b.getNombre();
+				}
+			}
+			nombre = nombre.replaceFirst(", ", "");
+			cell.setCellValue(nombre);
 		} else {
 			cell.setCellValue((String) valor.get(record));
 		}

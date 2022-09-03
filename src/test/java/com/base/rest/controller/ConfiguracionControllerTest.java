@@ -28,7 +28,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.AutenticacionDTO;
 import com.base.rest.dtos.ConfiguracionDTO;
-import com.base.rest.exceptions.EntityNoExistsException;
+import com.base.rest.exceptions.ServiceException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -253,7 +253,7 @@ class ConfiguracionControllerTest {
 		    .param("id", "30")
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
-		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
+		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 		    .andExpect(content().string(containsString("No existe la entidad")));
 	}
 

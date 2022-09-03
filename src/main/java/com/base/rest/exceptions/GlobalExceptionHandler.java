@@ -13,7 +13,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailAuthenticationException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -40,6 +39,13 @@ public class GlobalExceptionHandler {
 //	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 //	       return new ResponseEntity<>(messages, HttpStatus.CONFLICT);
 //	   }
+	   
+	   @ExceptionHandler(ServiceException.class)
+	   protected ResponseEntity<String> handleServiceExceptionn(ServiceException ex) {
+	      
+		   logger.error(ex.getMessage(), ex);
+	       return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+	   }
 	   
 	   @ExceptionHandler(ConstraintViolationException.class)
 	   protected ResponseEntity<List<String>> handleConstraintViolationException(ConstraintViolationException ex) {
@@ -85,13 +91,6 @@ public class GlobalExceptionHandler {
 	       return new ResponseEntity<>(Constantes.EXC_METODO_NO_SOPORTADO, HttpStatus.BAD_REQUEST);
 	   }
 	   
-	   @ExceptionHandler(AuthenticationException.class)
-	   protected ResponseEntity<String> handleAuthenticationException(AuthenticationException ex) {
-	      
-		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(Constantes.EXC_AUTH_ERRONEA, HttpStatus.BAD_REQUEST);
-	   }
-	   
 	   @ExceptionHandler(MissingServletRequestParameterException.class)
 	   protected ResponseEntity<String> handleMissingServletRequestParameterException(MissingServletRequestParameterException ex) {
 	      
@@ -99,25 +98,18 @@ public class GlobalExceptionHandler {
 	       return new ResponseEntity<>(Constantes.EXC_FALTAN_PARAM_PETICION, HttpStatus.BAD_REQUEST);
 	   }
 	   
-	   @ExceptionHandler(PasswordLimitException.class)
-	   protected ResponseEntity<String> handlePasswordLimitException(PasswordLimitException ex) {
+//	   @ExceptionHandler(BadCredentialsException.class)
+//	   protected ResponseEntity<String> handleBadCredentialsException(BadCredentialsException ex) {
+//		      
+//		   logger.error(ex.getMessage(), ex);
+//	       return new ResponseEntity<>(Constantes.EXC_CREDENCIALES_ERRONEAS, HttpStatus.BAD_REQUEST);
+//	   }
+	   
+	   @ExceptionHandler(AuthenticationException.class)
+	   protected ResponseEntity<String> handleAuthenticationException(AuthenticationException ex) {
 	      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(Constantes.EXC_LIMITE_CARACTERES_PASSWORD, HttpStatus.CONFLICT);
-	   }
-	   
-	   @ExceptionHandler(EntityNoExistsException.class)
-	   protected ResponseEntity<String> handleEntityNoExistsException(EntityNoExistsException ex) {
-	      
-		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(Constantes.EXC_NO_EXISTE_ENTIDAD, HttpStatus.BAD_REQUEST);
-	   }
-	   
-	   @ExceptionHandler(BadCredentialsException.class)
-	   protected ResponseEntity<String> handleBadCredentialsException(BadCredentialsException ex) {
-		      
-		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(Constantes.EXC_CREDENCIALES_ERRONEAS, HttpStatus.BAD_REQUEST);
+	       return new ResponseEntity<>(Constantes.EXC_AUTH_ERRONEA, HttpStatus.BAD_REQUEST);
 	   }
 	   
 	   @ExceptionHandler(MailAuthenticationException.class)

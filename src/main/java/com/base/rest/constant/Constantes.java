@@ -18,6 +18,8 @@ public final class Constantes {
 	
 	public static final String USUARIOS = "/usuarios";
 	
+	public static final String ROLES = "/roles";
+	
 	public static final String LOGS = "/logs";
 	
 	public static final String FIND_ALL = "/findAll";
@@ -87,6 +89,10 @@ public final class Constantes {
 	public static final String EXC_FALTAN_PARAM_PETICION = "Faltan parámetros en la petición";
 	
 	public static final String EXC_LIMITE_CARACTERES_PASSWORD = "Password debe tener entre 10 y 100 caracteres";
+	
+	public static final String EXC_PASSWORDS_DIFERENTES = "La nueva contraseña y su confirmación no es coinciden";
+	
+	public static final String EXC_PASSWORD_ANT_ERRONEA = "La contraseña anterior no es correcta";
 	
 	public static final String EXC_NO_EXISTE_ENTIDAD = "No existe la entidad";
 	

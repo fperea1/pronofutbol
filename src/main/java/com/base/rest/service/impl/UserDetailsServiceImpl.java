@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.base.rest.constant.Constantes;
 import com.base.rest.entities.Rol;
 import com.base.rest.entities.Usuario;
 import com.base.rest.repositories.UsuarioRepository;
@@ -27,8 +28,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		Usuario usuario = usuarioRepository.getByUsername(username);
-		if (usuario == null) {
-			throw new UsernameNotFoundException("Error. No existe usuario con Username " + username);
+		if (usuario == null || !usuario.getActivo()) {
+			throw new UsernameNotFoundException(Constantes.EXC_AUTH_ERRONEA);
 		}
 		return new User(usuario.getUsername(), usuario.getPassword(), getAuthority(usuario.getRoles()));
 	}

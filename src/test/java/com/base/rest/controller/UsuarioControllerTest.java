@@ -23,17 +23,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.AutenticacionDTO;
+import com.base.rest.dtos.CambioPasswordDTO;
 import com.base.rest.dtos.RolDTO;
 import com.base.rest.dtos.UsuarioDTO;
-import com.base.rest.exceptions.EntityNoExistsException;
-import com.base.rest.exceptions.PasswordLimitException;
+import com.base.rest.exceptions.ServiceException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -179,7 +179,7 @@ class UsuarioControllerTest {
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordLimitException))
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 	    .andExpect(content().string(containsString("Password debe tener entre 10 y 100 caracteres")));	
 	}
 	
@@ -198,7 +198,7 @@ class UsuarioControllerTest {
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordLimitException))
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 	    .andExpect(content().string(containsString("Password debe tener entre 10 y 100 caracteres")));	
 	}
 	
@@ -218,7 +218,7 @@ class UsuarioControllerTest {
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
 	    .andExpect(status().isConflict())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof PasswordLimitException))
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 	    .andExpect(content().string(containsString("Password debe tener entre 10 y 100 caracteres")));	
 	}
 	
@@ -398,7 +398,7 @@ class UsuarioControllerTest {
 	    .param("id", "5")
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 	    .andExpect(content().string(containsString("No existe la entidad")));
 	}
 	
@@ -434,7 +434,7 @@ class UsuarioControllerTest {
 		    .param("id", "30")
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
-		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
+		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 		    .andExpect(content().string(containsString("No existe la entidad")));
 	}
 	
@@ -444,7 +444,8 @@ class UsuarioControllerTest {
 		
 		mockMvc
 		    .perform(put("/usuarios/deactivate")
-		    .param("id", "2")
+    		.contentType(APPLICATION_JSON_UTF8)
+    		.content("2")
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isOk())
 		    .andExpect(content().string(containsString("Operación correcta")));
@@ -453,23 +454,25 @@ class UsuarioControllerTest {
 	@Test
 	@Order(23) 
 	void testDeactivateByIdUserNoExists() throws Exception {
-		
+
 		mockMvc
 		    .perform(put("/usuarios/deactivate")
-		    .param("id", "20")
+    		.contentType(APPLICATION_JSON_UTF8)
+    		.content("20")
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
-		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
+		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 		    .andExpect(content().string(containsString("No existe la entidad")));
 	}
 	
 	@Test
 	@Order(24) 
 	void testActivateById() throws Exception {
-		
+
 		mockMvc
 		    .perform(put("/usuarios/activate")
-		    .param("id", "2")
+    		.contentType(APPLICATION_JSON_UTF8)
+    		.content("2")
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isOk())
 		    .andExpect(content().string(containsString("Operación correcta")));
@@ -481,10 +484,11 @@ class UsuarioControllerTest {
 		
 		mockMvc
 		    .perform(put("/usuarios/activate")
-		    .param("id", "20")
+    		.contentType(APPLICATION_JSON_UTF8)
+    		.content("20")
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
-		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
+		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 		    .andExpect(content().string(containsString("No existe la entidad")));
 	}
 	
@@ -504,11 +508,14 @@ class UsuarioControllerTest {
 	@Order(27) 
 	void testCambioPasswordUserOk() throws Exception {
 		
+		CambioPasswordDTO c = getCambioPasswordDTO(2, "passwordTest", "passwordTest2", "passwordTest2");
+		
+		String requestJson = getJsonCambio(c);
+		
 		mockMvc
 	    .perform(put("/usuarios/cambioPassword")
-	    .param("id", "2")
-	    .param("oldPassword", "passwordTest")
-	    .param("newPassword", "passwordTest2")
+		.contentType(APPLICATION_JSON_UTF8)
+		.content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isOk())
 	    .andExpect(content().string(containsString("Operación correcta")));	
@@ -518,15 +525,18 @@ class UsuarioControllerTest {
 	@Order(28) 
 	void testCambioPasswordUserKo() throws Exception {
 		
+		CambioPasswordDTO c = getCambioPasswordDTO(2, "erronea", "passwordTest", "passwordTest");
+		
+		String requestJson = getJsonCambio(c);
+		
 		mockMvc
 	    .perform(put("/usuarios/cambioPassword")
-	    .param("id", "2")
-	    .param("oldPassword", "erronea")
-	    .param("newPassword", "passwordTest")
+		.contentType(APPLICATION_JSON_UTF8)
+		.content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof BadCredentialsException))
-	    .andExpect(content().string(containsString("Credenciales erroneas")));
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof AuthenticationException))
+	    .andExpect(content().string(containsString(Constantes.EXC_AUTH_ERRONEA)));
 	}
 	
 	@Test
@@ -538,6 +548,7 @@ class UsuarioControllerTest {
 	    .param("id", "2")
 	    .param("oldPassword", "passwordTest2")
 	    .param("newPassword", "passwordTest")
+	    .param("newPassword2", "passwordTest")
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isOk())
 	    .andExpect(content().string(containsString("Operación correcta")));	
@@ -551,10 +562,38 @@ class UsuarioControllerTest {
 	    .perform(put("/usuarios/cambioPasswordAdmin")
 	    .param("id", "2000")
 	    .param("newPassword", "bbbb")
+	    .param("newPassword2", "bbbb")
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof EntityNoExistsException))
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 	    .andExpect(content().string(containsString("No existe la entidad")));
+	}
+
+	@Test
+	@Order(31) 
+	void testCambioPasswordDiferentKo() throws Exception {
+		
+		CambioPasswordDTO c = getCambioPasswordDTO(2, "passwordTest", "passwordTest2", "passwordTest3");
+		
+		String requestJson = getJsonCambio(c);
+		    
+		mockMvc
+	    .perform(put("/usuarios/cambioPassword")
+		.contentType(APPLICATION_JSON_UTF8)
+		.content(requestJson)
+	    .header("authorization", "Bearer " + token))
+	    .andExpect(status().isConflict())
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
+	    .andExpect(content().string(containsString(Constantes.EXC_PASSWORDS_DIFERENTES)));
+	}
+
+	private CambioPasswordDTO getCambioPasswordDTO(Integer id, String oldPassword, String newPassword, String newPassword2) {
+		CambioPasswordDTO c = new CambioPasswordDTO();
+		c.setId(id);
+		c.setOldPassword(oldPassword);
+		c.setNewPassword(newPassword);
+		c.setNewPassword2(newPassword2);
+		return c;
 	}
 
 	private UsuarioDTO getUsuario(String username, String nombre, String password, String email) {
@@ -572,6 +611,14 @@ class UsuarioControllerTest {
 	}
 
 	private String getJson(UsuarioDTO u) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+	    mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+	    ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+	    String requestJson=ow.writeValueAsString(u);
+		return requestJson;
+	}
+	
+	private String getJsonCambio(CambioPasswordDTO u) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 	    mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
 	    ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();

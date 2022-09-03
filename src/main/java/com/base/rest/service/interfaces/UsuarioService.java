@@ -15,13 +15,15 @@ public interface UsuarioService {
 	
 	public Usuario findById(Integer id);
 	
+	public Usuario findByUsername(String username);
+	
 	public void deleteById(Integer id);
 	
 	public void deactivateById(Integer id);
 	
 	public void activateById(Integer id);
 
-	public void cambioPasswordUser(Integer id, String username, String oldPassword, String newPassword);
+	public void cambioPasswordUser(Integer id, String username, String oldPassword, String newPassword, String newPassword2);
 
-	public void cambioPasswordAdmin(Integer id, String newPassword);
+	public void cambioPasswordAdmin(Integer id, String newPassword, String newPassword2);
 }

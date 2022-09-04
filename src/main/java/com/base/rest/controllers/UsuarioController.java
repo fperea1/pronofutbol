@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.BaseDTO;
+import com.base.rest.dtos.CambioPasswordDTO;
 import com.base.rest.dtos.ResultTableDTO;
 import com.base.rest.dtos.UsuarioDTO;
 import com.base.rest.entities.BaseEntity;
@@ -120,9 +121,9 @@ public class UsuarioController extends BaseController {
     }
 	
 	@PutMapping(Constantes.CAMBIO_PASSWORD_ADMIN)
-	public ResponseEntity<String> cambioPasswordAdmin(@RequestParam Integer id, @RequestParam String newPassword, @RequestParam String newPassword2) {
-		Usuario usuario = usuarioService.findById(id);
-		usuarioService.cambioPasswordAdmin(id, newPassword, newPassword2);
+	public ResponseEntity<String> cambioPasswordAdmin(@RequestBody CambioPasswordDTO cambioPasswordDTO) {
+		Usuario usuario = usuarioService.findById(cambioPasswordDTO.getId());
+		usuarioService.cambioPasswordAdmin(cambioPasswordDTO.getId(), cambioPasswordDTO.getNewPassword(), cambioPasswordDTO.getNewPassword2());
 		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.CAMBIO_PASS_ADMIN, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
 		return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
     }

@@ -90,7 +90,7 @@ public final class Constantes {
 	
 	public static final String EXC_LIMITE_CARACTERES_PASSWORD = "Password debe tener entre 10 y 100 caracteres";
 	
-	public static final String EXC_PASSWORDS_DIFERENTES = "La nueva contraseña y su confirmación no es coinciden";
+	public static final String EXC_PASSWORDS_DIFERENTES = "La nueva contraseña y su confirmación no son iguales";
 	
 	public static final String EXC_PASSWORD_ANT_ERRONEA = "La contraseña anterior no es correcta";
 	

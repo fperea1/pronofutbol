@@ -18,5 +18,19 @@ public class Converter <O, D>{
 		return (List<BaseDTO>) page.getContent().stream().map(temp-> mapper.getDestination((O) temp))
                 .collect(Collectors.toList());
     }
+	
+	@SuppressWarnings("unchecked")
+	public BaseDTO toDTO(BaseEntity entity, Class<O> o, Class<D> d) {
+		JMapper<D, O> mapper = new JMapper<D,O>(d, o);
+		return (BaseDTO) mapper.getDestination((O) entity);
+	}
+	
+
+	@SuppressWarnings("unchecked")
+	public BaseEntity toEntity(BaseDTO dto, Class<O> o, Class<D> d) {
+		JMapper<D, O> mapper = new JMapper<D,O>(d, o);
+		return (BaseEntity) mapper.getDestination((O) dto);
+	}
+	
 
 }

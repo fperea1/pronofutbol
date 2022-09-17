@@ -1,6 +1,5 @@
 package com.base.rest.controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -28,10 +27,8 @@ import com.base.rest.dtos.CambioPasswordDTO;
 import com.base.rest.dtos.ResultTableDTO;
 import com.base.rest.dtos.UsuarioDTO;
 import com.base.rest.entities.BaseEntity;
-import com.base.rest.entities.Log;
 import com.base.rest.entities.Usuario;
 import com.base.rest.enums.reportes.TablaUsuariosEnum;
-import com.base.rest.service.interfaces.LogService;
 import com.base.rest.service.interfaces.UsuarioService;
 import com.base.rest.utils.Converter;
 import com.base.rest.utils.POIUtils;
@@ -46,9 +43,6 @@ public class UsuarioController extends BaseController {
 
 	@Autowired
 	private UsuarioService usuarioService;
-	
-	@Autowired
-	private LogService logService;
 	
 	@GetMapping(Constantes.FIND_BY_FILTER)
     public ResponseEntity<ResultTableDTO> findByFilter(@RequestParam String filtro) {
@@ -77,16 +71,14 @@ public class UsuarioController extends BaseController {
     public ResponseEntity<String> save(@Valid @RequestBody UsuarioDTO usuario) {
 		JMapper<Usuario, UsuarioDTO> mapper = new JMapper<>(Usuario.class, UsuarioDTO.class);
 		usuarioService.save(mapper.getDestination(usuario));
-		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.ALTA, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
-        return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.ALTA, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
     }
 	
 	@PutMapping(Constantes.UPDATE)
     public ResponseEntity<String> update(@Valid @RequestBody UsuarioDTO usuario) {
 		JMapper<Usuario, UsuarioDTO> mapper = new JMapper<>(Usuario.class, UsuarioDTO.class);
 		usuarioService.update(mapper.getDestination(usuario));
-		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.EDICION, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
-        return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.EDICION, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
     }
 	
 	@JsonView(View.Public.class)
@@ -100,31 +92,27 @@ public class UsuarioController extends BaseController {
     public ResponseEntity<String> deleteById(@RequestParam Integer id) {
 		Usuario usuario = usuarioService.findById(id);
 		usuarioService.deleteById(id);
-		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.BAJA, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
-		return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
-    }
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.BAJA, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
+	}
 	
 	@PutMapping(Constantes.DEACTIVATE)
     public ResponseEntity<String> deactivateById(@RequestBody Integer id) {
 		Usuario usuario = usuarioService.findById(id);
 		usuarioService.deactivateById(id);
-		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.DESACTIVAR, Constantes.USUARIO +Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
-		return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
-    }
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.DESACTIVAR, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
+	}
 	
 	@PutMapping(Constantes.ACTIVATE)
     public ResponseEntity<String> activateById(@RequestBody Integer id) {
 		Usuario usuario = usuarioService.findById(id);
 		usuarioService.activateById(id);
-		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.ACTIVAR, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
-		return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
-    }
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.ACTIVAR, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
+	}
 	
 	@PutMapping(Constantes.CAMBIO_PASSWORD_ADMIN)
 	public ResponseEntity<String> cambioPasswordAdmin(@RequestBody CambioPasswordDTO cambioPasswordDTO) {
 		Usuario usuario = usuarioService.findById(cambioPasswordDTO.getId());
 		usuarioService.cambioPasswordAdmin(cambioPasswordDTO.getId(), cambioPasswordDTO.getNewPassword(), cambioPasswordDTO.getNewPassword2());
-		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.CAMBIO_PASS_ADMIN, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
-		return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
-    }
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.CAMBIO_PASS_ADMIN, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
+	}
 }

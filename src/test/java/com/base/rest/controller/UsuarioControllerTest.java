@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -103,8 +102,7 @@ class UsuarioControllerTest {
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
-		    .andExpect(status().isOk())
-		    .andExpect(content().string(containsString("Operación correcta")));	
+		    .andExpect(status().isOk());	
 	}
 	
 	@Test
@@ -178,7 +176,7 @@ class UsuarioControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
+	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 	    .andExpect(content().string(containsString("Password debe tener entre 10 y 100 caracteres")));	
 	}
@@ -197,7 +195,7 @@ class UsuarioControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
+	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 	    .andExpect(content().string(containsString("Password debe tener entre 10 y 100 caracteres")));	
 	}
@@ -217,7 +215,7 @@ class UsuarioControllerTest {
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andDo(print())
-	    .andExpect(status().isConflict())
+	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 	    .andExpect(content().string(containsString("Password debe tener entre 10 y 100 caracteres")));	
 	}
@@ -336,8 +334,7 @@ class UsuarioControllerTest {
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
-		    .andExpect(status().isOk())
-		    .andExpect(content().string(containsString("Operación correcta")));	
+		    .andExpect(status().isOk());	
 	}
 	
 	@Test
@@ -415,8 +412,7 @@ class UsuarioControllerTest {
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
-		    .andExpect(status().isOk())
-		    .andExpect(content().string(containsString("Operación correcta")));	
+		    .andExpect(status().isOk());	
 		
 		mockMvc
 	    .perform(delete("/usuarios/delete")
@@ -447,8 +443,7 @@ class UsuarioControllerTest {
     		.contentType(APPLICATION_JSON_UTF8)
     		.content("2")
 		    .header("authorization", "Bearer " + token))
-		    .andExpect(status().isOk())
-		    .andExpect(content().string(containsString("Operación correcta")));
+		    .andExpect(status().isOk());
 	}
 	
 	@Test
@@ -474,8 +469,7 @@ class UsuarioControllerTest {
     		.contentType(APPLICATION_JSON_UTF8)
     		.content("2")
 		    .header("authorization", "Bearer " + token))
-		    .andExpect(status().isOk())
-		    .andExpect(content().string(containsString("Operación correcta")));
+		    .andExpect(status().isOk());
 	}
 	
 	@Test
@@ -508,17 +502,29 @@ class UsuarioControllerTest {
 	@Order(27) 
 	void testCambioPasswordUserOk() throws Exception {
 		
-		CambioPasswordDTO c = getCambioPasswordDTO(2, "passwordTest", "passwordTest2", "passwordTest2");
+		CambioPasswordDTO c = getCambioPasswordDTO(1, "Administrador01", "passwordTest2", "passwordTest2");
 		
 		String requestJson = getJsonCambio(c);
 		
 		mockMvc
-	    .perform(put("/usuarios/cambioPassword")
+	    .perform(put("/contacto/cambioPassword")
 		.contentType(APPLICATION_JSON_UTF8)
 		.content(requestJson)
 	    .header("authorization", "Bearer " + token))
-	    .andExpect(status().isOk())
-	    .andExpect(content().string(containsString("Operación correcta")));	
+	    .andExpect(status().isOk());
+		
+		// La volvemos a dejar igual
+		
+		c = getCambioPasswordDTO(1, "passwordTest2", "Administrador01", "Administrador01");
+		
+		requestJson = getJsonCambio(c);
+		
+		mockMvc
+	    .perform(put("/contacto/cambioPassword")
+		.contentType(APPLICATION_JSON_UTF8)
+		.content(requestJson)
+	    .header("authorization", "Bearer " + token))
+	    .andExpect(status().isOk());
 	}
 	
 	@Test
@@ -530,39 +536,43 @@ class UsuarioControllerTest {
 		String requestJson = getJsonCambio(c);
 		
 		mockMvc
-	    .perform(put("/usuarios/cambioPassword")
+	    .perform(put("/contacto/cambioPassword")
 		.contentType(APPLICATION_JSON_UTF8)
 		.content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof AuthenticationException))
-	    .andExpect(content().string(containsString(Constantes.EXC_AUTH_ERRONEA)));
+	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
+	    .andExpect(content().string(containsString(Constantes.EXC_PASSWORD_ANT_ERRONEA)));
 	}
 	
 	@Test
 	@Order(29) 
 	void testCambioPasswordAdminOk() throws Exception {
 		
+		CambioPasswordDTO c = getCambioPasswordDTO(2, "passwordTest", "passwordTest2", "passwordTest2");
+		
+		String requestJson = getJsonCambio(c);
+		
 		mockMvc
 	    .perform(put("/usuarios/cambioPasswordAdmin")
-	    .param("id", "2")
-	    .param("oldPassword", "passwordTest2")
-	    .param("newPassword", "passwordTest")
-	    .param("newPassword2", "passwordTest")
+	    .contentType(APPLICATION_JSON_UTF8)
+	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
-	    .andExpect(status().isOk())
-	    .andExpect(content().string(containsString("Operación correcta")));	
+	    .andExpect(status().isOk());	
 	}
 	
 	@Test
 	@Order(30) 
 	void testCambioPasswordAdminKo() throws Exception {
 		
+		CambioPasswordDTO c = getCambioPasswordDTO(2000, "bbbb", "bbbb", "bbbb");
+		
+		String requestJson = getJsonCambio(c);
+		
 		mockMvc
 	    .perform(put("/usuarios/cambioPasswordAdmin")
-	    .param("id", "2000")
-	    .param("newPassword", "bbbb")
-	    .param("newPassword2", "bbbb")
+	    .contentType(APPLICATION_JSON_UTF8)
+	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
@@ -573,16 +583,16 @@ class UsuarioControllerTest {
 	@Order(31) 
 	void testCambioPasswordDiferentKo() throws Exception {
 		
-		CambioPasswordDTO c = getCambioPasswordDTO(2, "passwordTest", "passwordTest2", "passwordTest3");
+		CambioPasswordDTO c = getCambioPasswordDTO(1, "Administrador01", "passwordTest", "passwordTest3");
 		
 		String requestJson = getJsonCambio(c);
 		    
 		mockMvc
-	    .perform(put("/usuarios/cambioPassword")
+	    .perform(put("/contacto/cambioPassword")
 		.contentType(APPLICATION_JSON_UTF8)
 		.content(requestJson)
 	    .header("authorization", "Bearer " + token))
-	    .andExpect(status().isConflict())
+	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 	    .andExpect(content().string(containsString(Constantes.EXC_PASSWORDS_DIFERENTES)));
 	}

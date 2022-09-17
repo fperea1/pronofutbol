@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.base.rest.constant.Constantes;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @Entity
@@ -25,40 +26,40 @@ public class Log extends BaseEntity {
 	private Integer id;
 	
 	@Column(name = "username", length = 50)
-	@Size(min = 5, max = 50, message = "Username debe tener entre 5 y 50 caracteres")
-	@NotBlank(message = "Username. Campo obligatorio")
+	@Size(min = 5, max = 50, message = Constantes.VALIDATION_USERNAME_LOG_SIZE)
+	@NotBlank(message = Constantes.VALIDATION_USERNAME_OBLIGATORIO)
 	private String username;
 	
 	@Column(name = "entidad", length = 50)
-	@Size(min = 1, max = 50, message = "Entidad debe tener entre 1 y 50 caracteres")
-	@NotBlank(message = "Entidad. Campo obligatorio")
+	@Size(min = 1, max = 50, message = Constantes.VALIDATION_ENTIDAD_LOG_SIZE)
+	@NotBlank(message = Constantes.VALIDATION_ENTIDAD_OBLIGATORIO)
 	private String entidad;
 	
 	@Column(name = "accion", length = 50)
-	@Size(min = 1, max = 50, message = "Acción debe tener entre 1 y 50 caracteres")
-	@NotBlank(message = "Acción. Campo obligatorio")
+	@Size(min = 1, max = 50, message = Constantes.VALIDATION_ACCION_LOG_SIZE)
+	@NotBlank(message = Constantes.VALIDATION_ACCION_OBLIGATORIO)
 	private String accion;
 	
 	@Column(name = "observaciones", length = 500)
-	@Size(min = 1, max = 500, message = "Observaciones debe tener entre 1 y 500 caracteres")
-	@NotBlank(message = "Observaciones. Campo obligatorio")
+	@Size(min = 1, max = 500, message = Constantes.VALIDATION_OBSERVACIONES_LOG_SIZE)
+	@NotBlank(message = Constantes.VALIDATION_OBSERVACIONES_OBLIGATORIO)
 	private String observaciones;
 	
 	@Column(name = "fecha")
-	@NotNull(message = "Fecha. Campo obligatorio")
+	@NotNull(message = Constantes.VALIDATION_FECHA_OBLIGATORIO)
 	private Date fecha;
 
 	public Log() {
 		super();
 	}
 
-	public Log(String username, String entidad, String accion, String observaciones, Date fecha) {
+	public Log(String username, String entidad, String accion, String observaciones) {
 		super();
 		this.username = username;
 		this.entidad = entidad;
 		this.accion = accion;
 		this.observaciones = observaciones;
-		this.fecha = fecha;
+		this.fecha = new Date();
 	}
 
 	public Integer getId() {

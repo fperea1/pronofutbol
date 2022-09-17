@@ -14,12 +14,18 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.BaseDTO;
 import com.base.rest.exceptions.POIException;
 
 public final class POIUtils {
+	
+	@Autowired
+    static MessageSource messageSource;
 	
 	private POIUtils() {
 		
@@ -48,7 +54,8 @@ public final class POIUtils {
 				Field f1 = e.getClass().getDeclaredField("titulo");
 				f1.setAccessible(true);
 				headerCell = header.createCell(contador++);
-				headerCell.setCellValue((String) f1.get(e));
+				headerCell.setCellValue(messageSource.getMessage((String) f1.get(e), null, LocaleContextHolder.getLocale()));
+				
 			}
 
 			contador = 1;
@@ -81,7 +88,7 @@ public final class POIUtils {
 			cell.setCellValue((Date) valor.get(record));
 		} else if (valor.getType() == Boolean.class) {
 			Boolean bol = (Boolean)valor.get(record);
-			cell.setCellValue((bol != null && bol) ? "Si" : "No");
+			cell.setCellValue((bol != null && bol) ? Constantes.SI : Constantes.NO);
 		} else if (valor.getType() == Set.class) {
 			@SuppressWarnings("unchecked")
 			Set<BaseDTO> set = (HashSet<BaseDTO>)valor.get(record);

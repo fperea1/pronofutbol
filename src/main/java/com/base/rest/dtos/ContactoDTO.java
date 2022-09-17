@@ -2,12 +2,14 @@ package com.base.rest.dtos;
 
 import javax.validation.constraints.NotBlank;
 
+import com.base.rest.constant.Constantes;
+
 public class ContactoDTO {
 	
-	@NotBlank(message = "Asunto. Campo obligatorio.")
+	@NotBlank(message = Constantes.VALIDATION_ASUNTO_OBLIGATORIO)
 	private String asunto;
 	
-	@NotBlank(message = "Consulta. Campo obligatorio.")
+	@NotBlank(message = Constantes.VALIDATION_CONSULTA_OBLIGATORIO)
 	private String consulta;
 
 	public String getAsunto() {

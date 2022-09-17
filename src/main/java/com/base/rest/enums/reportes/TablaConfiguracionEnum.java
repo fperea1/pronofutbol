@@ -2,10 +2,12 @@ package com.base.rest.enums.reportes;
 
 import java.util.stream.Stream;
 
+import com.base.rest.constant.Constantes;
+
 public enum TablaConfiguracionEnum {
 	
-	NOMBRE("Nombre", "nombre"),
-	VALOR("Valor", "valor");
+	NOMBRE(Constantes.NOMBRE, "nombre"),
+	VALOR(Constantes.VALOR, "valor");
 
 	public String titulo;
 	

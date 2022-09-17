@@ -2,18 +2,20 @@ package com.base.rest.dtos;
 
 import javax.validation.constraints.NotBlank;
 
+import com.base.rest.constant.Constantes;
+
 public class CambioPasswordDTO {
 	
-	@NotBlank(message = "Id. Campo obligatorio")
+	@NotBlank(message = Constantes.VALIDATION_ID_OBLIGATORIO)
 	private Integer id;
 	
-	@NotBlank(message = "Password Anterior. Campo obligatorio")
+	@NotBlank(message = Constantes.VALIDATION_PASSWORD_ANTERIOR_OBLIGATORIO)
 	private String oldPassword;
 	
-	@NotBlank(message = "Nueva Password. Campo obligatorio")
+	@NotBlank(message = Constantes.VALIDATION_NUEVA_PASSWORD_OBLIGATORIO)
 	private String newPassword;
 	
-	@NotBlank(message = "Confirmación Password. Campo obligatorio")
+	@NotBlank(message = Constantes.VALIDATION_CONFIRMACION_PASSWORD_OBLIGATORIO)
 	private String newPassword2;
 
 	public Integer getId() {

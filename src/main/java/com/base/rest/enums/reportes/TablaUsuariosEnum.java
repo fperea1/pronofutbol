@@ -2,15 +2,17 @@ package com.base.rest.enums.reportes;
 
 import java.util.stream.Stream;
 
+import com.base.rest.constant.Constantes;
+
 public enum TablaUsuariosEnum {
 	
-	NOMBRE("Nombre", "nombre"),
-	USERNAME("Username", "username"),
-	EMAIL("Email", "email"),
-	FECHA_ALTA("Fecha de Alta", "fechaAlta"),
-	FECHA_DESACTIVACION("Fecha de Baja", "fechaDesactivacion"),
-	ACTIVO("Activo", "activo"),
-	ROLES("Roles", "roles");
+	NOMBRE(Constantes.NOMBRE, "nombre"),
+	USERNAME(Constantes.USERNAME, "username"),
+	EMAIL(Constantes.EMAIL, "email"),
+	FECHA_ALTA(Constantes.FECHA_ALTA, "fechaAlta"),
+	FECHA_DESACTIVACION(Constantes.FECHA_BAJA, "fechaDesactivacion"),
+	ACTIVO(Constantes.ACTIVO, "activo"),
+	ROLES(Constantes.ROLES, "roles");
 
 	public String titulo;
 	

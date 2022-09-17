@@ -19,6 +19,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.base.rest.constant.Constantes;
+
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 
@@ -40,11 +42,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.getUsernameFromToken(authToken);
             } catch (IllegalArgumentException e) {
-        		res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Se ha producido un error al recuperar el nombre del usuario del token.");
+        		res.sendError(HttpServletResponse.SC_BAD_REQUEST, Constantes.ERROR_RECUPERAR_NOMBRE_USUARIO_TOKEN);
             } catch (ExpiredJwtException e) {
-        		res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Token caducado.");
+        		res.sendError(HttpServletResponse.SC_BAD_REQUEST, Constantes.TOKEN_CADUCADO);
             } catch(SignatureException e) {
-        		res.sendError(HttpServletResponse.SC_BAD_REQUEST, "Se ha producido un error. Username o Password no son válidos.");
+        		res.sendError(HttpServletResponse.SC_BAD_REQUEST, Constantes.ERROR_USERNAME_PASSWORD);
             }
         } else {
             logger.warn("No se ha podido encontrar la cadena del token en la cabecera. Se ignora la cabecera.");

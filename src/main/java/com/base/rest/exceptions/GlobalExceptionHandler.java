@@ -9,6 +9,9 @@ import javax.validation.ConstraintViolationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,9 @@ import com.base.rest.constant.Constantes;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	
+		@Autowired
+		MessageSource messageSource;
+	
 	   Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 //	   @ExceptionHandler(TransactionSystemException.class)
@@ -41,7 +47,7 @@ public class GlobalExceptionHandler {
 //	   }
 	   
 	   @ExceptionHandler(ServiceException.class)
-	   protected ResponseEntity<String> handleServiceExceptionn(ServiceException ex) {
+	   protected ResponseEntity<String> handleServiceException(ServiceException ex) {
 	      
 		   logger.error(ex.getMessage(), ex);
 	       return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
@@ -74,28 +80,28 @@ public class GlobalExceptionHandler {
 	      
 		   logger.error(ex.getMessage(), ex);
 	       return new ResponseEntity<>((ex.getRootCause() != null && ex.getRootCause().getMessage() != null) 
-	    		   ? ex.getRootCause().getMessage() : Constantes.EXC_INTEGRIDAD_DATOS, HttpStatus.CONFLICT);
+	    		   ? ex.getRootCause().getMessage() : messageSource.getMessage(Constantes.EXC_INTEGRIDAD_DATOS, null, LocaleContextHolder.getLocale()), HttpStatus.CONFLICT);
 	   }
 	   
 	   @ExceptionHandler(MissingRequestHeaderException.class)
 	   protected ResponseEntity<String> handleMissingRequestHeaderException(MissingRequestHeaderException ex) {
 	      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(Constantes.EXC_FALTA_PARAM_HEADER, HttpStatus.BAD_REQUEST);
+	       return new ResponseEntity<>(messageSource.getMessage(Constantes.EXC_FALTA_PARAM_HEADER, null, LocaleContextHolder.getLocale()), HttpStatus.BAD_REQUEST);
 	   }
 	 
 	   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	   protected ResponseEntity<String> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
 	      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(Constantes.EXC_METODO_NO_SOPORTADO, HttpStatus.BAD_REQUEST);
+	       return new ResponseEntity<>(messageSource.getMessage(Constantes.EXC_METODO_NO_SOPORTADO, null, LocaleContextHolder.getLocale()), HttpStatus.BAD_REQUEST);
 	   }
 	   
 	   @ExceptionHandler(MissingServletRequestParameterException.class)
 	   protected ResponseEntity<String> handleMissingServletRequestParameterException(MissingServletRequestParameterException ex) {
 	      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(Constantes.EXC_FALTAN_PARAM_PETICION, HttpStatus.BAD_REQUEST);
+	       return new ResponseEntity<>(messageSource.getMessage(Constantes.EXC_FALTAN_PARAM_PETICION, null, LocaleContextHolder.getLocale()), HttpStatus.BAD_REQUEST);
 	   }
 	   
 //	   @ExceptionHandler(BadCredentialsException.class)
@@ -109,28 +115,28 @@ public class GlobalExceptionHandler {
 	   protected ResponseEntity<String> handleAuthenticationException(AuthenticationException ex) {
 	      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(Constantes.EXC_AUTH_ERRONEA, HttpStatus.BAD_REQUEST);
+	       return new ResponseEntity<>(messageSource.getMessage(Constantes.EXC_AUTH_ERRONEA, null, LocaleContextHolder.getLocale()), HttpStatus.BAD_REQUEST);
 	   }
 	   
 	   @ExceptionHandler(MailAuthenticationException.class)
 	   protected ResponseEntity<String> handleMailAuthenticationException(MailAuthenticationException ex) {
 		      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(Constantes.EXC_CREDENCIALES_ERRONEAS, HttpStatus.BAD_REQUEST);
+	       return new ResponseEntity<>(messageSource.getMessage(Constantes.EXC_CREDENCIALES_ERRONEAS, null, LocaleContextHolder.getLocale()), HttpStatus.BAD_REQUEST);
 	   }
 	   
 	   @ExceptionHandler(JsonException.class)
 	   protected ResponseEntity<String> handleJsonException(JsonException ex) {
 		      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(Constantes.EXC_JSON_PARSE, HttpStatus.BAD_REQUEST);
+	       return new ResponseEntity<>(messageSource.getMessage(Constantes.EXC_JSON_PARSE, null, LocaleContextHolder.getLocale()), HttpStatus.BAD_REQUEST);
 	   }
 	   
 	   @ExceptionHandler(POIException.class)
 	   protected ResponseEntity<String> handlePOIException(POIException ex) {
 		      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(Constantes.EXC_REPORT_POI, HttpStatus.BAD_REQUEST);
+	       return new ResponseEntity<>(messageSource.getMessage(Constantes.EXC_REPORT_POI, null, LocaleContextHolder.getLocale()), HttpStatus.BAD_REQUEST);
 	   }
 	   
 }

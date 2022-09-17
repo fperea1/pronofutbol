@@ -1,7 +1,5 @@
 package com.base.rest.controllers;
 
-import java.util.Date;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.CambioPasswordDTO;
 import com.base.rest.dtos.ContactoDTO;
-import com.base.rest.entities.Log;
 import com.base.rest.entities.Usuario;
 import com.base.rest.enums.ConfiguracionEnum;
 import com.base.rest.service.interfaces.ConfiguracionService;
-import com.base.rest.service.interfaces.LogService;
 import com.base.rest.service.interfaces.UsuarioService;
 import com.base.rest.utils.mail.EmailServiceImpl;
 
@@ -36,9 +32,6 @@ public class ContactoController extends BaseController {
 	
 	@Autowired
 	private ConfiguracionService configuracionService;
-	
-	@Autowired
-	private LogService logService;
 	
 	@PostMapping(Constantes.ENVIO_CONSULTA)
     public ResponseEntity<String> envioConsulta(@Valid @RequestBody ContactoDTO contacto) {
@@ -58,8 +51,7 @@ public class ContactoController extends BaseController {
 		Usuario usuario = usuarioService.findByUsername(getCurrentUserName());
 		usuarioService.cambioPasswordUser(usuario.getId(), usuario.getUsername(), 
 				cambioPasswordDTO.getOldPassword(), cambioPasswordDTO.getNewPassword(), cambioPasswordDTO.getNewPassword2());
-		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.CAMBIO_PASS_USUARIO, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername(), new Date()));
-		return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.CAMBIO_PASS_USUARIO, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
     }
 
 }

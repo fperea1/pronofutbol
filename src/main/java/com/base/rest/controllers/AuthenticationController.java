@@ -1,7 +1,5 @@
 package com.base.rest.controllers;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -50,18 +48,17 @@ public class AuthenticationController extends BaseController {
 				new UsernamePasswordAuthenticationToken(autenticacion.getUsername(), autenticacion.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		final String token = jwtTokenUtil.generateToken(authentication);
-		logService.save(new Log(autenticacion.getUsername(), Constantes.USUARIO, Constantes.LOGIN, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + autenticacion.getUsername(), new Date()));
+		logService.save(new Log(autenticacion.getUsername(), Constantes.USUARIO, Constantes.LOGIN, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + autenticacion.getUsername()));
 		return new ResponseEntity<>(token, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = Constantes.LOGOUT)
 	public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
-		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.LOGOUT_LOG, Constantes.LOGOUT_LOG + Constantes.SEPARADOR_DOS_PUNTOS + getCurrentUserName(), new Date()));
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth != null) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
-		return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.LOGOUT_LOG, Constantes.LOGOUT_LOG + Constantes.SEPARADOR_DOS_PUNTOS + getCurrentUserName());
 	}
 
 }

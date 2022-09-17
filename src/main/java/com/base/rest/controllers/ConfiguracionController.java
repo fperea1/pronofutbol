@@ -1,6 +1,5 @@
 package com.base.rest.controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -28,10 +27,8 @@ import com.base.rest.dtos.ConfiguracionDTO;
 import com.base.rest.dtos.ResultTableDTO;
 import com.base.rest.entities.BaseEntity;
 import com.base.rest.entities.Configuracion;
-import com.base.rest.entities.Log;
 import com.base.rest.enums.reportes.TablaConfiguracionEnum;
 import com.base.rest.service.interfaces.ConfiguracionService;
-import com.base.rest.service.interfaces.LogService;
 import com.base.rest.utils.Converter;
 import com.base.rest.utils.POIUtils;
 import com.google.common.net.HttpHeaders;
@@ -43,9 +40,6 @@ public class ConfiguracionController extends BaseController {
 
 	@Autowired
 	private ConfiguracionService configuracionService;
-	
-	@Autowired
-	private LogService logService;
 	
 	@GetMapping(Constantes.FIND_BY_FILTER)
     public ResponseEntity<ResultTableDTO> findByFilter(@RequestParam String filtro) {
@@ -72,18 +66,17 @@ public class ConfiguracionController extends BaseController {
 	
 	@PostMapping(Constantes.SAVE)
     public ResponseEntity<String> save(@Valid @RequestBody ConfiguracionDTO configuracion) {
-		JMapper<Configuracion, ConfiguracionDTO> mapper = new JMapper<>(Configuracion.class, ConfiguracionDTO.class);
-		configuracionService.save(mapper.getDestination(configuracion));
-		logService.save(new Log(getCurrentUserName(), Constantes.CONFIGURACION, Constantes.ALTA, Constantes.CONFIGURACION + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre(), new Date()));
-        return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
+//		JMapper<Configuracion, ConfiguracionDTO> mapper = new JMapper<>(Configuracion.class, ConfiguracionDTO.class);
+//		configuracionService.save(mapper.getDestination(configuracion));
+		configuracionService.save((Configuracion) new Converter<ConfiguracionDTO, Configuracion>().toEntity(configuracion, ConfiguracionDTO.class, Configuracion.class));
+		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.ALTA, Constantes.CONFIGURACION + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
     }
 	
 	@PutMapping(Constantes.UPDATE)
     public ResponseEntity<String> update(@Valid @RequestBody ConfiguracionDTO configuracion) {
 		JMapper<Configuracion, ConfiguracionDTO> mapper = new JMapper<>(Configuracion.class, ConfiguracionDTO.class);
 		configuracionService.update(mapper.getDestination(configuracion));
-		logService.save(new Log(getCurrentUserName(), Constantes.CONFIGURACION, Constantes.EDICION, Constantes.CONFIGURACION + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre(), new Date()));
-        return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
+		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.EDICION, Constantes.CONFIGURACION + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
     }
 	
 	@GetMapping(Constantes.FIND)
@@ -96,7 +89,6 @@ public class ConfiguracionController extends BaseController {
     public ResponseEntity<String> deleteById(@RequestParam Integer id) {
 		Configuracion configuracion = configuracionService.findById(id);
 		configuracionService.deleteById(id);
-		logService.save(new Log(getCurrentUserName(), Constantes.CONFIGURACION, Constantes.BAJA, Constantes.CONFIGURACION + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre(), new Date()));
-		return new ResponseEntity<>(Constantes.OPERACION_CORRECTA, HttpStatus.OK);
-    }
+		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.BAJA, Constantes.CONFIGURACION + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
+	}
 }

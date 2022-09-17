@@ -81,8 +81,7 @@ class ConfiguracionControllerTest {
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
 		    .andDo(print())
-		    .andExpect(status().isOk())
-		    .andExpect(content().string(containsString("Operación correcta")));	
+		    .andExpect(status().isOk());	
 	}
 	
 	@Test
@@ -217,8 +216,7 @@ class ConfiguracionControllerTest {
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
-		    .andExpect(status().isOk())
-		    .andExpect(content().string(containsString("Operación correcta")));	
+		    .andExpect(status().isOk());	
 	}
 	
 	@Test
@@ -234,8 +232,7 @@ class ConfiguracionControllerTest {
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
-		    .andExpect(status().isOk())
-		    .andExpect(content().string(containsString("Operación correcta")));	
+		    .andExpect(status().isOk());	
 		
 		mockMvc
 	    .perform(delete("/configuracion/delete")

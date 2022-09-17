@@ -18,6 +18,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.base.rest.constant.Constantes;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @Entity
@@ -31,34 +32,34 @@ public class Usuario extends BaseEntity {
 	private Integer id;
 	
 	@Column(name = "nombre", length = 50)
-	@Size(min = 1, max = 50, message = "Nombre debe tener entre 1 y 50 caracteres")
-	@NotBlank(message = "Nombre. Campo obligatorio")
+	@Size(min = 1, max = 50, message = Constantes.VALIDATION_NOMBRE_USUARIO_SIZE)
+	@NotBlank(message = Constantes.VALIDATION_NOMBRE_OBLIGATORIO)
 	private String nombre;
 	
 	@Column(name = "username", length = 50, unique = true)
-	@Size(min = 5, max = 50, message = "Username debe tener entre 5 y 50 caracteres")
-	@NotBlank(message = "Username. Campo obligatorio")
+	@Size(min = 5, max = 50, message = Constantes.VALIDATION_USERNAME_USUARIO_SIZE)
+	@NotBlank(message = Constantes.VALIDATION_USERNAME_OBLIGATORIO)
 	private String username;
 	
 	@Column(name = "password", length = 100, updatable=false)
-	@Size(min = 10, max = 100, message = "Password debe tener entre 10 y 100 caracteres")
-	@NotBlank(message = "Password. Campo obligatorio")
+	@Size(min = 10, max = 100, message = Constantes.VALIDATION_PASSWORD_USUARIO_SIZE)
+	@NotBlank(message = Constantes.VALIDATION_PASSWORD_OBLIGATORIO)
 	private String password;
 	
 	@Column(name = "email", length = 100)
-	@NotBlank(message = "Email. Campo obligatorio")
-	@Email(message = "Email mal formado")
+	@NotBlank(message = Constantes.VALIDATION_EMAIL_OBLIGATORIO)
+	@Email(message = Constantes.VALIDATION_EMAIL_USUARIO_FORMATO)
 	private String email;
 	
 	@Column(name = "fecha_alta")
-	@NotNull(message = "Fecha de alta. Campo obligatorio")
+	@NotNull(message = Constantes.VALIDATION_FECHA_ALTA_OBLIGATORIO)
 	private Date fechaAlta;
 	
 	@Column(name = "fecha_desactivacion")
 	private Date fechaDesactivacion;
 	
 	@Column(name = "activo")
-	@NotNull(message = "Activo. Campo obligatorio")
+	@NotNull(message = Constantes.VALIDATION_ACTIVO_OBLIGATORIO)
 	private Boolean activo;
 	
 	@ManyToMany(fetch = FetchType.EAGER)

@@ -48,59 +48,67 @@ public final class Constantes {
 	
 	// Funcionalidades
 	
-	public static final String CONFIGURACION = "Configuración";
+	public static final String CONFIGURACION = "configuracion";
 	
-	public static final String USUARIO = "Usuario";
+	public static final String USUARIO = "usuario";
 	
 	// Acciones Log
 	
-	public static final String LOGIN = "Login";
+	public static final String LOGIN = "login";
 	
-	public static final String LOGOUT_LOG = "Logout";
+	public static final String LOGOUT_LOG = "logout";
 	
-	public static final String ALTA = "Alta";
+	public static final String ALTA = "alta";
 	
-	public static final String EDICION = "Edición";
+	public static final String EDICION = "edicion";
 	
-	public static final String BAJA = "Baja";
+	public static final String BAJA = "baja";
 	
-	public static final String ACTIVAR = "Activar";
+	public static final String ACTIVAR = "activar";
 	
-	public static final String DESACTIVAR = "Desactivar";
+	public static final String DESACTIVAR = "desactivar";
 	
-	public static final String CAMBIO_PASS_USUARIO = "Cambiar Password por Usuario";
+	public static final String CAMBIO_PASS_USUARIO = "cambio.pass.usuario";
 	
-	public static final String CAMBIO_PASS_ADMIN = "Cambio Password de Usuario por Administrador";
+	public static final String CAMBIO_PASS_ADMIN = "cambio.pass.admin";
 	
 	// Resultados operacion
 	
-	public static final String OPERACION_CORRECTA = "Operación correcta";
+	public static final String OPERACION_CORRECTA = "operacion.correcta";
 	
 	// Mensajes excepciones
 	
-	public static final String EXC_INTEGRIDAD_DATOS = "Excepción por infracción de integridad de datos";
+	public static final String EXC_INTEGRIDAD_DATOS = "infraccion.integridad.datos";
 	
-	public static final String EXC_FALTA_PARAM_HEADER = "Falta parametro en Header";
+	public static final String EXC_FALTA_PARAM_HEADER = "falta.param.header";
 	
-	public static final String EXC_METODO_NO_SOPORTADO = "Método no soportado";
+	public static final String EXC_METODO_NO_SOPORTADO = "metodo.no.soportado";
 	
-	public static final String EXC_AUTH_ERRONEA = "Autenticación erronea";
+	public static final String EXC_AUTH_ERRONEA = "autenticacion.error";
 	
-	public static final String EXC_FALTAN_PARAM_PETICION = "Faltan parámetros en la petición";
+	public static final String EXC_FALTAN_PARAM_PETICION = "faltan.parametros.peticion";
 	
-	public static final String EXC_LIMITE_CARACTERES_PASSWORD = "Password debe tener entre 10 y 100 caracteres";
+	public static final String EXC_LIMITE_CARACTERES_PASSWORD = "password.size";
 	
-	public static final String EXC_PASSWORDS_DIFERENTES = "La nueva contraseña y su confirmación no son iguales";
+	public static final String EXC_PASSWORDS_DIFERENTES = "passwords.diferentes";
 	
-	public static final String EXC_PASSWORD_ANT_ERRONEA = "La contraseña anterior no es correcta";
+	public static final String EXC_PASSWORD_ANT_ERRONEA = "password.ant.error";
 	
-	public static final String EXC_NO_EXISTE_ENTIDAD = "No existe la entidad";
+	public static final String EXC_NO_EXISTE_ENTIDAD = "no.existe.entidad";
 	
-	public static final String EXC_CREDENCIALES_ERRONEAS = "Credenciales erroneas";
+	public static final String EXC_CREDENCIALES_ERRONEAS = "credenciales.error";
 	
-	public static final String EXC_JSON_PARSE = "Error en mapeo de objeto json";
+	public static final String EXC_JSON_PARSE = "error.mapeo.json";
 	
-	public static final String EXC_REPORT_POI = "Error al crear report xlsx";
+	public static final String EXC_REPORT_POI = "error.report.xlsx";
+	
+	public static final String NO_AUTH = "no.autorizado";
+	
+	public static final String ERROR_RECUPERAR_NOMBRE_USUARIO_TOKEN = "error.recuperar.nombre.usuario.token";
+	
+	public static final String TOKEN_CADUCADO = "token.caducado";
+	
+	public static final String ERROR_USERNAME_PASSWORD = "error.username.password";
 	
 	// Símbolos
 	
@@ -109,6 +117,32 @@ public final class Constantes {
 	// EXCEL
 	
 	public static final int MAX_ROWS_XLSX = 1048576;
+	
+	public static final String NOMBRE = "nombre";
+	
+	public static final String USERNAME = "username";
+	
+	public static final String EMAIL = "email";
+	
+	public static final String FECHA_ALTA = "fecha.alta";
+	
+	public static final String FECHA_BAJA = "fecha.baja";
+	
+	public static final String ACTIVO = "activo";
+	
+	public static final String ENTIDAD = "entidad";
+	
+	public static final String ACCION = "accion";
+	
+	public static final String OBSERVACIONES = "observaciones";
+	
+	public static final String FECHA = "fecha";
+	
+	public static final String VALOR = "valor";
+	
+	public static final String SI = "si";
+	
+	public static final String NO = "no";
 	
 	// MATCH MODE PARA BUSQUEDAS
 	
@@ -132,11 +166,11 @@ public final class Constantes {
 	
 	// NOMBRE PESTAÑAS EXCEL
 	
-	public static final String SHEET_LOGS = "Logs";
+	public static final String SHEET_LOGS = "logs";
 	
-	public static final String SHEET_CONFIGURACION = "Configuración";
+	public static final String SHEET_CONFIGURACION = "configuracion";
 	
-	public static final String SHEET_USUARIOS = "Usuarios";
+	public static final String SHEET_USUARIOS = "usuarios";
 	
 	// CONTENT TYPE
 	
@@ -144,8 +178,64 @@ public final class Constantes {
 	
 	// ATTACHMENTS
 	
-	public static final String ATTACHMENTS_EXCEL = "attachment; filename=reporte.xlsx";
+	public static final String ATTACHMENTS_EXCEL = "attachment; filename=report.xlsx";
+	
+	// VALIDACIONES
+	
+	public static final String VALIDATION_NOMBRE_CONFIG_SIZE = "validation.nombre.config.size";
+	
+	public static final String VALIDATION_VALOR_CONFIG_SIZE = "validation.valor.config.size";
+	
+	public static final String VALIDATION_USERNAME_LOG_SIZE = "validation.username.log.size";
+	
+	public static final String VALIDATION_ENTIDAD_LOG_SIZE = "validation.entidad.log.size";
+	
+	public static final String VALIDATION_ACCION_LOG_SIZE = "validation.accion.log.size";
+	
+	public static final String VALIDATION_OBSERVACIONES_LOG_SIZE = "validation.observaciones.log.size";
+	
+	public static final String VALIDATION_NOMBRE_USUARIO_SIZE = "validation.nombre.usuario.size";
+	
+	public static final String VALIDATION_USERNAME_USUARIO_SIZE = "validation.username.usuario.size";
+	
+	public static final String VALIDATION_PASSWORD_USUARIO_SIZE = "validation.password.usuario.size";
 	
 	
+	public static final String VALIDATION_EMAIL_USUARIO_FORMATO = "validation.email.usuario.formato";
+	
+	
+	public static final String VALIDATION_NOMBRE_OBLIGATORIO = "validation.nombre.obligatorio";
+	
+	public static final String VALIDATION_VALOR_OBLIGATORIO = "validation.valor.obligatorio";
+	
+	public static final String VALIDATION_USERNAME_OBLIGATORIO = "validation.username.obligatorio";
+	
+	public static final String VALIDATION_ENTIDAD_OBLIGATORIO = "validation.entidad.obligatorio";
+	
+	public static final String VALIDATION_ACCION_OBLIGATORIO = "validation.accion.obligatorio";
+	
+	public static final String VALIDATION_OBSERVACIONES_OBLIGATORIO = "validation.observaciones.obligatorio";
+	
+	public static final String VALIDATION_FECHA_OBLIGATORIO = "validation.fecha.obligatorio";
+	
+	public static final String VALIDATION_PASSWORD_OBLIGATORIO = "validation.password.obligatorio";
+	
+	public static final String VALIDATION_EMAIL_OBLIGATORIO = "validation.email.obligatorio";
+	
+	public static final String VALIDATION_FECHA_ALTA_OBLIGATORIO = "validation.fecha.alta.obligatorio";
+	
+	public static final String VALIDATION_ACTIVO_OBLIGATORIO = "validation.activo.obligatorio";
+	
+	public static final String VALIDATION_ASUNTO_OBLIGATORIO = "validation.asunto.obligatorio";
+	
+	public static final String VALIDATION_CONSULTA_OBLIGATORIO = "validation.consulta.obligatorio";
+	
+	public static final String VALIDATION_ID_OBLIGATORIO = "validation.id.obligatorio";
+	
+	public static final String VALIDATION_PASSWORD_ANTERIOR_OBLIGATORIO = "validation.password.anterior.obligatorio";
+	
+	public static final String VALIDATION_NUEVA_PASSWORD_OBLIGATORIO = "validation.nueva.password.obligatorio";
+	
+	public static final String VALIDATION_CONFIRMACION_PASSWORD_OBLIGATORIO = "validation.confirmacion.password.obligatorio";
 			
 }

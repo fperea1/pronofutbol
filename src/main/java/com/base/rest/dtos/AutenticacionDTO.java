@@ -2,12 +2,14 @@ package com.base.rest.dtos;
 
 import javax.validation.constraints.NotBlank;
 
+import com.base.rest.constant.Constantes;
+
 public class AutenticacionDTO {
 	
-	@NotBlank(message = "Username. Campo obligatorio.")
+	@NotBlank(message = Constantes.VALIDATION_USERNAME_OBLIGATORIO)
 	private String username;
 	
-	@NotBlank(message = "Password. Campo obligatorio.")
+	@NotBlank(message = Constantes.VALIDATION_PASSWORD_OBLIGATORIO)
 	private String password;
 
 	public String getUsername() {

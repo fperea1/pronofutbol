@@ -1,11 +1,11 @@
 package com.base.rest.service.interfaces;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
 
-import com.base.rest.entities.BaseEntity;
+import com.base.rest.dtos.BaseDTO;
 
 public interface RolService {
 
-	public Page<BaseEntity> findAll();
+	public List<BaseDTO> findAll();
 
 }

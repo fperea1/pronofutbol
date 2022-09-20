@@ -1,21 +1,21 @@
 package com.base.rest.service.interfaces;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
 
-import com.base.rest.entities.BaseEntity;
-import com.base.rest.entities.Configuracion;
+import com.base.rest.dtos.BaseDTO;
+import com.base.rest.dtos.ConfiguracionDTO;
 
 public interface ConfiguracionService {
 
-	Configuracion getByNombre(String nombre);
+	ConfiguracionDTO getByNombre(String nombre);
 
-	public Page<BaseEntity> findByFilter(String filtroWeb, boolean exportar);
+	public List<BaseDTO> findByFilter(String filtroWeb, boolean exportar);
 	
-	public void save(Configuracion configuracion);
+	public void save(ConfiguracionDTO configuracion);
 	
-	public void update(Configuracion configuracion);
+	public void update(ConfiguracionDTO configuracion);
 	
-	public Configuracion findById(Integer id);
+	public ConfiguracionDTO findById(Integer id);
 	
 	public void deleteById(Integer id);
 }

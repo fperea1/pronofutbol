@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,13 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.BaseDTO;
-import com.base.rest.dtos.LogDTO;
 import com.base.rest.dtos.ResultTableDTO;
-import com.base.rest.entities.BaseEntity;
-import com.base.rest.entities.Log;
 import com.base.rest.enums.reportes.TablaLogsEnum;
 import com.base.rest.service.interfaces.LogService;
-import com.base.rest.utils.Converter;
 import com.base.rest.utils.POIUtils;
 import com.google.common.net.HttpHeaders;
 
@@ -38,18 +33,15 @@ public class LogController extends BaseController {
 	@GetMapping(Constantes.FIND_BY_FILTER)
     public ResponseEntity<ResultTableDTO> findByFilter(@RequestParam String filtro) {
 		
-		Page<BaseEntity> page = logService.findByFilter(filtro, false);
-		List<BaseDTO> listado = new Converter<Log, LogDTO>().
-				convertList(page, Log.class, LogDTO.class);
+		List<BaseDTO> listado = logService.findByFilter(filtro, false);
 		
-        return new ResponseEntity<>(new ResultTableDTO(listado, page.getTotalElements()), HttpStatus.OK);
+        return new ResponseEntity<>(new ResultTableDTO(listado, listado.size()), HttpStatus.OK);
     }
 	
 	@GetMapping(value = Constantes.GET_REPORT_EXCEL)
 	public ResponseEntity<Resource> getReportExcel(@RequestParam String filtro) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException {
 		
-		List<BaseDTO> listado = new Converter<Log, LogDTO>().
-				convertList(logService.findByFilter(filtro, true), Log.class, LogDTO.class);
+		List<BaseDTO> listado = logService.findByFilter(filtro, true);
 
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, Constantes.ATTACHMENTS_EXCEL)

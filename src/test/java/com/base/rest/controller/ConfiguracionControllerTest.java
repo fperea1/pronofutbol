@@ -20,6 +20,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -40,6 +42,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 @AutoConfigureMockMvc
 @TestMethodOrder(OrderAnnotation.class)
 class ConfiguracionControllerTest {
+	
+	@Autowired
+    MessageSource messageSource;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -118,7 +123,7 @@ class ConfiguracionControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString("Nombre. Campo obligatorio")));	
+	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));	
 	}
 	
 	@Test
@@ -137,7 +142,7 @@ class ConfiguracionControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString("Valor. Campo obligatorio")));	
+	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_VALOR_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));	
 	}
 	
 	@Test
@@ -156,7 +161,7 @@ class ConfiguracionControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString("Nombre debe tener entre 1 y 50 caracteres")));	
+	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_NOMBRE_CONFIG_SIZE, null, LocaleContextHolder.getLocale()))));	
 	}
 	
 	@Test
@@ -175,7 +180,7 @@ class ConfiguracionControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString("Nombre debe tener entre 1 y 50 caracteres")));	
+	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_NOMBRE_CONFIG_SIZE, null, LocaleContextHolder.getLocale()))));	
 	}
 	
 	@Test
@@ -194,7 +199,7 @@ class ConfiguracionControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString("Valor debe tener entre 1 y 500 caracteres")));	
+	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_VALOR_CONFIG_SIZE, null, LocaleContextHolder.getLocale()))));	
 	}
 	
 	@Test
@@ -251,7 +256,7 @@ class ConfiguracionControllerTest {
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-		    .andExpect(content().string(containsString("No existe la entidad")));
+		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_NO_EXISTE_ENTIDAD, null, LocaleContextHolder.getLocale()))));
 	}
 
 	private ConfiguracionDTO getConfiguracion(String nombre, String valor) {

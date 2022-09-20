@@ -1,21 +1,21 @@
 package com.base.rest.service.interfaces;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
 
-import com.base.rest.entities.BaseEntity;
-import com.base.rest.entities.Usuario;
+import com.base.rest.dtos.BaseDTO;
+import com.base.rest.dtos.UsuarioDTO;
 
 public interface UsuarioService {
 
-	public Page<BaseEntity> findByFilter(String filtroWeb, boolean exportar);
+	public List<BaseDTO> findByFilter(String filtroWeb, boolean exportar);
 	
-	public void save(Usuario usuario);
+	public void save(UsuarioDTO usuario);
 	
-	public void update(Usuario usuario);
+	public void update(UsuarioDTO usuario);
 	
-	public Usuario findById(Integer id);
+	public UsuarioDTO findById(Integer id);
 	
-	public Usuario findByUsername(String username);
+	public UsuarioDTO findByUsername(String username);
 	
 	public void deleteById(Integer id);
 	

@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
 	   protected ResponseEntity<String> handleServiceException(ServiceException ex) {
 	      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+	       return new ResponseEntity<>(messageSource.getMessage(ex.getMessage(), null, LocaleContextHolder.getLocale()), HttpStatus.BAD_REQUEST);
 	   }
 	   
 	   @ExceptionHandler(ConstraintViolationException.class)
@@ -59,7 +59,11 @@ public class GlobalExceptionHandler {
 		   logger.error(ex.getMessage(), ex);
 		   List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-	       return new ResponseEntity<>(messages, HttpStatus.CONFLICT);
+		   
+		   List<String> messagesI = new ArrayList<String>();
+				   messages.stream().forEach(m  -> messagesI.add(messageSource.getMessage(m, null, LocaleContextHolder.getLocale())));
+		   
+		   return new ResponseEntity<>(messagesI, HttpStatus.CONFLICT);
 	   }
 	   
 	   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -71,7 +75,7 @@ public class GlobalExceptionHandler {
 				      .stream()
 				      .filter(FieldError.class::isInstance)
 				      .map(FieldError.class::cast)
-				      .forEach(fieldError -> messages.add(fieldError.getDefaultMessage()));
+				      .forEach(fieldError -> messages.add(messageSource.getMessage(fieldError.getDefaultMessage(), null, LocaleContextHolder.getLocale())));
 	       return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
 	   }
 	 

@@ -16,10 +16,13 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.ContactoDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +33,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 @AutoConfigureMockMvc
 @TestMethodOrder(OrderAnnotation.class)
 public class ContactoControllerTest {
+	
+	@Autowired
+    MessageSource messageSource;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -51,7 +57,7 @@ public class ContactoControllerTest {
 		    .content(requestJson))
 		    .andDo(print())
 		    .andExpect(status().isBadRequest())
-		    .andExpect(content().string(containsString("Credenciales erroneas")));	
+		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_CREDENCIALES_ERRONEAS, null, LocaleContextHolder.getLocale()))));	
 	}
 	
 	@Test
@@ -69,7 +75,7 @@ public class ContactoControllerTest {
 		    .andDo(print())
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-		    .andExpect(content().string(containsString("Asunto. Campo obligatorio")));	
+		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_ASUNTO_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));	
 	}
 	
 	@Test
@@ -87,7 +93,7 @@ public class ContactoControllerTest {
 		    .andDo(print())
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-		    .andExpect(content().string(containsString("Consulta. Campo obligatorio")));	
+		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_CONSULTA_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));	
 	}
 	
 	private ContactoDTO getContacto(String asunto, String consulta) {

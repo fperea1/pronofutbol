@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.CambioPasswordDTO;
 import com.base.rest.dtos.ContactoDTO;
-import com.base.rest.entities.Usuario;
+import com.base.rest.dtos.UsuarioDTO;
 import com.base.rest.enums.ConfiguracionEnum;
 import com.base.rest.service.interfaces.ConfiguracionService;
 import com.base.rest.service.interfaces.UsuarioService;
@@ -48,7 +48,7 @@ public class ContactoController extends BaseController {
 	
 	@PutMapping(Constantes.CAMBIO_PASSWORD)
 	public ResponseEntity<String> cambioPasswordUser(@RequestBody CambioPasswordDTO cambioPasswordDTO) {
-		Usuario usuario = usuarioService.findByUsername(getCurrentUserName());
+		UsuarioDTO usuario = usuarioService.findByUsername(getCurrentUserName());
 		usuarioService.cambioPasswordUser(usuario.getId(), usuario.getUsername(), 
 				cambioPasswordDTO.getOldPassword(), cambioPasswordDTO.getNewPassword(), cambioPasswordDTO.getNewPassword2());
 		return responseOperationCorrecta(Constantes.USUARIO, Constantes.CAMBIO_PASS_USUARIO, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());

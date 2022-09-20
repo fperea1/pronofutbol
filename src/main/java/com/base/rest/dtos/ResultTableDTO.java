@@ -6,9 +6,9 @@ public class ResultTableDTO {
 
 	private List<BaseDTO> list;
 	
-	private Long totalRecords;
+	private Integer totalRecords;
 
-	public ResultTableDTO(List<BaseDTO> list, Long totalRecords) {
+	public ResultTableDTO(List<BaseDTO> list, Integer totalRecords) {
 		super();
 		this.list = list;
 		this.totalRecords = totalRecords;
@@ -22,11 +22,11 @@ public class ResultTableDTO {
 		this.list = list;
 	}
 
-	public Long getTotalRecords() {
+	public Integer getTotalRecords() {
 		return totalRecords;
 	}
 
-	public void setTotalRecords(Long totalRecords) {
+	public void setTotalRecords(Integer totalRecords) {
 		this.totalRecords = totalRecords;
 	}
 	

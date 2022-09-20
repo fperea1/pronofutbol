@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,12 +16,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.base.rest.constant.Constantes;
+import com.base.rest.dtos.BaseDTO;
+import com.base.rest.dtos.UsuarioDTO;
 import com.base.rest.entities.BaseEntity;
 import com.base.rest.entities.Usuario;
 import com.base.rest.exceptions.ServiceException;
 import com.base.rest.repositories.UsuarioRepository;
 import com.base.rest.service.interfaces.UsuarioService;
 import com.base.rest.specification.BaseSpecificationsBuilder;
+import com.base.rest.utils.Converter;
 import com.base.rest.utils.bd.FiltroTablasView;
 import com.base.rest.utils.bd.FiltrosUtils;
 import com.base.rest.utils.bd.SearchCriteriaColumn;
@@ -39,9 +41,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+	private Converter<UsuarioDTO, Usuario> converterEntity = new Converter<UsuarioDTO, Usuario>();
+	
+	private Converter<Usuario, UsuarioDTO> converterDTO = new Converter<Usuario, UsuarioDTO>();
 
 	@Override
-	public Page<BaseEntity> findByFilter(String filtroWeb, boolean exportar) {
+	public List<BaseDTO> findByFilter(String filtroWeb, boolean exportar) {
 		
 		FiltroTablasView filtro = FiltrosUtils.getFiltroByString(filtroWeb);
 		// en principio se ordenan de último a primero
@@ -64,12 +70,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
         Specification<BaseEntity> spec = builder.build();
         
-		return usuarioRepository.findAll(spec, pageable);
+		return (List<BaseDTO>) converterDTO.convertList(usuarioRepository
+        		.findAll(spec, pageable), Usuario.class, UsuarioDTO.class);
 	}
 
 	@Transactional
 	@Override
-	public void save(Usuario usuario) {
+	public void save(UsuarioDTO usuario) {
 
 		validarPassword(usuario.getPassword(), null);
 		usuario.setPassword(bcryptEncoder.encode(usuario.getPassword()));
@@ -77,24 +84,25 @@ public class UsuarioServiceImpl implements UsuarioService {
 			usuario.setFechaAlta(new Date());
 			usuario.setActivo(true);
 		}
-		usuarioRepository.save(usuario);
+		usuarioRepository.save((Usuario) converterEntity.toEntity(usuario, UsuarioDTO.class, Usuario.class));
 	}
 
 	@Transactional
 	@Override
-	public void update(Usuario usuario) {
+	public void update(UsuarioDTO usuario) {
 
 		usuario.setPassword(usuarioRepository.getPassword(usuario.getId()));
-		usuarioRepository.save(usuario);
+		usuarioRepository.save((Usuario) converterEntity.toEntity(usuario, UsuarioDTO.class, Usuario.class));
 	}
 
 	@Override
-	public Usuario findById(Integer id) {
+	public UsuarioDTO findById(Integer id) {
 		
 		if (!usuarioRepository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		return usuarioRepository.findById(id).orElse(null);
+		return (UsuarioDTO) converterDTO.toDTO(usuarioRepository
+				.findById(id).orElse(null), Usuario.class, UsuarioDTO.class);
 	}
 
 	@Transactional
@@ -157,7 +165,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public void cambioPasswordAdmin(Integer id, String newPassword, String newPassword2) {
 		
-		Usuario u = findById(id);
+		UsuarioDTO u = findById(id);
 		if (u == null) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
@@ -166,8 +174,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public Usuario findByUsername(String username) {
-		return usuarioRepository.getByUsername(username);
+	public UsuarioDTO findByUsername(String username) {
+		
+		return (UsuarioDTO) converterDTO.toDTO(usuarioRepository
+				.getByUsername(username), Usuario.class, UsuarioDTO.class);
 	}
 
 }

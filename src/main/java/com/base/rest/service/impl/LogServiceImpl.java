@@ -3,7 +3,6 @@ package com.base.rest.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,14 +11,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.base.rest.constant.Constantes;
+import com.base.rest.dtos.BaseDTO;
+import com.base.rest.dtos.LogDTO;
 import com.base.rest.entities.BaseEntity;
 import com.base.rest.entities.Log;
 import com.base.rest.repositories.LogRepository;
 import com.base.rest.service.interfaces.LogService;
 import com.base.rest.specification.BaseSpecificationsBuilder;
+import com.base.rest.utils.Converter;
 import com.base.rest.utils.bd.FiltroTablasView;
-import com.base.rest.utils.bd.SearchCriteriaColumn;
 import com.base.rest.utils.bd.FiltrosUtils;
+import com.base.rest.utils.bd.SearchCriteriaColumn;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,6 +29,8 @@ public class LogServiceImpl implements LogService {
 	
 	@Autowired
 	private LogRepository logRepository;
+	
+	private Converter<Log, LogDTO> converterDTO = new Converter<Log, LogDTO>();
 
 	@Transactional
 	@Override
@@ -36,7 +40,7 @@ public class LogServiceImpl implements LogService {
 	}
 
 	@Override
-	public Page<BaseEntity> findByFilter(String filtroWeb, boolean exportar) {
+	public List<BaseDTO> findByFilter(String filtroWeb, boolean exportar) {
 		
 		FiltroTablasView filtro = FiltrosUtils.getFiltroByString(filtroWeb);
 		// en principio se ordenan de último a primero
@@ -59,7 +63,8 @@ public class LogServiceImpl implements LogService {
 		}
         Specification<BaseEntity> spec = builder.build();
         
-		return logRepository.findAll(spec, pageable);
+		return (List<BaseDTO>) converterDTO.convertList(logRepository
+	        		.findAll(spec, pageable), Log.class, LogDTO.class);
 	}
 
 }

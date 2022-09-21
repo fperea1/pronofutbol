@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.base.rest.constant.Constantes;
-import com.base.rest.dtos.BaseDTO;
 import com.base.rest.dtos.ConfiguracionDTO;
+import com.base.rest.dtos.ResultTableDTO;
 import com.base.rest.entities.BaseEntity;
 import com.base.rest.entities.Configuracion;
 import com.base.rest.exceptions.ServiceException;
@@ -48,7 +48,7 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 	}
 	
 	@Override
-	public List<BaseDTO> findByFilter(String filtroWeb, boolean exportar) {
+	public ResultTableDTO findByFilter(String filtroWeb, boolean exportar) {
 		
 		FiltroTablasView filtro = FiltrosUtils.getFiltroByString(filtroWeb);
 		// en principio se ordenan de último a primero
@@ -71,7 +71,7 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 		}
         Specification<BaseEntity> spec = builder.build();
         
-        return (List<BaseDTO>) converterDTO.convertList(configuracionRepository.findAll(spec, pageable));
+        return converterDTO.convertList(configuracionRepository.findAll(spec, pageable));
         
 	}
 

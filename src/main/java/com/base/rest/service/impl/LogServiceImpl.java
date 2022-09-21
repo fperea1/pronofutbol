@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.base.rest.constant.Constantes;
-import com.base.rest.dtos.BaseDTO;
 import com.base.rest.dtos.LogDTO;
+import com.base.rest.dtos.ResultTableDTO;
 import com.base.rest.entities.BaseEntity;
 import com.base.rest.entities.Log;
 import com.base.rest.repositories.LogRepository;
@@ -45,7 +45,7 @@ public class LogServiceImpl implements LogService {
 	}
 
 	@Override
-	public List<BaseDTO> findByFilter(String filtroWeb, boolean exportar) {
+	public ResultTableDTO findByFilter(String filtroWeb, boolean exportar) {
 		
 		FiltroTablasView filtro = FiltrosUtils.getFiltroByString(filtroWeb);
 		// en principio se ordenan de último a primero
@@ -68,7 +68,7 @@ public class LogServiceImpl implements LogService {
 		}
         Specification<BaseEntity> spec = builder.build();
         
-		return (List<BaseDTO>) converterDTO.convertList(logRepository.findAll(spec, pageable));
+		return converterDTO.convertList(logRepository.findAll(spec, pageable));
 	}
 
 }

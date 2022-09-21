@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.base.rest.constant.Constantes;
-import com.base.rest.dtos.BaseDTO;
+import com.base.rest.dtos.ResultTableDTO;
 import com.base.rest.dtos.UsuarioDTO;
 import com.base.rest.entities.BaseEntity;
 import com.base.rest.entities.Usuario;
@@ -53,7 +53,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public List<BaseDTO> findByFilter(String filtroWeb, boolean exportar) {
+	public ResultTableDTO findByFilter(String filtroWeb, boolean exportar) {
 		
 		FiltroTablasView filtro = FiltrosUtils.getFiltroByString(filtroWeb);
 		// en principio se ordenan de último a primero
@@ -76,7 +76,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
         Specification<BaseEntity> spec = builder.build();
         
-		return (List<BaseDTO>) converterDTO.convertList(usuarioRepository.findAll(spec, pageable));
+		return converterDTO.convertList(usuarioRepository.findAll(spec, pageable));
 	}
 
 	@Transactional

@@ -1,7 +1,5 @@
 package com.base.rest.controllers;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.base.rest.constant.Constantes;
-import com.base.rest.dtos.BaseDTO;
 import com.base.rest.dtos.ConfiguracionDTO;
 import com.base.rest.dtos.ResultTableDTO;
 import com.base.rest.enums.reportes.TablaConfiguracionEnum;
@@ -39,20 +36,20 @@ public class ConfiguracionController extends BaseController {
 	@GetMapping(Constantes.FIND_BY_FILTER)
     public ResponseEntity<ResultTableDTO> findByFilter(@RequestParam String filtro) {
 		
-		List<BaseDTO> listado = configuracionService.findByFilter(filtro, false);
-        return new ResponseEntity<>(new ResultTableDTO(listado, listado.size()), HttpStatus.OK);
+		ResultTableDTO resultTable = configuracionService.findByFilter(filtro, false);
+        return new ResponseEntity<>(resultTable, HttpStatus.OK);
     }
 	
 	@GetMapping(value = Constantes.GET_REPORT_EXCEL)
 	public ResponseEntity<Resource> getReportExcel(@RequestParam String filtro) {
 		
-		List<BaseDTO> listado = configuracionService.findByFilter(filtro, true);
+		ResultTableDTO resultTable = configuracionService.findByFilter(filtro, true);
 
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, Constantes.ATTACHMENTS_EXCEL)
 				.contentType(MediaType.parseMediaType(Constantes.CONTENT_EXCEL))
 				.cacheControl(CacheControl.noCache())
-				.body(new ByteArrayResource(POIUtils.getReportExcel(listado, TablaConfiguracionEnum.values(), Constantes.SHEET_CONFIGURACION)));
+				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), TablaConfiguracionEnum.values(), Constantes.SHEET_CONFIGURACION)));
 	}
 	
 	@PostMapping(Constantes.SAVE)

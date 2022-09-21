@@ -1,7 +1,5 @@
 package com.base.rest.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.base.rest.constant.Constantes;
-import com.base.rest.dtos.BaseDTO;
+import com.base.rest.dtos.ResultTableDTO;
 import com.base.rest.dtos.RolDTO;
 import com.base.rest.entities.BaseEntity;
 import com.base.rest.entities.Rol;
@@ -35,7 +33,7 @@ public class RolServiceImpl implements RolService {
 	}
 
 	@Override
-	public List<BaseDTO> findAll() {
+	public ResultTableDTO findAll() {
 		
 		Sort sort = Sort.by("id").ascending();
 		
@@ -44,7 +42,7 @@ public class RolServiceImpl implements RolService {
 		BaseSpecificationsBuilder builder = new BaseSpecificationsBuilder();
         Specification<BaseEntity> spec = builder.build();
         
-		return (List<BaseDTO>) converterDTO.convertList(rolRepository.findAll(spec, pageable));
+		return converterDTO.convertList(rolRepository.findAll(spec, pageable));
 	}
 
 }

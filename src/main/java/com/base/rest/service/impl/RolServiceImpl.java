@@ -27,8 +27,12 @@ public class RolServiceImpl implements RolService {
 	@Autowired
 	private RolRepository rolRepository;
 	
-	private Converter<Rol, RolDTO> converterDTO = new Converter<Rol, RolDTO>(Rol.class, RolDTO.class);
+	private Converter<Rol, RolDTO> converterDTO;
 	
+	public RolServiceImpl() {
+		super();
+		converterDTO = new Converter<Rol, RolDTO>(Rol.class, RolDTO.class);
+	}
 
 	@Override
 	public List<BaseDTO> findAll() {

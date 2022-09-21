@@ -42,11 +42,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
-	private Converter<UsuarioDTO, Usuario> converterEntity = 
-			new Converter<UsuarioDTO, Usuario>(UsuarioDTO.class, Usuario.class);
+	private Converter<UsuarioDTO, Usuario> converterEntity;
 	
-	private Converter<Usuario, UsuarioDTO> converterDTO = 
-			new Converter<Usuario, UsuarioDTO>(Usuario.class, UsuarioDTO.class);
+	private Converter<Usuario, UsuarioDTO> converterDTO;
+
+	public UsuarioServiceImpl() {
+		super();
+		converterEntity = new Converter<UsuarioDTO, Usuario>(UsuarioDTO.class, Usuario.class);
+		converterDTO = new Converter<Usuario, UsuarioDTO>(Usuario.class, UsuarioDTO.class);
+	}
 
 	@Override
 	public List<BaseDTO> findByFilter(String filtroWeb, boolean exportar) {

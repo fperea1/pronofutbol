@@ -30,7 +30,12 @@ public class LogServiceImpl implements LogService {
 	@Autowired
 	private LogRepository logRepository;
 	
-	private Converter<Log, LogDTO> converterDTO = new Converter<Log, LogDTO>(Log.class, LogDTO.class);
+	private Converter<Log, LogDTO> converterDTO;
+
+	public LogServiceImpl() {
+		super();
+		converterDTO = new Converter<Log, LogDTO>(Log.class, LogDTO.class);
+	}
 
 	@Transactional
 	@Override

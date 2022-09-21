@@ -31,11 +31,15 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 	@Autowired
 	private ConfiguracionRepository configuracionRepository;
 	
-	private Converter<ConfiguracionDTO, Configuracion> converterEntity = 
-			new Converter<ConfiguracionDTO, Configuracion>(ConfiguracionDTO.class, Configuracion.class);
+	private Converter<ConfiguracionDTO, Configuracion> converterEntity;
 	
-	private Converter<Configuracion, ConfiguracionDTO> converterDTO = 
-			new Converter<Configuracion, ConfiguracionDTO>(Configuracion.class, ConfiguracionDTO.class);
+	private Converter<Configuracion, ConfiguracionDTO> converterDTO;
+
+	public ConfiguracionServiceImpl() {
+		super();
+		converterEntity = new Converter<ConfiguracionDTO, Configuracion>(ConfiguracionDTO.class, Configuracion.class);
+		converterDTO = new Converter<Configuracion, ConfiguracionDTO>(Configuracion.class, ConfiguracionDTO.class);
+	}
 
 	@Override
 	public ConfiguracionDTO getByNombre(String nombre) {

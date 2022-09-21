@@ -27,7 +27,7 @@ public class RolServiceImpl implements RolService {
 	@Autowired
 	private RolRepository rolRepository;
 	
-	private Converter<Rol, RolDTO> converterDTO = new Converter<Rol, RolDTO>();
+	private Converter<Rol, RolDTO> converterDTO = new Converter<Rol, RolDTO>(Rol.class, RolDTO.class);
 	
 
 	@Override
@@ -40,8 +40,7 @@ public class RolServiceImpl implements RolService {
 		BaseSpecificationsBuilder builder = new BaseSpecificationsBuilder();
         Specification<BaseEntity> spec = builder.build();
         
-		return (List<BaseDTO>) converterDTO.convertList(rolRepository
-        		.findAll(spec, pageable), Rol.class, RolDTO.class);
+		return (List<BaseDTO>) converterDTO.convertList(rolRepository.findAll(spec, pageable));
 	}
 
 }

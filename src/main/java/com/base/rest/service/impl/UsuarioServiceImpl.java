@@ -42,9 +42,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
-	private Converter<UsuarioDTO, Usuario> converterEntity = new Converter<UsuarioDTO, Usuario>();
+	private Converter<UsuarioDTO, Usuario> converterEntity = 
+			new Converter<UsuarioDTO, Usuario>(UsuarioDTO.class, Usuario.class);
 	
-	private Converter<Usuario, UsuarioDTO> converterDTO = new Converter<Usuario, UsuarioDTO>();
+	private Converter<Usuario, UsuarioDTO> converterDTO = 
+			new Converter<Usuario, UsuarioDTO>(Usuario.class, UsuarioDTO.class);
 
 	@Override
 	public List<BaseDTO> findByFilter(String filtroWeb, boolean exportar) {
@@ -70,8 +72,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
         Specification<BaseEntity> spec = builder.build();
         
-		return (List<BaseDTO>) converterDTO.convertList(usuarioRepository
-        		.findAll(spec, pageable), Usuario.class, UsuarioDTO.class);
+		return (List<BaseDTO>) converterDTO.convertList(usuarioRepository.findAll(spec, pageable));
 	}
 
 	@Transactional
@@ -84,7 +85,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 			usuario.setFechaAlta(new Date());
 			usuario.setActivo(true);
 		}
-		usuarioRepository.save((Usuario) converterEntity.toEntity(usuario, UsuarioDTO.class, Usuario.class));
+		usuarioRepository.save((Usuario) converterEntity.toEntity(usuario));
 	}
 
 	@Transactional
@@ -92,7 +93,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public void update(UsuarioDTO usuario) {
 
 		usuario.setPassword(usuarioRepository.getPassword(usuario.getId()));
-		usuarioRepository.save((Usuario) converterEntity.toEntity(usuario, UsuarioDTO.class, Usuario.class));
+		usuarioRepository.save((Usuario) converterEntity.toEntity(usuario));
 	}
 
 	@Override
@@ -101,8 +102,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		if (!usuarioRepository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		return (UsuarioDTO) converterDTO.toDTO(usuarioRepository
-				.findById(id).orElse(null), Usuario.class, UsuarioDTO.class);
+		return (UsuarioDTO) converterDTO.toDTO(usuarioRepository.findById(id).orElse(null));
 	}
 
 	@Transactional
@@ -176,8 +176,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public UsuarioDTO findByUsername(String username) {
 		
-		return (UsuarioDTO) converterDTO.toDTO(usuarioRepository
-				.getByUsername(username), Usuario.class, UsuarioDTO.class);
+		return (UsuarioDTO) converterDTO.toDTO(usuarioRepository.getByUsername(username));
 	}
 
 }

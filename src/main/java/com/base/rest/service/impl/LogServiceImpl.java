@@ -30,7 +30,7 @@ public class LogServiceImpl implements LogService {
 	@Autowired
 	private LogRepository logRepository;
 	
-	private Converter<Log, LogDTO> converterDTO = new Converter<Log, LogDTO>();
+	private Converter<Log, LogDTO> converterDTO = new Converter<Log, LogDTO>(Log.class, LogDTO.class);
 
 	@Transactional
 	@Override
@@ -63,8 +63,7 @@ public class LogServiceImpl implements LogService {
 		}
         Specification<BaseEntity> spec = builder.build();
         
-		return (List<BaseDTO>) converterDTO.convertList(logRepository
-	        		.findAll(spec, pageable), Log.class, LogDTO.class);
+		return (List<BaseDTO>) converterDTO.convertList(logRepository.findAll(spec, pageable));
 	}
 
 }

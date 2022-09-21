@@ -31,15 +31,16 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 	@Autowired
 	private ConfiguracionRepository configuracionRepository;
 	
-	private Converter<ConfiguracionDTO, Configuracion> converterEntity = new Converter<ConfiguracionDTO, Configuracion>();
+	private Converter<ConfiguracionDTO, Configuracion> converterEntity = 
+			new Converter<ConfiguracionDTO, Configuracion>(ConfiguracionDTO.class, Configuracion.class);
 	
-	private Converter<Configuracion, ConfiguracionDTO> converterDTO = new Converter<Configuracion, ConfiguracionDTO>();
+	private Converter<Configuracion, ConfiguracionDTO> converterDTO = 
+			new Converter<Configuracion, ConfiguracionDTO>(Configuracion.class, ConfiguracionDTO.class);
 
 	@Override
 	public ConfiguracionDTO getByNombre(String nombre) {
 		
-		return (ConfiguracionDTO) converterDTO.toDTO(configuracionRepository
-				.getByNombre(nombre), Configuracion.class, ConfiguracionDTO.class);
+		return (ConfiguracionDTO) converterDTO.toDTO(configuracionRepository.getByNombre(nombre));
 	}
 	
 	@Override
@@ -66,8 +67,7 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 		}
         Specification<BaseEntity> spec = builder.build();
         
-        return (List<BaseDTO>) converterDTO.convertList(configuracionRepository
-        		.findAll(spec, pageable), Configuracion.class, ConfiguracionDTO.class);
+        return (List<BaseDTO>) converterDTO.convertList(configuracionRepository.findAll(spec, pageable));
         
 	}
 
@@ -75,14 +75,14 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 	@Override
 	public void save(ConfiguracionDTO configuracion) {
 
-		configuracionRepository.save((Configuracion) converterEntity.toEntity(configuracion, ConfiguracionDTO.class, Configuracion.class));
+		configuracionRepository.save((Configuracion) converterEntity.toEntity(configuracion));
 	}
 
 	@Transactional
 	@Override
 	public void update(ConfiguracionDTO configuracion) {
 
-		configuracionRepository.save((Configuracion) converterEntity.toEntity(configuracion, ConfiguracionDTO.class, Configuracion.class));
+		configuracionRepository.save((Configuracion) converterEntity.toEntity(configuracion));
 	}
 
 	@Override
@@ -91,8 +91,7 @@ public class ConfiguracionServiceImpl implements ConfiguracionService {
 		if (!configuracionRepository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		return (ConfiguracionDTO) converterDTO.toDTO(configuracionRepository
-				.findById(id).orElse(null), Configuracion.class, ConfiguracionDTO.class);
+		return (ConfiguracionDTO) converterDTO.toDTO(configuracionRepository.findById(id).orElse(null));
 	}
 
 	@Transactional

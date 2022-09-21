@@ -20,8 +20,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -31,6 +29,7 @@ import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.AutenticacionDTO;
 import com.base.rest.dtos.ConfiguracionDTO;
 import com.base.rest.exceptions.ServiceException;
+import com.base.rest.utils.I18nUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,9 +41,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 @AutoConfigureMockMvc
 @TestMethodOrder(OrderAnnotation.class)
 class ConfiguracionControllerTest {
-	
-	@Autowired
-    MessageSource messageSource;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -123,7 +119,7 @@ class ConfiguracionControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_OBLIGATORIO))));	
 	}
 	
 	@Test
@@ -142,7 +138,7 @@ class ConfiguracionControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_VALOR_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_VALOR_OBLIGATORIO))));	
 	}
 	
 	@Test
@@ -161,7 +157,7 @@ class ConfiguracionControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_NOMBRE_CONFIG_SIZE, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_CONFIG_SIZE))));	
 	}
 	
 	@Test
@@ -180,7 +176,7 @@ class ConfiguracionControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_NOMBRE_CONFIG_SIZE, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_CONFIG_SIZE))));	
 	}
 	
 	@Test
@@ -199,7 +195,7 @@ class ConfiguracionControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_VALOR_CONFIG_SIZE, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_VALOR_CONFIG_SIZE))));	
 	}
 	
 	@Test
@@ -256,7 +252,7 @@ class ConfiguracionControllerTest {
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_NO_EXISTE_ENTIDAD, null, LocaleContextHolder.getLocale()))));
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_NO_EXISTE_ENTIDAD))));
 	}
 
 	private ConfiguracionDTO getConfiguracion(String nombre, String valor) {

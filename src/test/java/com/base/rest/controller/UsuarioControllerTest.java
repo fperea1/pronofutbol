@@ -22,8 +22,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -35,6 +33,7 @@ import com.base.rest.dtos.CambioPasswordDTO;
 import com.base.rest.dtos.RolDTO;
 import com.base.rest.dtos.UsuarioDTO;
 import com.base.rest.exceptions.ServiceException;
+import com.base.rest.utils.I18nUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,9 +45,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 @AutoConfigureMockMvc
 @TestMethodOrder(OrderAnnotation.class)
 class UsuarioControllerTest {
-	
-	@Autowired
-    MessageSource messageSource;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -126,7 +122,7 @@ class UsuarioControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_USERNAME_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_USERNAME_OBLIGATORIO))));	
 	}
 	
 	@Test
@@ -145,7 +141,7 @@ class UsuarioControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_USERNAME_USUARIO_SIZE, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_USERNAME_USUARIO_SIZE))));	
 	}
 	
 	@Test
@@ -164,7 +160,7 @@ class UsuarioControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_USERNAME_USUARIO_SIZE, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_USERNAME_USUARIO_SIZE))));	
 	}
 	
 	@Test
@@ -183,7 +179,7 @@ class UsuarioControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))	    
-		.andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_LIMITE_CARACTERES_PASSWORD, null, LocaleContextHolder.getLocale()))));
+		.andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_LIMITE_CARACTERES_PASSWORD))));
 		
 	}
 	
@@ -203,7 +199,7 @@ class UsuarioControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_LIMITE_CARACTERES_PASSWORD, null, LocaleContextHolder.getLocale()))));
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_LIMITE_CARACTERES_PASSWORD))));
 		
 	}
 	
@@ -224,7 +220,7 @@ class UsuarioControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_LIMITE_CARACTERES_PASSWORD, null, LocaleContextHolder.getLocale()))));
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_LIMITE_CARACTERES_PASSWORD))));
 		
 	}
 	
@@ -244,7 +240,7 @@ class UsuarioControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_OBLIGATORIO))));	
 	}
 	
 	@Test
@@ -263,7 +259,7 @@ class UsuarioControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_NOMBRE_USUARIO_SIZE, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_USUARIO_SIZE))));	
 	}
 	
 	@Test
@@ -282,7 +278,7 @@ class UsuarioControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_NOMBRE_USUARIO_SIZE, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_USUARIO_SIZE))));	
 	}
 	
 	@Test
@@ -301,7 +297,7 @@ class UsuarioControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_EMAIL_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_EMAIL_OBLIGATORIO))));	
 	}
 	
 	@Test
@@ -320,7 +316,7 @@ class UsuarioControllerTest {
 	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_EMAIL_USUARIO_FORMATO, null, LocaleContextHolder.getLocale()))));	
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_EMAIL_USUARIO_FORMATO))));	
 	}
 	
 	@Test
@@ -359,8 +355,8 @@ class UsuarioControllerTest {
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isConflict())
-		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_ACTIVO_OBLIGATORIO, null, LocaleContextHolder.getLocale()))))
-			.andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_FECHA_ALTA_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_ACTIVO_OBLIGATORIO))))
+			.andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_FECHA_ALTA_OBLIGATORIO))));
 		
 	}
 	
@@ -405,7 +401,7 @@ class UsuarioControllerTest {
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_NO_EXISTE_ENTIDAD, null, LocaleContextHolder.getLocale()))));
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_NO_EXISTE_ENTIDAD))));
 	}
 	
 	@Test
@@ -440,7 +436,7 @@ class UsuarioControllerTest {
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_NO_EXISTE_ENTIDAD, null, LocaleContextHolder.getLocale()))));
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_NO_EXISTE_ENTIDAD))));
 	}
 	
 	@Test
@@ -466,7 +462,7 @@ class UsuarioControllerTest {
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_NO_EXISTE_ENTIDAD, null, LocaleContextHolder.getLocale()))));
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_NO_EXISTE_ENTIDAD))));
 	}
 	
 	@Test
@@ -492,7 +488,7 @@ class UsuarioControllerTest {
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_NO_EXISTE_ENTIDAD, null, LocaleContextHolder.getLocale()))));
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_NO_EXISTE_ENTIDAD))));
 	}
 	
 	@Test
@@ -504,7 +500,7 @@ class UsuarioControllerTest {
 		    .param("id", "2"))
 		    .andDo(print())
 		    .andExpect(status().isUnauthorized())
-		    .andExpect(status().reason(messageSource.getMessage(Constantes.NO_AUTH, null, LocaleContextHolder.getLocale())));
+		    .andExpect(status().reason(I18nUtils.getMensaje(Constantes.NO_AUTH)));
 		
 	}
 	
@@ -552,7 +548,7 @@ class UsuarioControllerTest {
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_PASSWORD_ANT_ERRONEA, null, LocaleContextHolder.getLocale()))));
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_PASSWORD_ANT_ERRONEA))));
 	}
 	
 	@Test
@@ -586,7 +582,7 @@ class UsuarioControllerTest {
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_NO_EXISTE_ENTIDAD, null, LocaleContextHolder.getLocale()))));
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_NO_EXISTE_ENTIDAD))));
 	}
 
 	@Test
@@ -604,7 +600,7 @@ class UsuarioControllerTest {
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-	    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_PASSWORDS_DIFERENTES, null, LocaleContextHolder.getLocale()))));
+	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_PASSWORDS_DIFERENTES))));
 		}
 
 	private CambioPasswordDTO getCambioPasswordDTO(Integer id, String oldPassword, String newPassword, String newPassword2) {

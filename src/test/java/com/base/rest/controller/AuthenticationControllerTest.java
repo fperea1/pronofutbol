@@ -17,8 +17,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +25,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.AutenticacionDTO;
+import com.base.rest.utils.I18nUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -36,9 +35,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 @AutoConfigureMockMvc
 @TestMethodOrder(OrderAnnotation.class)
 class AuthenticationControllerTest {
-	
-	@Autowired
-    MessageSource messageSource;
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -77,7 +73,7 @@ class AuthenticationControllerTest {
 		    //.andDo(print())
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof AuthenticationException))
-		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_AUTH_ERRONEA, null, LocaleContextHolder.getLocale()))));
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_AUTH_ERRONEA))));
 	}
 	
 	@Test
@@ -95,7 +91,7 @@ class AuthenticationControllerTest {
 		    //.andDo(print())
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof HttpRequestMethodNotSupportedException))
-		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.EXC_METODO_NO_SOPORTADO, null, LocaleContextHolder.getLocale()))));
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_METODO_NO_SOPORTADO))));
 
 	}
 	
@@ -114,7 +110,7 @@ class AuthenticationControllerTest {
 		    //.andDo(print())
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_USERNAME_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_USERNAME_OBLIGATORIO))));
 
 	}
 	
@@ -133,7 +129,7 @@ class AuthenticationControllerTest {
 		    //.andDo(print())
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_PASSWORD_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_PASSWORD_OBLIGATORIO))));
 		
 	}
 	
@@ -152,8 +148,8 @@ class AuthenticationControllerTest {
 		    //.andDo(print())
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_USERNAME_OBLIGATORIO, null, LocaleContextHolder.getLocale()))))
-		    .andExpect(content().string(containsString(messageSource.getMessage(Constantes.VALIDATION_PASSWORD_OBLIGATORIO, null, LocaleContextHolder.getLocale()))));
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_USERNAME_OBLIGATORIO))))
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_PASSWORD_OBLIGATORIO))));
 
 	}
 

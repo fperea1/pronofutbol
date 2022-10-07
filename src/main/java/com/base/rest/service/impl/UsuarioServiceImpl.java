@@ -1,6 +1,9 @@
 package com.base.rest.service.impl;
 
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.criteria.Join;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +19,7 @@ import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.ResultTableDTO;
 import com.base.rest.dtos.UsuarioDTO;
 import com.base.rest.entities.BaseEntity;
+import com.base.rest.entities.Rol;
 import com.base.rest.entities.Usuario;
 import com.base.rest.exceptions.ServiceException;
 import com.base.rest.repositories.UsuarioRepository;
@@ -23,6 +27,7 @@ import com.base.rest.service.interfaces.UsuarioService;
 import com.base.rest.utils.Converter;
 import com.base.rest.utils.bd.FiltroTablasView;
 import com.base.rest.utils.bd.FiltrosUtils;
+import com.base.rest.utils.bd.SearchCriteriaColumn;
 
 @Service
 @Transactional(readOnly = true)
@@ -53,10 +58,23 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 		FiltroTablasView filtro = FiltrosUtils.getFiltroByString(filtroWeb);
 		
 		Specification<BaseEntity> spec = getSpecification(filtro);
+		if (filtro.getFilters() != null && !filtro.getFilters().isEmpty()) {
+			List<SearchCriteriaColumn> params = FiltrosUtils.getFiltrosSelect(filtro.getFilters());
+			for (SearchCriteriaColumn scc: params) {
+				spec = Specification.where(spec).and(hasRolConNombre(scc.getValue().toString()));
+			}
+		}
         
 		Pageable pageable = getPageable(exportar, filtro);
         
 		return converterDTO.convertList(usuarioRepository.findAll(spec, pageable));
+	}
+	
+	private Specification<BaseEntity> hasRolConNombre(String nombre) {
+	    return (root, query, criteriaBuilder) -> {
+	        Join<Rol, Usuario> roles = root.join("roles");
+	        return criteriaBuilder.equal(roles.get("nombre"), nombre);
+	    };
 	}
 
 	@Transactional

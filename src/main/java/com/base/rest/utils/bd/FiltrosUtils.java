@@ -23,6 +23,17 @@ public final class FiltrosUtils {
 		}	
 		return filtroDTO;
 	}
+	
+	public static FiltroSelectView getFiltroSelectByString(String filtro) {
+		ObjectMapper objectMapper = new ObjectMapper();
+		FiltroSelectView filtroDTO;
+		try {
+			filtroDTO = objectMapper.readValue(filtro, FiltroSelectView.class);
+		} catch (JsonProcessingException e) {
+			throw new JsonException();
+		}	
+		return filtroDTO;
+	}
 
 	public static List<SearchCriteriaColumn> getFiltrosColumns(JsonNode filters) {
 		
@@ -32,11 +43,29 @@ public final class FiltrosUtils {
 			String column = it.next();
 			SearchCriteriaColumn scc = new SearchCriteriaColumn();
 			scc.setNameColumn(column);
-			JsonNode contactNode = filters.path(column);
-			if (!contactNode.path("value").asText().contentEquals("null")) {
-	            scc.setValue(contactNode.path("value").asText());
-	            scc.setMatchMode(contactNode.path("matchMode").asText());
+			JsonNode node = filters.path(column);
+			if (!node.path("value").asText().contentEquals("null")) {
+	            scc.setValue(node.path("value").asText());
+	            scc.setMatchMode(node.path("matchMode").asText());
 	            list.add(scc);
+			}
+		}
+ 		return list;
+	}
+	
+	public static List<SearchCriteriaColumn> getFiltrosSelect(JsonNode filters) {
+		
+		List<SearchCriteriaColumn> list = new ArrayList<SearchCriteriaColumn>();
+		Iterator<String> it = filters.fieldNames();
+		while (it.hasNext()) {
+			String column = it.next();
+			JsonNode node = filters.path(column);
+			if (!node.path("value").asText().contentEquals("null") && node.path("matchMode").asText().equals("select") ) {
+				for (String s: node.findValuesAsText("nombre")) {
+					SearchCriteriaColumn scc = new SearchCriteriaColumn();
+					scc.setValue(s);
+			        list.add(scc);
+				}
 			}
 		}
  		return list;

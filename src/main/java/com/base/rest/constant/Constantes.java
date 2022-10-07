@@ -144,6 +144,8 @@ public final class Constantes {
 	
 	public static final String NO = "no";
 	
+	public static final String T_ROLES = "roles";
+	
 	// MATCH MODE PARA BUSQUEDAS
 	
 	public static final String STARTS_WITH = "startsWith";
@@ -158,11 +160,27 @@ public final class Constantes {
 	
 	public static final String NOT_EQUALS = "notEquals";
 	
+	public static final String DATE_IS = "dateIs";
+	
+	public static final String DATE_IS_NOT = "dateIsNot";
+			
+	public static final String DATE_BEFORE = "dateBefore";
+			
+	public static final String DATE_AFTER = "dateAfter";
+	
+	public static final String IN = "in";
+	
+	public static final String SELECT = "select";
+	
+	public static final String BOOLEAN = "boolean";
+	
 	// FORMATOS FECHAS
 	
 	public static final String DD_MM_YYYY = "dd/MM/yyyy";
 	
 	public static final String DD_MM_YYYY_HH_MM_SS = "dd/MM/yyyy HH:mm:ss";
+	
+	public static final String YYYY_MM_DD_T_HH_MM_SS_Z = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 	
 	// NOMBRE PESTAÑAS EXCEL
 	

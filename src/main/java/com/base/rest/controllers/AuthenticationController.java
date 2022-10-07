@@ -25,6 +25,7 @@ import com.base.rest.dtos.AutenticacionDTO;
 import com.base.rest.entities.Log;
 import com.base.rest.security.TokenProvider;
 import com.base.rest.service.interfaces.LogService;
+import com.base.rest.utils.I18nUtils;
 
 @RestController
 @RequestMapping(Constantes.AUTENTICATION)
@@ -55,10 +56,11 @@ public class AuthenticationController extends BaseController {
 	@GetMapping(value = Constantes.LOGOUT)
 	public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		logService.save(new Log(getCurrentUserName(), Constantes.USUARIO, Constantes.LOGOUT_LOG, Constantes.LOGOUT_LOG + Constantes.SEPARADOR_DOS_PUNTOS + getCurrentUserName()));
 		if (auth != null) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
-		return responseOperationCorrecta(Constantes.USUARIO, Constantes.LOGOUT_LOG, Constantes.LOGOUT_LOG + Constantes.SEPARADOR_DOS_PUNTOS + getCurrentUserName());
+		return new ResponseEntity<>(I18nUtils.getMensaje(Constantes.OPERACION_CORRECTA), HttpStatus.OK);
 	}
 
 }

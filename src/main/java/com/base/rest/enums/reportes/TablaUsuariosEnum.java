@@ -12,7 +12,7 @@ public enum TablaUsuariosEnum {
 	FECHA_ALTA(Constantes.FECHA_ALTA, "fechaAlta"),
 	FECHA_DESACTIVACION(Constantes.FECHA_BAJA, "fechaDesactivacion"),
 	ACTIVO(Constantes.ACTIVO, "activo"),
-	ROLES(Constantes.ROLES, "roles");
+	ROLES(Constantes.T_ROLES, "roles");
 
 	public String titulo;
 	

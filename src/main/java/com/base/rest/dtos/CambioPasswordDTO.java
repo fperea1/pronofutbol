@@ -6,7 +6,6 @@ import com.base.rest.constant.Constantes;
 
 public class CambioPasswordDTO {
 	
-	@NotBlank(message = Constantes.VALIDATION_ID_OBLIGATORIO)
 	private Integer id;
 	
 	@NotBlank(message = Constantes.VALIDATION_PASSWORD_ANTERIOR_OBLIGATORIO)

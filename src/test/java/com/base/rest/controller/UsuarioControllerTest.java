@@ -499,8 +499,7 @@ class UsuarioControllerTest {
 		    .perform(put("/usuarios/activate")
 		    .param("id", "2"))
 		    .andDo(print())
-		    .andExpect(status().isUnauthorized())
-		    .andExpect(status().reason(I18nUtils.getMensaje(Constantes.NO_AUTH)));
+		    .andExpect(status().isUnauthorized());
 		
 	}
 	

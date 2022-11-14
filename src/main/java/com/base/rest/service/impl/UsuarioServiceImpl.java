@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.base.rest.constant.Constantes;
 import com.base.rest.dtos.ResultTableDTO;
 import com.base.rest.dtos.UsuarioDTO;
+import com.base.rest.dtos.UsuarioListadoDTO;
 import com.base.rest.entities.BaseEntity;
 import com.base.rest.entities.Rol;
 import com.base.rest.entities.Usuario;
@@ -45,11 +46,14 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 	private Converter<UsuarioDTO, Usuario> converterEntity;
 	
 	private Converter<Usuario, UsuarioDTO> converterDTO;
+	
+	private Converter<Usuario, UsuarioListadoDTO> converterListadoDTO;
 
 	public UsuarioServiceImpl() {
 		super();
 		converterEntity = new Converter<UsuarioDTO, Usuario>(UsuarioDTO.class, Usuario.class);
 		converterDTO = new Converter<Usuario, UsuarioDTO>(Usuario.class, UsuarioDTO.class);
+		converterListadoDTO = new Converter<Usuario, UsuarioListadoDTO>(Usuario.class, UsuarioListadoDTO.class);
 	}
 
 	@Override
@@ -67,7 +71,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
         
 		Pageable pageable = getPageable(exportar, filtro);
         
-		return converterDTO.convertList(usuarioRepository.findAll(spec, pageable));
+		return converterListadoDTO.convertList(usuarioRepository.findAll(spec, pageable));
 	}
 	
 	private Specification<BaseEntity> hasRolConNombre(String nombre) {

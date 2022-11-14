@@ -19,6 +19,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.google.common.collect.ImmutableList;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -72,6 +74,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 					.and()
 				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
 		
+		// XSS y CSP
+		httpSecurity.headers()
+	        .xssProtection()
+	        .and()
+	        .contentSecurityPolicy("script-src 'self'");
+		
 		httpSecurity
 				.addFilterBefore(jwtAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
 	}
@@ -88,6 +96,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
 		config.addAllowedMethod("PUT");
 		config.addAllowedMethod("DELETE");
+		config.setAllowedOrigins(ImmutableList.of("http://localhost:4200", "http://www.baserest.com"));
 		source.registerCorsConfiguration("/**", config);
 		return source;
 	}

@@ -78,7 +78,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		httpSecurity.headers()
 	        .xssProtection()
 	        .and()
-	        .contentSecurityPolicy("script-src 'self'");
+	        .contentSecurityPolicy("style-src 'self'; script-src 'self'; form-action 'self'");
 		
 		httpSecurity
 				.addFilterBefore(jwtAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
@@ -96,7 +96,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
 		config.addAllowedMethod("PUT");
 		config.addAllowedMethod("DELETE");
-		config.setAllowedOrigins(ImmutableList.of("http://localhost:4200", "http://www.baserest.com"));
+		config.setAllowedOrigins(ImmutableList.of("http://localhost:4200", "https://localhost:4200", "http://www.baserest.com"));
 		source.registerCorsConfiguration("/**", config);
 		return source;
 	}

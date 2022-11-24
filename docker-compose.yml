@@ -6,7 +6,7 @@ services:
     image: war-base-rest:1.0
     ports:
       - 8080:8080
-    container_name: BASEREST
+    container_name: PRONOFUTBOL
     depends_on:
       - db
   
@@ -17,9 +17,9 @@ services:
       SA_PASSWORD: FranDocker1974
     ports:
       - 1444:1433
-    container_name: SQLSERVERBASEREST
+    container_name: SQLSERVERPRONOFUTBOL
     hostname: sqlserver
     volumes:
-      - C:\sqlserverDocker\baseRest\volumes\data:/var/opt/mssql/data
-      - C:\sqlserverDocker\baseRest\volumes\log:/var/opt/mssql/log
-      - C:\sqlserverDocker\baseRest\volumes\secrets:/var/opt/mssql/secrets
+      - C:\sqlserverDocker\pronofutbol\volumes\data:/var/opt/mssql/data
+      - C:\sqlserverDocker\pronofutbol\volumes\log:/var/opt/mssql/log
+      - C:\sqlserverDocker\pronofutbol\volumes\secrets:/var/opt/mssql/secrets

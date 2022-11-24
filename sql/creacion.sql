@@ -1,14 +1,14 @@
--- He creado con sql server management la bd baserestdb
+-- He creado con sql server management la bd pronofutboldb
 
-CREATE LOGIN baserestdb   
-    WITH PASSWORD = 'PASSword?1234';  
+CREATE LOGIN pronofutboldb   
+    WITH PASSWORD = 'PASSword?1234Prono';  
 GO  
 
 -- Creates a database user for the login created above.  
-CREATE USER baserestdb FOR LOGIN baserestdb;  
+CREATE USER pronofutboldb FOR LOGIN pronofutboldb;  
 GO  
 
--- Después he puesto en seguridad, el inicio de sesión baserestdb como owner
+-- Después he puesto en seguridad, el inicio de sesión pronofutboldb como owner
 
 drop table configuracion
 drop table logs
@@ -37,8 +37,6 @@ CREATE TABLE "roles" (
 )
 
 insert into roles values ('SUPERUSUARIO');
-insert into roles values ('ADMINISTRADOR');
-insert into roles values ('GESTOR');
 insert into roles values ('CONSULTOR');
 
 
@@ -62,16 +60,11 @@ ALTER TABLE roles_usuario add foreign key (id_rol) references roles(id);
 ALTER TABLE roles_usuario add foreign key (id_usuario) references usuarios(id);
 
 insert into usuarios values ('Francisco Perea', 'administrador', '$2a$10$v.P/TUS1qUE/YcXYUH1OUuB2POJ4/oKZZFjaAP4TlSd8Oh32IPyOa', 
-	'administrador@ezentis.com', GETDATE(), null, 1); -- Administrador01
-	
-insert into usuarios values ('Usuario', 'usuario', '$2a$10$8FtOR9c8nkOQlit2GmkPX.ewdPW3B4MwpMQ.oHvOY5noZWJ2QU3yK', 
-	'usuario@ezentis.com', GETDATE(), null, 1); -- Usuario123
+	'fran.perea.74@gmail.com', GETDATE(), null, 1); -- Administrador01
 	
 insert into roles_usuario values (1, 1);
 
-insert into roles_usuario values (2, 2);
-
-insert into configuracion ("nombre", "valor") values ('mailFrom', 'mail.app@correo.es');
+insert into configuracion ("nombre", "valor") values ('mailFrom', 'admin.pronofutbol@correo.es');
 insert into configuracion ("nombre", "valor") values ('mailAdministracion', 'fran.perea.74@gmail.com');
 insert into configuracion ("nombre", "valor") values ('mailAdministracionCC', '-');
 insert into configuracion ("nombre", "valor") values ('mailAdministracionBCC', '-');

@@ -3,7 +3,7 @@ version: '3'
 services:
   app:
     build: .
-    image: war-base-rest:1.0
+    image: war-pronofutbol:1.0
     ports:
       - 8080:8080
     container_name: PRONOFUTBOL

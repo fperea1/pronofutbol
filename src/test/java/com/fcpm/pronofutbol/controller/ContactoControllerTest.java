@@ -24,9 +24,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fcmp.pronofutbol.constant.Constantes;
-import com.fcmp.pronofutbol.dtos.ContactoDTO;
-import com.fcmp.pronofutbol.utils.I18nUtils;
+import com.fcpm.pronofutbol.constant.Constantes;
+import com.fcpm.pronofutbol.dtos.ContactoDTO;
+import com.fcpm.pronofutbol.utils.I18nUtils;
 
 @SpringBootTest
 @AutoConfigureMockMvc

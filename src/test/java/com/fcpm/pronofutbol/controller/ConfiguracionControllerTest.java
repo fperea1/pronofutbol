@@ -31,11 +31,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fcmp.pronofutbol.constant.Constantes;
-import com.fcmp.pronofutbol.dtos.AutenticacionDTO;
-import com.fcmp.pronofutbol.dtos.ConfiguracionDTO;
-import com.fcmp.pronofutbol.exceptions.ServiceException;
-import com.fcmp.pronofutbol.utils.I18nUtils;
+import com.fcpm.pronofutbol.constant.Constantes;
+import com.fcpm.pronofutbol.dtos.AutenticacionDTO;
+import com.fcpm.pronofutbol.dtos.ConfiguracionDTO;
+import com.fcpm.pronofutbol.exceptions.ServiceException;
+import com.fcpm.pronofutbol.utils.I18nUtils;
 
 @SpringBootTest
 @AutoConfigureMockMvc

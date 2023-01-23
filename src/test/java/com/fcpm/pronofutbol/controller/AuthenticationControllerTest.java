@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,7 +51,7 @@ class AuthenticationControllerTest {
 		String requestJson = getJson(a);
 
 		mockMvc
-		    .perform(post("/autenticacion/generate-token")
+		    .perform(post(Constantes.AUTENTICATION + Constantes.GENERAR_TOKEN)
 			.contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson))
 		    //.andDo(print())
@@ -67,10 +68,10 @@ class AuthenticationControllerTest {
 		String requestJson = getJson(a);
 
 		mockMvc
-		    .perform(post("/autenticacion/generate-token")
+		    .perform(post(Constantes.AUTENTICATION + Constantes.GENERAR_TOKEN)
 			.contentType(APPLICATION_JSON_UTF8)
 			.content(requestJson))
-		    //.andDo(print())
+		    .andDo(print())
 		    .andExpect(status().isBadRequest())
 		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof AuthenticationException))
 		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_AUTH_ERRONEA))));
@@ -85,7 +86,7 @@ class AuthenticationControllerTest {
 		String requestJson = getJson(a);
 
 		mockMvc
-		    .perform(get("/autenticacion/generate-token")
+		    .perform(get(Constantes.AUTENTICATION + Constantes.GENERAR_TOKEN)
 		    .contentType(APPLICATION_JSON_UTF8)
 			.content(requestJson))
 		    //.andDo(print())
@@ -104,7 +105,7 @@ class AuthenticationControllerTest {
 		String requestJson = getJson(a);
 
 		mockMvc
-		    .perform(post("/autenticacion/generate-token")
+		    .perform(post(Constantes.AUTENTICATION + Constantes.GENERAR_TOKEN)
 			.contentType(APPLICATION_JSON_UTF8)
 			.content(requestJson))
 		    //.andDo(print())
@@ -123,7 +124,7 @@ class AuthenticationControllerTest {
 		String requestJson = getJson(a);
 
 		mockMvc
-		    .perform(post("/autenticacion/generate-token")
+		    .perform(post(Constantes.AUTENTICATION + Constantes.GENERAR_TOKEN)
 			.contentType(APPLICATION_JSON_UTF8)
 			.content(requestJson))
 		    //.andDo(print())
@@ -142,7 +143,7 @@ class AuthenticationControllerTest {
 		String requestJson = getJson(a);
 
 		mockMvc
-		    .perform(post("/autenticacion/generate-token")
+		    .perform(post(Constantes.AUTENTICATION + Constantes.GENERAR_TOKEN)
 			.contentType(APPLICATION_JSON_UTF8)
 			.content(requestJson))
 		    //.andDo(print())

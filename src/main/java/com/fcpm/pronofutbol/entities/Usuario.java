@@ -17,7 +17,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -33,21 +32,21 @@ public class Usuario extends BaseEntity {
 	
 	@Column(name = "nombre", length = 50)
 	@Size(min = 1, max = 50, message = Constantes.VALIDATION_NOMBRE_USUARIO_SIZE)
-	@NotBlank(message = Constantes.VALIDATION_NOMBRE_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_NOMBRE_OBLIGATORIO)
 	private String nombre;
 	
 	@Column(name = "username", length = 50, unique = true)
 	@Size(min = 5, max = 50, message = Constantes.VALIDATION_USERNAME_USUARIO_SIZE)
-	@NotBlank(message = Constantes.VALIDATION_USERNAME_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_USERNAME_OBLIGATORIO)
 	private String username;
 	
 	@Column(name = "password", length = 100, updatable=false)
-	@Size(min = 10, max = 100, message = Constantes.VALIDATION_PASSWORD_USUARIO_SIZE)
-	@NotBlank(message = Constantes.VALIDATION_PASSWORD_OBLIGATORIO)
+//	@Size(min = 10, max = 100, message = Constantes.VALIDATION_PASSWORD_USUARIO_SIZE)
+//	@NotNull(message = Constantes.VALIDATION_PASSWORD_OBLIGATORIO)
 	private String password;
 	
 	@Column(name = "email", length = 100)
-	@NotBlank(message = Constantes.VALIDATION_EMAIL_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_EMAIL_OBLIGATORIO)
 	@Email(message = Constantes.VALIDATION_EMAIL_USUARIO_FORMATO)
 	private String email;
 	

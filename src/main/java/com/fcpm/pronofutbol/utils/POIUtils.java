@@ -78,9 +78,13 @@ public final class POIUtils {
 		if (valor.getType() == Date.class) {
 			cell.setCellStyle(cellStyleDateTime);
 			cell.setCellValue((Date) valor.get(record));
+		} else if (valor.getType() == Integer.class || valor.getType() == Double.class || valor.getType() == Float.class) {
+			cell.setCellValue((Integer)valor.get(record));
 		} else if (valor.getType() == Boolean.class) {
 			Boolean bol = (Boolean)valor.get(record);
 			cell.setCellValue((bol != null && bol) ? Constantes.SI : Constantes.NO);
+		} else if (valor.getType().getPackageName().equals("com.fcpm.pronofutbol.dtos")) {
+			cell.setCellValue((String)((BaseDTO)valor.get(record)).getNombre());
 		} else if (valor.getType() == Set.class) {
 			@SuppressWarnings("unchecked")
 			Set<BaseDTO> set = (HashSet<BaseDTO>)valor.get(record);

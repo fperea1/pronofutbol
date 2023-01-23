@@ -48,7 +48,7 @@ public class ContactoControllerTest {
 		String requestJson = getJson(c);
 		
 		mockMvc
-		    .perform(post("/contacto/envioConsulta")
+		    .perform(post(Constantes.CONTACTO + Constantes.ENVIO_CONSULTA)
 			.contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson))
 		    .andDo(print())
@@ -65,7 +65,7 @@ public class ContactoControllerTest {
 		String requestJson = getJson(c);
 		
 		mockMvc
-		    .perform(post("/contacto/envioConsulta")
+		    .perform(post(Constantes.CONTACTO + Constantes.ENVIO_CONSULTA)
 			.contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson))
 		    .andDo(print())
@@ -83,7 +83,7 @@ public class ContactoControllerTest {
 		String requestJson = getJson(c);
 		
 		mockMvc
-		    .perform(post("/contacto/envioConsulta")
+		    .perform(post(Constantes.CONTACTO + Constantes.ENVIO_CONSULTA)
 			.contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson))
 		    .andDo(print())

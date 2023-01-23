@@ -34,12 +34,12 @@ import jakarta.validation.Valid;
 public class UsuarioController extends BaseController {
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioService service;
 	
 	@GetMapping(Constantes.FIND_BY_FILTER)
     public ResponseEntity<ResultTableDTO> findByFilter(@RequestParam String filtro) {
 		
-		ResultTableDTO resultTable = usuarioService.findByFilter(filtro, false);
+		ResultTableDTO resultTable = service.findByFilter(filtro, false);
 		
         return new ResponseEntity<>(resultTable, HttpStatus.OK);
     }
@@ -47,7 +47,7 @@ public class UsuarioController extends BaseController {
 	@GetMapping(value = Constantes.GET_REPORT_EXCEL)
 	public ResponseEntity<Resource> getReportExcel(@RequestParam String filtro) {
 		
-		ResultTableDTO resultTable = usuarioService.findByFilter(filtro, true);
+		ResultTableDTO resultTable = service.findByFilter(filtro, true);
 
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, Constantes.ATTACHMENTS_EXCEL)
@@ -58,47 +58,47 @@ public class UsuarioController extends BaseController {
 	
 	@PostMapping(Constantes.SAVE)
     public ResponseEntity<String> save(@Valid @RequestBody UsuarioDTO usuario) {
-		usuarioService.save(usuario);
+		service.save(usuario);
 		return responseOperationCorrecta(Constantes.USUARIO, Constantes.ALTA, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
     }
 	
 	@PutMapping(Constantes.UPDATE)
     public ResponseEntity<String> update(@Valid @RequestBody UsuarioDTO usuario) {
-		usuarioService.update(usuario);
+		service.update(usuario);
 		return responseOperationCorrecta(Constantes.USUARIO, Constantes.EDICION, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
     }
 	
 	@JsonView(View.Public.class)
-	@GetMapping(Constantes.FIND)
-    public ResponseEntity<UsuarioDTO> findById(@RequestParam Integer id) {
-		return new ResponseEntity<>(usuarioService.findById(id), HttpStatus.OK);
+	@GetMapping(Constantes.GET_BY_ID)
+    public ResponseEntity<UsuarioDTO> getById(@RequestParam Integer id) {
+		return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 	
 	@DeleteMapping(Constantes.DELETE)
     public ResponseEntity<String> deleteById(@RequestParam Integer id) {
-		UsuarioDTO usuario = usuarioService.findById(id);
-		usuarioService.deleteById(id);
+		UsuarioDTO usuario = service.getById(id);
+		service.deleteById(id);
 		return responseOperationCorrecta(Constantes.USUARIO, Constantes.BAJA, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
 	}
 	
 	@PutMapping(Constantes.DEACTIVATE)
     public ResponseEntity<String> deactivateById(@RequestBody Integer id) {
-		UsuarioDTO usuario = usuarioService.findById(id);
-		usuarioService.deactivate(id);
+		UsuarioDTO usuario = service.getById(id);
+		service.deactivate(id);
 		return responseOperationCorrecta(Constantes.USUARIO, Constantes.DESACTIVAR, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
 	}
 	
 	@PutMapping(Constantes.ACTIVATE)
     public ResponseEntity<String> activateById(@RequestBody Integer id) {
-		UsuarioDTO usuario = usuarioService.findById(id);
-		usuarioService.activate(id);
+		UsuarioDTO usuario = service.getById(id);
+		service.activate(id);
 		return responseOperationCorrecta(Constantes.USUARIO, Constantes.ACTIVAR, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
 	}
 	
 	@PutMapping(Constantes.CAMBIO_PASSWORD_ADMIN)
-	public ResponseEntity<String> cambioPasswordAdmin(@RequestBody CambioPasswordDTO cambioPasswordDTO) {
-		UsuarioDTO usuario = usuarioService.findById(cambioPasswordDTO.getId());
-		usuarioService.cambioPasswordAdmin(cambioPasswordDTO.getId(), cambioPasswordDTO.getNewPassword(), cambioPasswordDTO.getNewPassword2());
+	public ResponseEntity<String> cambioPasswordAdmin(@Valid @RequestBody CambioPasswordDTO cambioPasswordDTO) {
+		UsuarioDTO usuario = service.getById(cambioPasswordDTO.getId());
+		service.cambioPasswordAdmin(cambioPasswordDTO.getId(), cambioPasswordDTO.getNewPassword(), cambioPasswordDTO.getNewPassword2());
 		return responseOperationCorrecta(Constantes.USUARIO, Constantes.CAMBIO_PASS_ADMIN, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
 	}
 }

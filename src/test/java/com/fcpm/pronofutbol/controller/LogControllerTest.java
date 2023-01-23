@@ -47,7 +47,7 @@ class LogControllerTest {
 		String requestJson = getJson(a);
 
 		ResultActions response = mockMvc
-		    .perform(post("/autenticacion/generate-token")
+		    .perform(post(Constantes.AUTENTICATION + Constantes.GENERAR_TOKEN)
 			.contentType(APPLICATION_JSON_UTF8)
 			.content(requestJson))
 		    .andExpect(status().isOk());

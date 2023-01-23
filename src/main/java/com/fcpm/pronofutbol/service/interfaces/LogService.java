@@ -5,7 +5,7 @@ import com.fcpm.pronofutbol.entities.Log;
 
 public interface LogService {
 	
-	public void save(Log log);
+	void save(Log log);
 
-	public ResultTableDTO findByFilter(String filtroWeb, boolean exportar);
+	ResultTableDTO findByFilter(String filtroWeb, boolean exportar);
 }

@@ -58,7 +58,7 @@ class ConfiguracionControllerTest {
 		String requestJson = getJson(a);
 
 		ResultActions response = mockMvc
-		    .perform(post("/autenticacion/generate-token")
+		    .perform(post(Constantes.AUTENTICATION + Constantes.GENERAR_TOKEN)
 		    .contentType(APPLICATION_JSON_UTF8)
 			.content(requestJson))
 		    .andExpect(status().isOk());
@@ -77,7 +77,7 @@ class ConfiguracionControllerTest {
 		String requestJson = getJson(c);
 		
 		mockMvc
-		    .perform(post("/configuracion/save")
+		    .perform(post(Constantes.CONFIG + Constantes.SAVE)
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
@@ -112,7 +112,7 @@ class ConfiguracionControllerTest {
 		String requestJson = getJson(c);
 		
 		mockMvc
-	    .perform(post("/configuracion/save")
+	    .perform(post(Constantes.CONFIG + Constantes.SAVE)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -131,7 +131,7 @@ class ConfiguracionControllerTest {
 		String requestJson = getJson(c);
 		
 		mockMvc
-	    .perform(post("/configuracion/save")
+	    .perform(post(Constantes.CONFIG + Constantes.SAVE)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -150,7 +150,7 @@ class ConfiguracionControllerTest {
 		String requestJson = getJson(c);
 		
 		mockMvc
-	    .perform(post("/configuracion/save")
+	    .perform(post(Constantes.CONFIG + Constantes.SAVE)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -169,7 +169,7 @@ class ConfiguracionControllerTest {
 		String requestJson = getJson(c);
 		
 		mockMvc
-	    .perform(post("/configuracion/save")
+	    .perform(post(Constantes.CONFIG + Constantes.SAVE)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -188,7 +188,7 @@ class ConfiguracionControllerTest {
 		String requestJson = getJson(c);
 		
 		mockMvc
-	    .perform(post("/configuracion/save")
+	    .perform(post(Constantes.CONFIG + Constantes.SAVE)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -203,7 +203,7 @@ class ConfiguracionControllerTest {
 	void testUpdateOk() throws Exception {
 		
 		ResultActions response = mockMvc
-	    .perform(get("/configuracion/find")
+	    .perform(get(Constantes.CONFIG + Constantes.GET_BY_ID)
 	    .param("id", "1")
 	    .header("authorization", "Bearer " + token));
 		
@@ -213,7 +213,7 @@ class ConfiguracionControllerTest {
 		String requestJson = getJson(c);
 		
 		mockMvc
-		    .perform(put("/configuracion/update")
+		    .perform(put(Constantes.CONFIG + Constantes.UPDATE)
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
@@ -229,7 +229,7 @@ class ConfiguracionControllerTest {
 		String requestJson = getJson(c);
 		
 		mockMvc
-		    .perform(post("/configuracion/save")
+		    .perform(post(Constantes.CONFIG + Constantes.SAVE)
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
@@ -247,7 +247,7 @@ class ConfiguracionControllerTest {
 	void testDeleteByIdUserNoExists() throws Exception {
 		
 		mockMvc
-		    .perform(delete("/configuracion/delete")
+		    .perform(delete(Constantes.CONFIG + Constantes.DELETE)
 		    .param("id", "30")
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())

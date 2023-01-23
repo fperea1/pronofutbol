@@ -22,12 +22,12 @@ import com.fcpm.pronofutbol.repositories.UsuarioRepository;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UsuarioRepository repository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		Usuario usuario = usuarioRepository.getByUsername(username);
+		Usuario usuario = repository.getByUsername(username);
 		if (usuario == null || !usuario.getActivo()) {
 			throw new UsernameNotFoundException(Constantes.EXC_AUTH_ERRONEA);
 		}

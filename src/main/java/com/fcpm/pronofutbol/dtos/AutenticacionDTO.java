@@ -2,14 +2,14 @@ package com.fcpm.pronofutbol.dtos;
 
 import com.fcpm.pronofutbol.constant.Constantes;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class AutenticacionDTO {
 	
-	@NotBlank(message = Constantes.VALIDATION_USERNAME_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_USERNAME_OBLIGATORIO)
 	private String username;
 	
-	@NotBlank(message = Constantes.VALIDATION_PASSWORD_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_PASSWORD_OBLIGATORIO)
 	private String password;
 
 	public String getUsername() {

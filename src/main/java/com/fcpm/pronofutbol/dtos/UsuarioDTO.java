@@ -9,7 +9,7 @@ import com.fcpm.pronofutbol.views.View;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @JGlobalMap
@@ -20,18 +20,18 @@ public class UsuarioDTO extends BaseDTO {
 	
 	@JsonView(View.Public.class)
 	@Size(min = 1, max = 50, message = Constantes.VALIDATION_NOMBRE_USUARIO_SIZE)
-	@NotBlank(message = Constantes.VALIDATION_NOMBRE_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_NOMBRE_OBLIGATORIO)
 	private String nombre;
 	
 	@JsonView(View.Public.class)
 	@Size(min = 5, max = 50, message = Constantes.VALIDATION_USERNAME_USUARIO_SIZE)
-	@NotBlank(message = Constantes.VALIDATION_USERNAME_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_USERNAME_OBLIGATORIO)
 	private String username;
 	
 	private String password;
 	
 	@JsonView(View.Public.class)
-	@NotBlank(message = Constantes.VALIDATION_EMAIL_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_EMAIL_OBLIGATORIO)
 	@Email(message = Constantes.VALIDATION_EMAIL_USUARIO_FORMATO)
 	private String email;
 	
@@ -42,6 +42,7 @@ public class UsuarioDTO extends BaseDTO {
 	private Date fechaDesactivacion;
 	
 	@JsonView(View.Public.class)
+	@NotNull(message = Constantes.VALIDATION_ACTIVO_OBLIGATORIO)
 	private Boolean activo;
 	
 	@JsonView(View.Public.class)

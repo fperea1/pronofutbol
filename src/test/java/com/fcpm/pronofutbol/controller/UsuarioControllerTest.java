@@ -62,7 +62,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(a);
 
 		ResultActions response = mockMvc
-		    .perform(post("/autenticacion/generate-token")
+		    .perform(post(Constantes.AUTENTICATION + Constantes.GENERAR_TOKEN)
 		    .contentType(APPLICATION_JSON_UTF8)
 			.content(requestJson))
 		    .andExpect(status().isOk());
@@ -85,7 +85,7 @@ class UsuarioControllerTest {
 		    .andExpect(status().isOk())
 		    //.andExpect(jsonPath("$.length()").value(1))
 		    .andExpect(jsonPath("$.length()").isNotEmpty())
-		    .andExpect(jsonPath("$.list[0].email").value("administrador@ezentis.com"));
+		    .andExpect(jsonPath("$.list[0].email").value("fran.perea.74@gmail.com"));
 		
 		//System.out.println(response.andReturn().getResponse().getContentAsString());
 	}
@@ -99,7 +99,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-		    .perform(post("/usuarios/save")
+		    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
@@ -115,7 +115,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-	    .perform(post("/usuarios/save")
+	    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -134,7 +134,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-	    .perform(post("/usuarios/save")
+	    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -153,7 +153,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-	    .perform(post("/usuarios/save")
+	    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -172,7 +172,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-	    .perform(post("/usuarios/save")
+	    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -192,7 +192,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-	    .perform(post("/usuarios/save")
+	    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -213,14 +213,14 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-	    .perform(post("/usuarios/save")
-	    .contentType(APPLICATION_JSON_UTF8)
-	    .content(requestJson)
-	    .header("authorization", "Bearer " + token))
-	    .andDo(print())
-	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_LIMITE_CARACTERES_PASSWORD))));
+		    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
+		    .contentType(APPLICATION_JSON_UTF8)
+		    .content(requestJson)
+		    .header("authorization", "Bearer " + token))
+		    .andDo(print())
+		    .andExpect(status().isBadRequest())
+		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_LIMITE_CARACTERES_PASSWORD))));
 		
 	}
 	
@@ -233,14 +233,14 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-	    .perform(post("/usuarios/save")
-	    .contentType(APPLICATION_JSON_UTF8)
-	    .content(requestJson)
-	    .header("authorization", "Bearer " + token))
-	    .andDo(print())
-	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_OBLIGATORIO))));	
+		    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
+		    .contentType(APPLICATION_JSON_UTF8)
+		    .content(requestJson)
+		    .header("authorization", "Bearer " + token))
+		    .andDo(print())
+		    .andExpect(status().isBadRequest())
+		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_OBLIGATORIO))));	
 	}
 	
 	@Test
@@ -252,14 +252,14 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-	    .perform(post("/usuarios/save")
-	    .contentType(APPLICATION_JSON_UTF8)
-	    .content(requestJson)
-	    .header("authorization", "Bearer " + token))
-	    .andDo(print())
-	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_USUARIO_SIZE))));	
+		    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
+		    .contentType(APPLICATION_JSON_UTF8)
+		    .content(requestJson)
+		    .header("authorization", "Bearer " + token))
+		    .andDo(print())
+		    .andExpect(status().isBadRequest())
+		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_USUARIO_SIZE))));	
 	}
 	
 	@Test
@@ -271,14 +271,14 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-	    .perform(post("/usuarios/save")
-	    .contentType(APPLICATION_JSON_UTF8)
-	    .content(requestJson)
-	    .header("authorization", "Bearer " + token))
-	    .andDo(print())
-	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_USUARIO_SIZE))));	
+		    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
+		    .contentType(APPLICATION_JSON_UTF8)
+		    .content(requestJson)
+		    .header("authorization", "Bearer " + token))
+		    .andDo(print())
+		    .andExpect(status().isBadRequest())
+		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_NOMBRE_USUARIO_SIZE))));	
 	}
 	
 	@Test
@@ -290,14 +290,14 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-	    .perform(post("/usuarios/save")
-	    .contentType(APPLICATION_JSON_UTF8)
-	    .content(requestJson)
-	    .header("authorization", "Bearer " + token))
-	    .andDo(print())
-	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_EMAIL_OBLIGATORIO))));	
+		    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
+		    .contentType(APPLICATION_JSON_UTF8)
+		    .content(requestJson)
+		    .header("authorization", "Bearer " + token))
+		    .andDo(print())
+		    .andExpect(status().isBadRequest())
+		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_EMAIL_OBLIGATORIO))));	
 	}
 	
 	@Test
@@ -309,14 +309,14 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-	    .perform(post("/usuarios/save")
-	    .contentType(APPLICATION_JSON_UTF8)
-	    .content(requestJson)
-	    .header("authorization", "Bearer " + token))
-	    .andDo(print())
-	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_EMAIL_USUARIO_FORMATO))));	
+		    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
+		    .contentType(APPLICATION_JSON_UTF8)
+		    .content(requestJson)
+		    .header("authorization", "Bearer " + token))
+		    .andDo(print())
+		    .andExpect(status().isBadRequest())
+		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_EMAIL_USUARIO_FORMATO))));	
 	}
 	
 	@Test
@@ -324,7 +324,7 @@ class UsuarioControllerTest {
 	void testUpdateOk() throws Exception {
 		
 		ResultActions response = mockMvc
-	    .perform(get("/usuarios/find")
+	    .perform(get(Constantes.USUARIOS + Constantes.GET_BY_ID)
 	    .param("id", "2")
 	    .header("authorization", "Bearer " + token));
 		
@@ -334,7 +334,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-		    .perform(put("/usuarios/update")
+		    .perform(put(Constantes.USUARIOS + Constantes.UPDATE)
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
@@ -350,12 +350,11 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-		    .perform(put("/usuarios/update")
+		    .perform(put(Constantes.USUARIOS + Constantes.UPDATE)
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isConflict())
-		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_ACTIVO_OBLIGATORIO))))
 			.andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_FECHA_ALTA_OBLIGATORIO))));
 		
 	}
@@ -370,7 +369,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-		    .perform(put("/usuarios/noExisto")
+		    .perform(put(Constantes.USUARIOS + "/noExisto")
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
@@ -383,12 +382,12 @@ class UsuarioControllerTest {
 	void testFindByIdOk() throws Exception {
 		
 		mockMvc
-		    .perform(get("/usuarios/find")
+		    .perform(get(Constantes.USUARIOS + Constantes.GET_BY_ID)
 		    .param("id", "1")
 		    .header("authorization", "Bearer " + token))
 		    .andDo(print())
 		    .andExpect(status().isOk())
-		    .andExpect(jsonPath("$[?(@.email === 'administrador@ezentis.com')]").exists());
+		    .andExpect(jsonPath("$[?(@.email === 'fran.perea.74@gmail.com')]").exists());
 	}
 	
 	@Test
@@ -396,7 +395,7 @@ class UsuarioControllerTest {
 	void testFindByIdUserNoExists() throws Exception {
 		
 		mockMvc
-	    .perform(get("/usuarios/find")
+	    .perform(get(Constantes.USUARIOS + Constantes.GET_BY_ID)
 	    .param("id", "5")
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isBadRequest())
@@ -413,14 +412,14 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-		    .perform(post("/usuarios/save")
+		    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isOk());	
 		
 		mockMvc
-	    .perform(delete("/usuarios/delete")
+	    .perform(delete(Constantes.USUARIOS + Constantes.DELETE)
 	    .param("id", "3")
 	    .header("authorization", "Bearer " + token))
 	    .andExpect(status().isOk());
@@ -431,7 +430,7 @@ class UsuarioControllerTest {
 	void testDeleteByIdUserNoExists() throws Exception {
 		
 		mockMvc
-		    .perform(delete("/usuarios/delete")
+		    .perform(delete(Constantes.USUARIOS + Constantes.DELETE)
 		    .param("id", "30")
 		    .header("authorization", "Bearer " + token))
 		    .andExpect(status().isBadRequest())
@@ -444,7 +443,7 @@ class UsuarioControllerTest {
 	void testDeactivateById() throws Exception {
 		
 		mockMvc
-		    .perform(put("/usuarios/deactivate")
+		    .perform(put(Constantes.USUARIOS + Constantes.DEACTIVATE)
     		.contentType(APPLICATION_JSON_UTF8)
     		.content("2")
 		    .header("authorization", "Bearer " + token))
@@ -456,7 +455,7 @@ class UsuarioControllerTest {
 	void testDeactivateByIdUserNoExists() throws Exception {
 
 		mockMvc
-		    .perform(put("/usuarios/deactivate")
+		    .perform(put(Constantes.USUARIOS + Constantes.DEACTIVATE)
     		.contentType(APPLICATION_JSON_UTF8)
     		.content("20")
 		    .header("authorization", "Bearer " + token))
@@ -470,7 +469,7 @@ class UsuarioControllerTest {
 	void testActivateById() throws Exception {
 
 		mockMvc
-		    .perform(put("/usuarios/activate")
+		    .perform(put(Constantes.USUARIOS + Constantes.ACTIVATE)
     		.contentType(APPLICATION_JSON_UTF8)
     		.content("2")
 		    .header("authorization", "Bearer " + token))
@@ -482,7 +481,7 @@ class UsuarioControllerTest {
 	void testActivateByIdUserNoExists() throws Exception {
 		
 		mockMvc
-		    .perform(put("/usuarios/activate")
+		    .perform(put(Constantes.USUARIOS + Constantes.ACTIVATE)
     		.contentType(APPLICATION_JSON_UTF8)
     		.content("20")
 		    .header("authorization", "Bearer " + token))
@@ -496,7 +495,7 @@ class UsuarioControllerTest {
 	void testPeticionSinToken() throws Exception {
 		
 		mockMvc
-		    .perform(put("/usuarios/activate")
+		    .perform(put(Constantes.USUARIOS + Constantes.ACTIVATE)
 		    .param("id", "2"))
 		    .andDo(print())
 		    .andExpect(status().isUnauthorized());
@@ -512,7 +511,7 @@ class UsuarioControllerTest {
 		String requestJson = getJsonCambio(c);
 		
 		mockMvc
-	    .perform(put("/contacto/cambioPassword")
+	    .perform(put(Constantes.CONTACTO + Constantes.CAMBIO_PASSWORD)
 		.contentType(APPLICATION_JSON_UTF8)
 		.content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -525,7 +524,7 @@ class UsuarioControllerTest {
 		requestJson = getJsonCambio(c);
 		
 		mockMvc
-	    .perform(put("/contacto/cambioPassword")
+	    .perform(put(Constantes.CONTACTO + Constantes.CAMBIO_PASSWORD)
 		.contentType(APPLICATION_JSON_UTF8)
 		.content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -541,7 +540,7 @@ class UsuarioControllerTest {
 		String requestJson = getJsonCambio(c);
 		
 		mockMvc
-	    .perform(put("/contacto/cambioPassword")
+	    .perform(put(Constantes.CONTACTO + Constantes.CAMBIO_PASSWORD)
 		.contentType(APPLICATION_JSON_UTF8)
 		.content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -559,7 +558,7 @@ class UsuarioControllerTest {
 		String requestJson = getJsonCambio(c);
 		
 		mockMvc
-	    .perform(put("/usuarios/cambioPasswordAdmin")
+	    .perform(put(Constantes.USUARIOS + Constantes.CAMBIO_PASSWORD_ADMIN)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -570,15 +569,16 @@ class UsuarioControllerTest {
 	@Order(30) 
 	void testCambioPasswordAdminKo() throws Exception {
 		
-		CambioPasswordDTO c = getCambioPasswordDTO(2000, "bbbb", "bbbb", "bbbb");
+		CambioPasswordDTO c = getCambioPasswordDTO(2000, "bbbbaaaaaa", "bbbbaaaaaa", "bbbbaaaaaa");
 		
 		String requestJson = getJsonCambio(c);
 		
 		mockMvc
-	    .perform(put("/usuarios/cambioPasswordAdmin")
+	    .perform(put(Constantes.USUARIOS + Constantes.CAMBIO_PASSWORD_ADMIN)
 	    .contentType(APPLICATION_JSON_UTF8)
 	    .content(requestJson)
 	    .header("authorization", "Bearer " + token))
+	    .andDo(print())
 	    .andExpect(status().isBadRequest())
 	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
 	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_NO_EXISTE_ENTIDAD))));
@@ -593,7 +593,7 @@ class UsuarioControllerTest {
 		String requestJson = getJsonCambio(c);
 		    
 		mockMvc
-	    .perform(put("/contacto/cambioPassword")
+	    .perform(put(Constantes.CONTACTO + Constantes.CAMBIO_PASSWORD)
 		.contentType(APPLICATION_JSON_UTF8)
 		.content(requestJson)
 	    .header("authorization", "Bearer " + token))
@@ -617,6 +617,7 @@ class UsuarioControllerTest {
 		u.setNombre(nombre);
 		u.setPassword(password);
 		u.setEmail(email);
+		u.setActivo(true);
 		RolDTO rol = new RolDTO();
 		rol.setId(1);
 		Set<RolDTO> roles = new HashSet<RolDTO>();

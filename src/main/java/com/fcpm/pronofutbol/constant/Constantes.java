@@ -4,15 +4,11 @@ public final class Constantes {
 
 	private Constantes() {}
 	
-    // mapeo peticiones controller
+    // mapeo controller
 	
-	public static final String AUTENTICATION = "autenticacion";
+	public static final String AUTENTICATION = "/autenticacion";
 	
-	public static final String GENERAR_TOKEN = "generate-token";
-	
-	public static final String LOGOUT = "logout";
-	
-	public static final String CONTACTO = "contacto";
+	public static final String CONTACTO = "/contacto";
 	
 	public static final String CONFIG = "/configuracion";
 	
@@ -22,9 +18,23 @@ public final class Constantes {
 	
 	public static final String LOGS = "/logs";
 	
+	public static final String LIGAS = "/ligas";
+	
+	public static final String PAISES = "/paises";
+	
+	public static final String TIPOS_SORTEO = "/tiposSorteos";
+	
+	public static final String QUINIELAS = "/quinielas";
+	
+	// mapeo metodos controller
+	
+	public static final String GENERAR_TOKEN = "/generate-token";
+	
+	public static final String LOGOUT = "/logout";
+	
 	public static final String FIND_ALL = "/findAll";
 	
-	public static final String FIND = "/find";
+	public static final String GET_BY_ID = "/getById";
 	
 	public static final String FIND_BY_FILTER = "/findByFilter";
 	
@@ -46,11 +56,15 @@ public final class Constantes {
 	
 	public static final String GET_REPORT_EXCEL = "/getReportExcel";
 	
+	public static final String FIND_FOR_SELECT = "/findForSelect";
+	
 	// Funcionalidades
 	
 	public static final String CONFIGURACION = "configuracion";
 	
 	public static final String USUARIO = "usuario";
+	
+	public static final String QUINIELA = "quiniela";
 	
 	// Acciones Log
 	
@@ -102,6 +116,8 @@ public final class Constantes {
 	
 	public static final String EXC_REPORT_POI = "error.report.xlsx";
 	
+	public static final String EXC_PASSWORD_ANTERIOR_OBLIGATORIO = "error.password.anterior.obligatorio";
+	
 	public static final String NO_AUTH = "no.autorizado";
 	
 	public static final String ERROR_RECUPERAR_NOMBRE_USUARIO_TOKEN = "error.recuperar.nombre.usuario.token";
@@ -145,6 +161,12 @@ public final class Constantes {
 	public static final String NO = "no";
 	
 	public static final String T_ROLES = "roles";
+	
+	public static final String NUMERO = "numero";
+	
+	public static final String LIGA = "liga";
+	
+	public static final String PAIS = "pais";
 	
 	// MATCH MODE PARA BUSQUEDAS
 	
@@ -218,6 +240,14 @@ public final class Constantes {
 	
 	public static final String VALIDATION_PASSWORD_USUARIO_SIZE = "validation.password.usuario.size";
 	
+	public static final String VALIDATION_NOMBRE_LIGA_SIZE = "validation.nombre.liga.size";
+	
+	public static final String VALIDATION_NOMBRE_PAIS_SIZE = "validation.nombre.pais.size";
+	
+	public static final String VALIDATION_NOMBRE_TIPO_SORTEO_SIZE = "validation.nombre.tipo.sorteo.size";
+	
+	public static final String VALIDATION_NOMBRE_QUINIELA_SIZE = "validation.nombre.quiniela.size";
+	
 	
 	public static final String VALIDATION_EMAIL_USUARIO_FORMATO = "validation.email.usuario.formato";
 	
@@ -248,10 +278,20 @@ public final class Constantes {
 	
 	public static final String VALIDATION_CONSULTA_OBLIGATORIO = "validation.consulta.obligatorio";
 	
-	public static final String VALIDATION_PASSWORD_ANTERIOR_OBLIGATORIO = "validation.password.anterior.obligatorio";
-	
 	public static final String VALIDATION_NUEVA_PASSWORD_OBLIGATORIO = "validation.nueva.password.obligatorio";
 	
 	public static final String VALIDATION_CONFIRMACION_PASSWORD_OBLIGATORIO = "validation.confirmacion.password.obligatorio";
 			
+	public static final String VALIDATION_PAIS_OBLIGATORIO = "validation.pais.obligatorio";
+	
+	public static final String VALIDATION_NUMERO_OBLIGATORIO = "validation.numero.obligatorio";
+	
+	public static final String VALIDATION_ACTUALIZADA_OBLIGATORIO = "validation.actualizada.obligatorio";
+	
+	public static final String VALIDATION_LIGA_OBLIGATORIO = "validation.liga.obligatorio";
+	
+	public static final String VALIDATION_NUMERO_DOBLES_OBLIGATORIO = "validation.numero.dobles.obligatorio";
+	
+	public static final String VALIDATION_NUMERO_TRIPLES_OBLIGATORIO = "validation.numero.triples.obligatorio";
+	
 }

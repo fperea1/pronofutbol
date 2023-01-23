@@ -2,6 +2,7 @@ package com.fcpm.pronofutbol.entities;
 
 import java.util.Set;
 
+import com.fcpm.pronofutbol.constant.Constantes;
 import com.googlecode.jmapper.annotations.JMap;
 
 import jakarta.persistence.Column;
@@ -11,7 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "roles")
@@ -20,21 +21,21 @@ public class Rol extends BaseEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JMap
-	private int id;
+	private Integer id;
 	
 	@Column(name = "nombre", length = 50, unique = true)
-	@NotBlank
+	@NotNull(message = Constantes.VALIDATION_NOMBRE_OBLIGATORIO)
 	@JMap
 	private String nombre;
 
     @ManyToMany(mappedBy = "roles")
     private Set<Usuario> users;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

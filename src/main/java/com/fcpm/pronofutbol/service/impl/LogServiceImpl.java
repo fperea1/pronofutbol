@@ -21,20 +21,20 @@ import com.fcpm.pronofutbol.utils.bd.FiltrosUtils;
 public class LogServiceImpl extends BaseServiceImpl implements LogService {
 	
 	@Autowired
-	private LogRepository logRepository;
+	private LogRepository repository;
 	
-	private Converter<Log, LogDTO> converterDTO;
+	private Converter<Log, LogDTO> toDTO;
 
 	public LogServiceImpl() {
 		super();
-		converterDTO = new Converter<Log, LogDTO>(Log.class, LogDTO.class);
+		toDTO = new Converter<Log, LogDTO>(Log.class, LogDTO.class);
 	}
 
 	@Transactional
 	@Override
 	public void save(Log log) {
 		
-		logRepository.save(log);
+		repository.save(log);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class LogServiceImpl extends BaseServiceImpl implements LogService {
         
 		Pageable pageable = getPageable(exportar, filtro);
         
-		return converterDTO.convertList(logRepository.findAll(spec, pageable));
+		return toDTO.convertToResultTableDTO(repository.findAll(spec, pageable));
 	}
 
 }

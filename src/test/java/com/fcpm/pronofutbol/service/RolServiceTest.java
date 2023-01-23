@@ -1,12 +1,14 @@
-package com.fcpm.pronofutbol.services;
+package com.fcpm.pronofutbol.service;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.fcpm.pronofutbol.dtos.ResultTableDTO;
+import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.service.interfaces.RolService;
 
 @SpringBootTest
@@ -16,9 +18,9 @@ class RolServiceTest {
 	private RolService service;
 
 	@Test
-	void test() {
-		ResultTableDTO result = service.findAll();
-		assertTrue(result == null || result.getList().size() >= 2);
+	void testFindAll() {
+		List<SelectDTO> result = service.findForSelect();
+		assertTrue(result == null || result.size() >= 2);
 	}
 
 }

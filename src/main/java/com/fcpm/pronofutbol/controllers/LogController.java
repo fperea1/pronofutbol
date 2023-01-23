@@ -26,12 +26,12 @@ import com.google.common.net.HttpHeaders;
 public class LogController extends BaseController {
 
 	@Autowired
-	private LogService logService;
+	private LogService service;
 	
 	@GetMapping(Constantes.FIND_BY_FILTER)
     public ResponseEntity<ResultTableDTO> findByFilter(@RequestParam String filtro) {
 		
-		ResultTableDTO resultTable = logService.findByFilter(filtro, false);
+		ResultTableDTO resultTable = service.findByFilter(filtro, false);
 		
         return new ResponseEntity<>(resultTable, HttpStatus.OK);
     }
@@ -39,7 +39,7 @@ public class LogController extends BaseController {
 	@GetMapping(value = Constantes.GET_REPORT_EXCEL)
 	public ResponseEntity<Resource> getReportExcel(@RequestParam String filtro) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException {
 		
-		ResultTableDTO resultTable = logService.findByFilter(filtro, true);
+		ResultTableDTO resultTable = service.findByFilter(filtro, true);
 
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, Constantes.ATTACHMENTS_EXCEL)

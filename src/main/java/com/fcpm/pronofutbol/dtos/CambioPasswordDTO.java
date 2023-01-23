@@ -2,19 +2,21 @@ package com.fcpm.pronofutbol.dtos;
 
 import com.fcpm.pronofutbol.constant.Constantes;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class CambioPasswordDTO {
 	
 	private Integer id;
 	
-	@NotBlank(message = Constantes.VALIDATION_PASSWORD_ANTERIOR_OBLIGATORIO)
 	private String oldPassword;
 	
-	@NotBlank(message = Constantes.VALIDATION_NUEVA_PASSWORD_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_NUEVA_PASSWORD_OBLIGATORIO)
+	@Size(min = 10, max = 100, message = Constantes.VALIDATION_PASSWORD_USUARIO_SIZE)
 	private String newPassword;
 	
-	@NotBlank(message = Constantes.VALIDATION_CONFIRMACION_PASSWORD_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_CONFIRMACION_PASSWORD_OBLIGATORIO)
+	@Size(min = 10, max = 100, message = Constantes.VALIDATION_PASSWORD_USUARIO_SIZE)
 	private String newPassword2;
 
 	public Integer getId() {

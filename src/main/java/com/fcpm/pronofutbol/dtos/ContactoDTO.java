@@ -2,14 +2,14 @@ package com.fcpm.pronofutbol.dtos;
 
 import com.fcpm.pronofutbol.constant.Constantes;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class ContactoDTO {
 	
-	@NotBlank(message = Constantes.VALIDATION_ASUNTO_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_ASUNTO_OBLIGATORIO)
 	private String asunto;
 	
-	@NotBlank(message = Constantes.VALIDATION_CONSULTA_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_CONSULTA_OBLIGATORIO)
 	private String consulta;
 
 	public String getAsunto() {

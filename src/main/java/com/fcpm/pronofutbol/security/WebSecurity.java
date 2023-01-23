@@ -67,9 +67,9 @@ public class WebSecurity {
 		.cors().and()
 		.csrf().disable()
 		.authorizeHttpRequests((authz) -> authz
-				.requestMatchers("/usuarios/**", "/logs/**", "/configuracion/**").hasAnyAuthority("SUPERUSUARIO")
-				.requestMatchers("/logout", "/cambioPassword").authenticated()
-				.requestMatchers("/autenticacion/generate-token", "/envioConsulta").permitAll()
+				.requestMatchers("/usuarios/**", "/logs/**", "/configuracion/**", "/quinielas/**", "/ligas/**", "/paises/**", "/tiposSorteo/**").hasAnyAuthority("SUPERUSUARIO")
+				.requestMatchers("/logout", "/cambioPassword").authenticated() //Luego comentaré esa línea, la dejo por tenerlo controlado
+				.requestMatchers("/autenticacion/generate-token", "/contacto/envioConsulta").permitAll()
                 .anyRequest().authenticated()
             )
 		.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);

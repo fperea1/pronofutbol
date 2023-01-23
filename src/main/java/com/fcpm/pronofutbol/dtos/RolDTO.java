@@ -8,16 +8,16 @@ import com.googlecode.jmapper.annotations.JGlobalMap;
 public class RolDTO extends BaseDTO {
 
 	@JsonView(View.Public.class)
-	private int id;
+	private Integer id;
 	
 	@JsonView(View.Public.class)
 	private String nombre;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

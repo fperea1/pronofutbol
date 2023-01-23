@@ -23,22 +23,22 @@ import com.fcpm.pronofutbol.utils.bd.FiltrosUtils;
 public class ConfiguracionServiceImpl extends BaseServiceImpl implements ConfiguracionService {
 
 	@Autowired
-	private ConfiguracionRepository configuracionRepository;
+	private ConfiguracionRepository repository;
 	
-	private Converter<ConfiguracionDTO, Configuracion> converterEntity;
+	private Converter<ConfiguracionDTO, Configuracion> toEntity;
 	
-	private Converter<Configuracion, ConfiguracionDTO> converterDTO;
+	private Converter<Configuracion, ConfiguracionDTO> toDTO;
 
 	public ConfiguracionServiceImpl() {
 		super();
-		converterEntity = new Converter<ConfiguracionDTO, Configuracion>(ConfiguracionDTO.class, Configuracion.class);
-		converterDTO = new Converter<Configuracion, ConfiguracionDTO>(Configuracion.class, ConfiguracionDTO.class);
+		toEntity = new Converter<ConfiguracionDTO, Configuracion>(ConfiguracionDTO.class, Configuracion.class);
+		toDTO = new Converter<Configuracion, ConfiguracionDTO>(Configuracion.class, ConfiguracionDTO.class);
 	}
 
 	@Override
 	public ConfiguracionDTO getByNombre(String nombre) {
 		
-		return (ConfiguracionDTO) converterDTO.toDTO(configuracionRepository.getByNombre(nombre));
+		return (ConfiguracionDTO) toDTO.toDTO(repository.getByNombre(nombre));
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class ConfiguracionServiceImpl extends BaseServiceImpl implements Configu
         
 		Pageable pageable = getPageable(exportar, filtro);
         
-        return converterDTO.convertList(configuracionRepository.findAll(spec, pageable));
+        return toDTO.convertToResultTableDTO(repository.findAll(spec, pageable));
         
 	}
 
@@ -58,32 +58,32 @@ public class ConfiguracionServiceImpl extends BaseServiceImpl implements Configu
 	@Override
 	public void save(ConfiguracionDTO configuracion) {
 
-		configuracionRepository.save((Configuracion) converterEntity.toEntity(configuracion));
+		repository.save((Configuracion) toEntity.toEntity(configuracion));
 	}
 
 	@Transactional
 	@Override
 	public void update(ConfiguracionDTO configuracion) {
 
-		configuracionRepository.save((Configuracion) converterEntity.toEntity(configuracion));
+		repository.save((Configuracion) toEntity.toEntity(configuracion));
 	}
 
 	@Override
-	public ConfiguracionDTO findById(Integer id) {
+	public ConfiguracionDTO getById(Integer id) {
 		
-		if (!configuracionRepository.existsById(id)) {
+		if (!repository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		return (ConfiguracionDTO) converterDTO.toDTO(configuracionRepository.findById(id).orElse(null));
+		return (ConfiguracionDTO) toDTO.toDTO(repository.findById(id).orElse(null));
 	}
 
 	@Transactional
 	@Override
 	public void deleteById(Integer id) {
 		
-		if (!configuracionRepository.existsById(id)) {
+		if (!repository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		configuracionRepository.deleteById(id);
+		repository.deleteById(id);
 	}
 }

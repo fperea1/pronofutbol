@@ -9,7 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -24,12 +24,12 @@ public class Configuracion extends BaseEntity {
 	
 	@Column(name = "nombre", length = 50, unique = true)
 	@Size(min = 1, max = 50, message = Constantes.VALIDATION_NOMBRE_CONFIG_SIZE)
-	@NotBlank(message = Constantes.VALIDATION_NOMBRE_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_NOMBRE_OBLIGATORIO)
 	private String nombre;
 	
 	@Column(name = "valor", length = 500)
 	@Size(min = 1, max = 500, message = Constantes.VALIDATION_VALOR_CONFIG_SIZE)
-	@NotBlank(message = Constantes.VALIDATION_VALOR_OBLIGATORIO)
+	@NotNull(message = Constantes.VALIDATION_VALOR_OBLIGATORIO)
 	private String valor;
 
 	public Integer getId() {

@@ -21,6 +21,7 @@ import com.fcpm.pronofutbol.dtos.ConfiguracionDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.enums.reportes.TablaConfiguracionEnum;
 import com.fcpm.pronofutbol.service.interfaces.ConfiguracionService;
+import com.fcpm.pronofutbol.utils.I18nUtils;
 import com.fcpm.pronofutbol.utils.POIUtils;
 import com.google.common.net.HttpHeaders;
 
@@ -49,19 +50,22 @@ public class ConfiguracionController extends BaseController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, Constantes.ATTACHMENTS_EXCEL)
 				.contentType(MediaType.parseMediaType(Constantes.CONTENT_EXCEL))
 				.cacheControl(CacheControl.noCache())
-				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), TablaConfiguracionEnum.values(), Constantes.SHEET_CONFIGURACION)));
+				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), 
+						TablaConfiguracionEnum.values(), I18nUtils.getMensaje(Constantes.SHEET_CONFIGURACION))));
 	}
 	
 	@PostMapping(Constantes.SAVE)
     public ResponseEntity<String> save(@Valid @RequestBody ConfiguracionDTO configuracion) {
 		service.save(configuracion);
-		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.ALTA, Constantes.CONFIGURACION + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
+		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.ALTA, 
+				I18nUtils.getMensaje(Constantes.CONFIGURACION) + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
     }
 	
 	@PutMapping(Constantes.UPDATE)
     public ResponseEntity<String> update(@Valid @RequestBody ConfiguracionDTO configuracion) {
 		service.update(configuracion);
-		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.EDICION, Constantes.CONFIGURACION + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
+		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.EDICION, 
+				I18nUtils.getMensaje(Constantes.CONFIGURACION) + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
     }
 	
 	@GetMapping(Constantes.GET_BY_ID)
@@ -73,6 +77,7 @@ public class ConfiguracionController extends BaseController {
     public ResponseEntity<String> deleteById(@RequestParam Integer id) {
 		ConfiguracionDTO configuracion = service.getById(id);
 		service.deleteById(id);
-		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.BAJA, Constantes.CONFIGURACION + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
+		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.BAJA, 
+				I18nUtils.getMensaje(Constantes.CONFIGURACION) + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
 	}
 }

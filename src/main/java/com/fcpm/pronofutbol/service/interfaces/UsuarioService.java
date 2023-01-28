@@ -7,9 +7,9 @@ public interface UsuarioService {
 
 	ResultTableDTO findByFilter(String filtroWeb, boolean exportar);
 	
-	void save(UsuarioDTO usuario);
+	void save(UsuarioDTO dto);
 	
-	void update(UsuarioDTO usuario);
+	void update(UsuarioDTO dto);
 	
 	UsuarioDTO getById(Integer id);
 	

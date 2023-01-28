@@ -9,9 +9,9 @@ public interface ConfiguracionService {
 
 	ResultTableDTO findByFilter(String filtroWeb, boolean exportar);
 	
-	void save(ConfiguracionDTO configuracion);
+	void save(ConfiguracionDTO dto);
 	
-	void update(ConfiguracionDTO configuracion);
+	void update(ConfiguracionDTO dto);
 	
 	ConfiguracionDTO getById(Integer id);
 	

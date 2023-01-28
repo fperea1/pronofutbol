@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fcpm.pronofutbol.constant.Constantes;
-import com.fcpm.pronofutbol.dtos.LigaDTO;
+import com.fcpm.pronofutbol.dtos.ArbitroDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.dtos.SelectDTO;
-import com.fcpm.pronofutbol.enums.reportes.TablaLigaEnum;
-import com.fcpm.pronofutbol.service.interfaces.LigaService;
+import com.fcpm.pronofutbol.enums.reportes.TablaArbitrosEnum;
+import com.fcpm.pronofutbol.service.interfaces.ArbitroService;
 import com.fcpm.pronofutbol.utils.I18nUtils;
 import com.fcpm.pronofutbol.utils.POIUtils;
 import com.google.common.net.HttpHeaders;
@@ -32,20 +32,20 @@ import com.google.common.net.HttpHeaders;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(Constantes.LIGAS)
-public class LigaController extends BaseController {
+@RequestMapping(Constantes.ARBITROS)
+public class ArbitroController extends BaseController {
 
 	@Autowired
-	private LigaService service;
+	private ArbitroService service;
 	
 	@GetMapping(Constantes.FIND_FOR_SELECT)
-    public ResponseEntity<List<SelectDTO>> findForSelect() {
+    public ResponseEntity<List<SelectDTO>> findAll() {
 		
 		List<SelectDTO> list = service.findForSelect();
 		
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
-
+	
 	@GetMapping(Constantes.FIND_BY_FILTER)
     public ResponseEntity<ResultTableDTO> findByFilter(@RequestParam String filtro) {
 		
@@ -63,33 +63,34 @@ public class LigaController extends BaseController {
 				.contentType(MediaType.parseMediaType(Constantes.CONTENT_EXCEL))
 				.cacheControl(CacheControl.noCache())
 				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), 
-						TablaLigaEnum.values(), I18nUtils.getMensaje(Constantes.SHEET_LIGAS))));
+						TablaArbitrosEnum.values(), I18nUtils.getMensaje(Constantes.SHEET_ARBITROS))));
 	}
 	
 	@PostMapping(Constantes.SAVE)
-    public ResponseEntity<String> save(@Valid @RequestBody LigaDTO dto) {
+    public ResponseEntity<String> save(@Valid @RequestBody ArbitroDTO dto) {
 		service.save(dto);
-		return responseOperationCorrecta(Constantes.PAIS, Constantes.ALTA, 
-				I18nUtils.getMensaje(Constantes.PAIS) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
+		return responseOperationCorrecta(Constantes.ARBITRO, Constantes.ALTA, 
+				I18nUtils.getMensaje(Constantes.ARBITRO) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
     }
 	
 	@PutMapping(Constantes.UPDATE)
-    public ResponseEntity<String> update(@Valid @RequestBody LigaDTO dto) {
+    public ResponseEntity<String> update(@Valid @RequestBody ArbitroDTO dto) {
 		service.update(dto);
-		return responseOperationCorrecta(Constantes.PAIS, Constantes.EDICION, 
-				I18nUtils.getMensaje(Constantes.PAIS) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
+		return responseOperationCorrecta(Constantes.ARBITRO, Constantes.EDICION, 
+				I18nUtils.getMensaje(Constantes.ARBITRO) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
     }
 	
 	@GetMapping(Constantes.GET_BY_ID)
-    public ResponseEntity<LigaDTO> getById(@RequestParam Integer id) {
+    public ResponseEntity<ArbitroDTO> getById(@RequestParam Integer id) {
 		return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
     }
 	
 	@DeleteMapping(Constantes.DELETE + "/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id) {
-		LigaDTO dto = service.getById(id);
+		ArbitroDTO dto = service.getById(id);
 		service.delete(id);
-		return responseOperationCorrecta(Constantes.PAIS, Constantes.BAJA, 
-				I18nUtils.getMensaje(Constantes.PAIS) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
+		return responseOperationCorrecta(Constantes.ARBITRO, Constantes.BAJA, 
+				I18nUtils.getMensaje(Constantes.ARBITRO) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
 	}
+
 }

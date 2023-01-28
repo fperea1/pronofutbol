@@ -23,6 +23,7 @@ import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.dtos.UsuarioDTO;
 import com.fcpm.pronofutbol.enums.reportes.TablaUsuariosEnum;
 import com.fcpm.pronofutbol.service.interfaces.UsuarioService;
+import com.fcpm.pronofutbol.utils.I18nUtils;
 import com.fcpm.pronofutbol.utils.POIUtils;
 import com.fcpm.pronofutbol.views.View;
 import com.google.common.net.HttpHeaders;
@@ -53,19 +54,22 @@ public class UsuarioController extends BaseController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, Constantes.ATTACHMENTS_EXCEL)
 				.contentType(MediaType.parseMediaType(Constantes.CONTENT_EXCEL))
 				.cacheControl(CacheControl.noCache())
-				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), TablaUsuariosEnum.values(), Constantes.SHEET_USUARIOS)));
+				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), 
+						TablaUsuariosEnum.values(), I18nUtils.getMensaje(Constantes.SHEET_USUARIOS))));
 	}
 	
 	@PostMapping(Constantes.SAVE)
     public ResponseEntity<String> save(@Valid @RequestBody UsuarioDTO usuario) {
 		service.save(usuario);
-		return responseOperationCorrecta(Constantes.USUARIO, Constantes.ALTA, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.ALTA, 
+				I18nUtils.getMensaje(Constantes.USUARIO) + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
     }
 	
 	@PutMapping(Constantes.UPDATE)
     public ResponseEntity<String> update(@Valid @RequestBody UsuarioDTO usuario) {
 		service.update(usuario);
-		return responseOperationCorrecta(Constantes.USUARIO, Constantes.EDICION, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.EDICION, 
+				I18nUtils.getMensaje(Constantes.USUARIO) + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
     }
 	
 	@JsonView(View.Public.class)
@@ -78,27 +82,31 @@ public class UsuarioController extends BaseController {
     public ResponseEntity<String> deleteById(@RequestParam Integer id) {
 		UsuarioDTO usuario = service.getById(id);
 		service.deleteById(id);
-		return responseOperationCorrecta(Constantes.USUARIO, Constantes.BAJA, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.BAJA, 
+				I18nUtils.getMensaje(Constantes.USUARIO) + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
 	}
 	
 	@PutMapping(Constantes.DEACTIVATE)
     public ResponseEntity<String> deactivateById(@RequestBody Integer id) {
 		UsuarioDTO usuario = service.getById(id);
 		service.deactivate(id);
-		return responseOperationCorrecta(Constantes.USUARIO, Constantes.DESACTIVAR, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.DESACTIVAR, 
+				I18nUtils.getMensaje(Constantes.USUARIO) + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
 	}
 	
 	@PutMapping(Constantes.ACTIVATE)
     public ResponseEntity<String> activateById(@RequestBody Integer id) {
 		UsuarioDTO usuario = service.getById(id);
 		service.activate(id);
-		return responseOperationCorrecta(Constantes.USUARIO, Constantes.ACTIVAR, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.ACTIVAR, 
+				I18nUtils.getMensaje(Constantes.USUARIO) + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
 	}
 	
 	@PutMapping(Constantes.CAMBIO_PASSWORD_ADMIN)
 	public ResponseEntity<String> cambioPasswordAdmin(@Valid @RequestBody CambioPasswordDTO cambioPasswordDTO) {
 		UsuarioDTO usuario = service.getById(cambioPasswordDTO.getId());
 		service.cambioPasswordAdmin(cambioPasswordDTO.getId(), cambioPasswordDTO.getNewPassword(), cambioPasswordDTO.getNewPassword2());
-		return responseOperationCorrecta(Constantes.USUARIO, Constantes.CAMBIO_PASS_ADMIN, Constantes.USUARIO + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
+		return responseOperationCorrecta(Constantes.USUARIO, Constantes.CAMBIO_PASS_ADMIN, 
+				I18nUtils.getMensaje(Constantes.USUARIO) + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
 	}
 }

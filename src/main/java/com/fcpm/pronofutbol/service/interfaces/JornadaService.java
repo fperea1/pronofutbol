@@ -2,22 +2,21 @@ package com.fcpm.pronofutbol.service.interfaces;
 
 import java.util.List;
 
-import com.fcpm.pronofutbol.dtos.LigaDTO;
+import com.fcpm.pronofutbol.dtos.JornadaDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.dtos.SelectDTO;
 
-public interface LigaService {
+public interface JornadaService {
 
 	ResultTableDTO findByFilter(String filtroWeb, boolean exportar);
+	
+	JornadaDTO getById(Integer id);
 
-	void save(LigaDTO dto);
+	void save(JornadaDTO dto);
 
-	LigaDTO getById(int id);
+	void update(JornadaDTO dto);
 
-	void update(LigaDTO dto);
-
-	List<SelectDTO> findForSelect();
+	public List<SelectDTO> findForSelect();
 
 	void delete(Integer id);
-
 }

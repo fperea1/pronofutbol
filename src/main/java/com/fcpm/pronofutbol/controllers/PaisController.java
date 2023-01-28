@@ -25,6 +25,7 @@ import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.enums.reportes.TablaPaisEnum;
 import com.fcpm.pronofutbol.service.interfaces.PaisService;
+import com.fcpm.pronofutbol.utils.I18nUtils;
 import com.fcpm.pronofutbol.utils.POIUtils;
 import com.google.common.net.HttpHeaders;
 
@@ -61,19 +62,22 @@ public class PaisController extends BaseController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, Constantes.ATTACHMENTS_EXCEL)
 				.contentType(MediaType.parseMediaType(Constantes.CONTENT_EXCEL))
 				.cacheControl(CacheControl.noCache())
-				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), TablaPaisEnum.values(), Constantes.SHEET_CONFIGURACION)));
+				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), 
+						TablaPaisEnum.values(), I18nUtils.getMensaje(Constantes.SHEET_PAISES))));
 	}
 	
 	@PostMapping(Constantes.SAVE)
     public ResponseEntity<String> save(@Valid @RequestBody PaisDTO dto) {
 		service.save(dto);
-		return responseOperationCorrecta(Constantes.PAIS, Constantes.ALTA, Constantes.PAIS + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
+		return responseOperationCorrecta(Constantes.PAIS, Constantes.ALTA, 
+				I18nUtils.getMensaje(Constantes.PAIS) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
     }
 	
 	@PutMapping(Constantes.UPDATE)
     public ResponseEntity<String> update(@Valid @RequestBody PaisDTO dto) {
 		service.update(dto);
-		return responseOperationCorrecta(Constantes.PAIS, Constantes.EDICION, Constantes.PAIS + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
+		return responseOperationCorrecta(Constantes.PAIS, Constantes.EDICION, 
+				I18nUtils.getMensaje(Constantes.PAIS) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
     }
 	
 	@GetMapping(Constantes.GET_BY_ID)
@@ -85,7 +89,8 @@ public class PaisController extends BaseController {
     public ResponseEntity<String> delete(@PathVariable Integer id) {
 		PaisDTO dto = service.getById(id);
 		service.delete(id);
-		return responseOperationCorrecta(Constantes.PAIS, Constantes.DELETE, Constantes.PAIS + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
+		return responseOperationCorrecta(Constantes.PAIS, Constantes.BAJA, 
+				I18nUtils.getMensaje(Constantes.PAIS) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
 	}
 
 }

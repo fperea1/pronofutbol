@@ -25,6 +25,7 @@ import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.enums.reportes.TablaQuinielaEnum;
 import com.fcpm.pronofutbol.service.interfaces.QuinielaService;
+import com.fcpm.pronofutbol.utils.I18nUtils;
 import com.fcpm.pronofutbol.utils.POIUtils;
 import com.google.common.net.HttpHeaders;
 
@@ -61,19 +62,22 @@ public class QuinielaController extends BaseController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, Constantes.ATTACHMENTS_EXCEL)
 				.contentType(MediaType.parseMediaType(Constantes.CONTENT_EXCEL))
 				.cacheControl(CacheControl.noCache())
-				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), TablaQuinielaEnum.values(), Constantes.SHEET_CONFIGURACION)));
+				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), 
+						TablaQuinielaEnum.values(), I18nUtils.getMensaje(Constantes.SHEET_QUINIELAS))));
 	}
 	
 	@PostMapping(Constantes.SAVE)
     public ResponseEntity<String> save(@Valid @RequestBody QuinielaDTO dto) {
 		service.save(dto);
-		return responseOperationCorrecta(Constantes.QUINIELA, Constantes.ALTA, Constantes.QUINIELA + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
+		return responseOperationCorrecta(Constantes.QUINIELA, Constantes.ALTA, 
+				I18nUtils.getMensaje(Constantes.QUINIELA) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
     }
 	
 	@PutMapping(Constantes.UPDATE)
     public ResponseEntity<String> update(@Valid @RequestBody QuinielaDTO dto) {
 		service.update(dto);
-		return responseOperationCorrecta(Constantes.QUINIELA, Constantes.EDICION, Constantes.QUINIELA + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
+		return responseOperationCorrecta(Constantes.QUINIELA, Constantes.EDICION, 
+				I18nUtils.getMensaje(Constantes.QUINIELA) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
     }
 	
 	@GetMapping(Constantes.GET_BY_ID)
@@ -85,7 +89,8 @@ public class QuinielaController extends BaseController {
     public ResponseEntity<String> delete(@PathVariable Integer id) {
 		QuinielaDTO dto = service.getById(id);
 		service.delete(id);
-		return responseOperationCorrecta(Constantes.QUINIELA, Constantes.DELETE, Constantes.QUINIELA + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre() + " - " + dto.getNumero());
+		return responseOperationCorrecta(Constantes.QUINIELA, Constantes.BAJA, 
+				I18nUtils.getMensaje(Constantes.QUINIELA) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre() + " - " + dto.getNumero());
 	}
 
 }

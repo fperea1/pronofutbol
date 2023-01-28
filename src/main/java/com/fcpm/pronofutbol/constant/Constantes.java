@@ -26,6 +26,10 @@ public final class Constantes {
 	
 	public static final String QUINIELAS = "/quinielas";
 	
+	public static final String JORNADAS = "/jornadas";
+	
+	public static final String ARBITROS = "/arbitros";
+	
 	// mapeo metodos controller
 	
 	public static final String GENERAR_TOKEN = "/generate-token";
@@ -65,6 +69,14 @@ public final class Constantes {
 	public static final String USUARIO = "usuario";
 	
 	public static final String QUINIELA = "quiniela";
+	
+	public static final String LIGA = "liga";
+	
+	public static final String PAIS = "pais";
+	
+	public static final String JORNADA = "jornada";
+	
+	public static final String ARBITRO = "arbitro";
 	
 	// Acciones Log
 	
@@ -164,9 +176,11 @@ public final class Constantes {
 	
 	public static final String NUMERO = "numero";
 	
-	public static final String LIGA = "liga";
+	public static final String GANADOS_LOCAL = "ganados.local";
 	
-	public static final String PAIS = "pais";
+	public static final String EMPATADOS = "empatados";
+	
+	public static final String GANADOS_VISITANTE = "ganados.visitante";
 	
 	// MATCH MODE PARA BUSQUEDAS
 	
@@ -212,6 +226,16 @@ public final class Constantes {
 	
 	public static final String SHEET_USUARIOS = "usuarios";
 	
+	public static final String SHEET_JORNADAS = "jornadas";
+	
+	public static final String SHEET_PAISES = "paises";
+	
+	public static final String SHEET_LIGAS = "ligas";
+	
+	public static final String SHEET_QUINIELAS = "quinielas";
+	
+	public static final String SHEET_ARBITROS = "arbitros";
+	
 	// CONTENT TYPE
 	
 	public static final String CONTENT_EXCEL = "application/vnd.ms-excel";
@@ -247,6 +271,10 @@ public final class Constantes {
 	public static final String VALIDATION_NOMBRE_TIPO_SORTEO_SIZE = "validation.nombre.tipo.sorteo.size";
 	
 	public static final String VALIDATION_NOMBRE_QUINIELA_SIZE = "validation.nombre.quiniela.size";
+	
+	public static final String VALIDATION_NOMBRE_JORNADA_SIZE = "validation.nombre.jornada.size";
+	
+	public static final String VALIDATION_NOMBRE_ARBITRO_SIZE = "validation.nombre.arbitro.size";
 	
 	
 	public static final String VALIDATION_EMAIL_USUARIO_FORMATO = "validation.email.usuario.formato";
@@ -293,5 +321,11 @@ public final class Constantes {
 	public static final String VALIDATION_NUMERO_DOBLES_OBLIGATORIO = "validation.numero.dobles.obligatorio";
 	
 	public static final String VALIDATION_NUMERO_TRIPLES_OBLIGATORIO = "validation.numero.triples.obligatorio";
+	
+	public static final String VALIDATION_GANADOS_LOCAL_OBLIGATORIO = "validation.ganados.local.obligatorio";
+	
+	public static final String VALIDATION_EMPATADOS_OBLIGATORIO = "validation.empatados.obligatorio";
+	
+	public static final String VALIDATION_GANADOS_VISITANTE_OBLIGATORIO = "validation.ganados.visitante.obligatorio";
 	
 }

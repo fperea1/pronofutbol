@@ -11,9 +11,9 @@ public interface TipoSorteoService {
 	
 	TipoSorteoDTO getById(Integer id);
 
-	void save(TipoSorteoDTO pais);
+	void save(TipoSorteoDTO dto);
 
-	void update(TipoSorteoDTO pais);
+	void update(TipoSorteoDTO dto);
 
 	List<TipoSorteoDTO> findAll();
 

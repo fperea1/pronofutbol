@@ -12,9 +12,9 @@ public interface PaisService {
 	
 	PaisDTO getById(Integer id);
 
-	void save(PaisDTO pais);
+	void save(PaisDTO dto);
 
-	void update(PaisDTO pais);
+	void update(PaisDTO dto);
 
 	public List<SelectDTO> findForSelect();
 

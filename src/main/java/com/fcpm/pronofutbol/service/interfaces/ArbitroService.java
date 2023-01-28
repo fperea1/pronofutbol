@@ -2,21 +2,19 @@ package com.fcpm.pronofutbol.service.interfaces;
 
 import java.util.List;
 
-import com.fcpm.pronofutbol.dtos.QuinielaDTO;
+import com.fcpm.pronofutbol.dtos.ArbitroDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.dtos.SelectDTO;
 
-public interface QuinielaService {
+public interface ArbitroService {
 
-	void save(QuinielaDTO dto);
+	void save(ArbitroDTO dto);
 	
-	void update(QuinielaDTO dto);
-
-	QuinielaDTO getByNumero(Integer numero);
+	void update(ArbitroDTO dto);
 
 	ResultTableDTO findByFilter(String filtro, boolean b);
 
-	QuinielaDTO getById(Integer id);
+	ArbitroDTO getById(Integer id);
 
 	void delete(Integer id);
 

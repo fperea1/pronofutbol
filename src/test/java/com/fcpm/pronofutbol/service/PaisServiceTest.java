@@ -40,7 +40,7 @@ public class PaisServiceTest {
 	@Order(1) 
 	void testSaveOk() {
 		PaisDTO pais = new PaisDTO();
-		pais.setNombre("País de pruebas");
+		pais.setNombre("Nombre de pruebas");
 		service.save(pais);
 		ResultTableDTO result = service.findByFilter(filtro, false);
 		assertTrue(result == null || result.getList().size() >= 2);
@@ -68,7 +68,7 @@ public class PaisServiceTest {
 	@Order(4)
 	void testSaveNombreSizeMayorKo() {
 		PaisDTO pais = new PaisDTO();
-		pais.setNombre("Liga de pruebas 12345678901234567890123456789012345678901234567890");
+		pais.setNombre("Nombre de pruebas 12345678901234567890123456789012345678901234567890");
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(pais) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
@@ -94,7 +94,7 @@ public class PaisServiceTest {
 	@Order(6)
 	void testSaveKoNombreNoUnique() {
 		PaisDTO pais = new PaisDTO();
-		pais.setNombre("País de pruebas");
+		pais.setNombre("Nombre de pruebas");
 		DataIntegrityViolationException ex = assertThrows(DataIntegrityViolationException.class, () -> service.save(pais) );
 		assertNotNull(ex);
 	}

@@ -35,16 +35,16 @@ CREATE TABLE "quinielas" (
 ALTER TABLE quinielas add foreign key (id_liga) references ligas(id);
 
 CREATE TABLE "jornadas" (
-	"id" INT PRIMARY KEY IDENTITY (1,1),  
-	"numero" INT NOT NULL
+	"id" INT PRIMARY KEY IDENTITY (1,1),
+	"nombre" NVARCHAR(50) NOT NULL UNIQUE
 ) 
 
 CREATE TABLE "arbitros" (
 	"id" INT PRIMARY KEY IDENTITY (1,1),  
 	"nombre" NVARCHAR(100) NOT NULL UNIQUE,
-	"ganados_local" INT,
-	"empatados" INT,
-	"ganados_visitante" INT,
+	"ganados_local" INT NOT NULL,
+	"empatados" INT NOT NULL,
+	"ganados_visitante" INT NOT NULL,
 	"id_liga" INT NOT NULL
 ) 
 ALTER TABLE arbitros add foreign key (id_liga) references ligas(id);

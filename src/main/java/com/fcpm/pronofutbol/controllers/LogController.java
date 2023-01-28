@@ -18,6 +18,7 @@ import com.fcpm.pronofutbol.constant.Constantes;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.enums.reportes.TablaLogsEnum;
 import com.fcpm.pronofutbol.service.interfaces.LogService;
+import com.fcpm.pronofutbol.utils.I18nUtils;
 import com.fcpm.pronofutbol.utils.POIUtils;
 import com.google.common.net.HttpHeaders;
 
@@ -45,6 +46,7 @@ public class LogController extends BaseController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, Constantes.ATTACHMENTS_EXCEL)
 				.contentType(MediaType.parseMediaType(Constantes.CONTENT_EXCEL))
 				.cacheControl(CacheControl.noCache())
-				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), TablaLogsEnum.values(), Constantes.SHEET_LOGS)));
+				.body(new ByteArrayResource(POIUtils.getReportExcel(resultTable.getList(), 
+						TablaLogsEnum.values(), I18nUtils.getMensaje(Constantes.SHEET_LOGS))));
 	}
 }

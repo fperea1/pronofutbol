@@ -8,7 +8,7 @@ public final class Constantes {
 	
 	// mapeo controller 3
 	
-    // mapeo controller 2
+	// mapeo controller 2
 	
 	public static final String AUTENTICATION = "/autenticacion";
 	

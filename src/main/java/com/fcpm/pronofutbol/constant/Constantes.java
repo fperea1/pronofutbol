@@ -6,7 +6,11 @@ public final class Constantes {
 	
     // mapeo controller
 	
+    // mapeo controller 2
+	
 	public static final String AUTENTICATION = "/autenticacion";
+	
+	public static final String AUTENTICATION2 = "/autenticacion";
 	
 	public static final String CONTACTO = "/contacto";
 	

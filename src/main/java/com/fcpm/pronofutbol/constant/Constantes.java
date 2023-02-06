@@ -20,8 +20,6 @@ public final class Constantes {
 	
 	public static final String ROLES = "/roles";
 	
-	public static final String ROLES2 = "/roles";
-	
 	public static final String LOGS = "/logs";
 	
 	public static final String LIGAS = "/ligas";

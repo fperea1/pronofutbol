@@ -8,8 +8,6 @@ public final class Constantes {
 	
 	public static final String AUTENTICATION = "/autenticacion";
 	
-	public static final String AUTENTICATION2 = "/autenticacion";
-	
 	public static final String CONTACTO = "/contacto";
 	
 	public static final String CONFIG = "/configuracion";

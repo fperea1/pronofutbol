@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fcpm.pronofutbol.constant.Constantes;
-import com.fcpm.pronofutbol.dtos.TipoSorteoDTO;
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.service.interfaces.TipoSorteoService;
 
 @RestController
@@ -21,11 +21,9 @@ public class TipoSorteoController extends BaseController {
 	private TipoSorteoService service;
 	
 	@GetMapping(Constantes.FIND_ALL)
-	public ResponseEntity<List<TipoSorteoDTO>> findAll() {
+	public ResponseEntity<List<BaseDTO>> findForSelect() {
 		
-		List<TipoSorteoDTO> tiposSorteo = service.findAll();
-		
-        return new ResponseEntity<>(tiposSorteo, HttpStatus.OK);
+        return new ResponseEntity<>(service.findForSelect(), HttpStatus.OK);
     }
 
 }

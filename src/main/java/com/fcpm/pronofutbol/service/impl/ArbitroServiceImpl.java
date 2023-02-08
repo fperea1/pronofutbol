@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fcpm.pronofutbol.constant.Constantes;
 import com.fcpm.pronofutbol.dtos.ArbitroDTO;
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
-import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.entities.Arbitro;
 import com.fcpm.pronofutbol.entities.BaseEntity;
 import com.fcpm.pronofutbol.entities.Liga;
@@ -40,8 +40,8 @@ public class ArbitroServiceImpl extends BaseServiceImpl implements ArbitroServic
 
 	public ArbitroServiceImpl() {
 		super();
-		toEntity = new Converter<ArbitroDTO, Arbitro>(ArbitroDTO.class, Arbitro.class);
-		toDTO = new Converter<Arbitro, ArbitroDTO>(Arbitro.class, ArbitroDTO.class);
+		toEntity = new Converter<>(ArbitroDTO.class, Arbitro.class);
+		toDTO = new Converter<>(Arbitro.class, ArbitroDTO.class);
 	}
 
 	@Override
@@ -97,12 +97,11 @@ public class ArbitroServiceImpl extends BaseServiceImpl implements ArbitroServic
 		repository.deleteById(id);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<SelectDTO> findForSelect() {
+	public List<BaseDTO> findForSelect() {
 		
 		Sort sort = Sort.by("nombre").ascending();
 		
-		return (List<SelectDTO>) toDTO.convertListToSelectDTO(repository.findAll(sort));
+		return toDTO.convertListToSelectDTO(repository.findAll(sort));
 	}
 }

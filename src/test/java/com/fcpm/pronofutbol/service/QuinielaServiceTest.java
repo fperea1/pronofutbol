@@ -29,7 +29,7 @@ import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-public class QuinielaServiceTest {
+class QuinielaServiceTest {
 
 	@Autowired
 	private QuinielaService service;
@@ -49,8 +49,8 @@ public class QuinielaServiceTest {
 		quiniela.setLiga(liga);
 		service.save(quiniela);
 		quiniela = service.getByNumero(quiniela.getNumero());
-		assertEquals(quiniela.getNumero(), 1);
-		assertEquals(quiniela.getActualizada(), false);
+		assertEquals(1, quiniela.getNumero());
+		assertEquals(false, quiniela.getActualizada());
 		assertNotNull(quiniela.getLiga());
 	}
 
@@ -75,7 +75,7 @@ public class QuinielaServiceTest {
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
+		assertNotNull(messages);
 		assertEquals(Constantes.VALIDATION_FECHA_OBLIGATORIO, messages.get(0));
 	}
 	
@@ -90,7 +90,7 @@ public class QuinielaServiceTest {
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
+		assertNotNull(messages);
 		assertEquals(Constantes.VALIDATION_LIGA_OBLIGATORIO, messages.get(0));
 	}
 	
@@ -107,7 +107,7 @@ public class QuinielaServiceTest {
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
+		assertNotNull(messages);
 		assertEquals(Constantes.VALIDATION_NUMERO_OBLIGATORIO, messages.get(0));
 	}
 	
@@ -124,7 +124,7 @@ public class QuinielaServiceTest {
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
+		assertNotNull(messages);
 		assertEquals(Constantes.VALIDATION_ACTUALIZADA_OBLIGATORIO, messages.get(0));
 	}
 	
@@ -141,7 +141,7 @@ public class QuinielaServiceTest {
 		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
+		assertNotNull(messages);
 		assertEquals(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, messages.get(0));
 	}
 	

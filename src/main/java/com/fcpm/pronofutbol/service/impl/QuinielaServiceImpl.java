@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fcpm.pronofutbol.constant.Constantes;
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.QuinielaDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
-import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.entities.BaseEntity;
 import com.fcpm.pronofutbol.entities.Liga;
 import com.fcpm.pronofutbol.entities.Quiniela;
@@ -39,8 +39,8 @@ public class QuinielaServiceImpl extends BaseServiceImpl implements QuinielaServ
 
 	public QuinielaServiceImpl() {
 		super();
-		toEntity = new Converter<QuinielaDTO, Quiniela>(QuinielaDTO.class, Quiniela.class);
-		toDTO = new Converter<Quiniela, QuinielaDTO>(Quiniela.class, QuinielaDTO.class);
+		toEntity = new Converter<>(QuinielaDTO.class, Quiniela.class);
+		toDTO = new Converter<>(Quiniela.class, QuinielaDTO.class);
 	}
 
 	@Override
@@ -102,12 +102,11 @@ public class QuinielaServiceImpl extends BaseServiceImpl implements QuinielaServ
 		repository.deleteById(id);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<SelectDTO> findForSelect() {
+	public List<BaseDTO> findForSelect() {
 		
 		Sort sort = Sort.by("nombre").ascending();
 		
-		return (List<SelectDTO>) toDTO.convertListToSelectDTO(repository.findAll(sort));
+		return toDTO.convertListToSelectDTO(repository.findAll(sort));
 	}
 }

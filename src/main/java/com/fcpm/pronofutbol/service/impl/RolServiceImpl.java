@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.entities.Rol;
 import com.fcpm.pronofutbol.repositories.RolRepository;
@@ -24,16 +25,15 @@ public class RolServiceImpl implements RolService {
 	
 	public RolServiceImpl() {
 		super();
-		toDTO = new Converter<Rol, SelectDTO>(Rol.class, SelectDTO.class);
+		toDTO = new Converter<>(Rol.class, SelectDTO.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<SelectDTO> findForSelect() {
+	public List<BaseDTO> findForSelect() {
 		
 		Sort sort = Sort.by("nombre").ascending();
 		
-		return (List<SelectDTO>) toDTO.convertListToSelectDTO(repository.findAll(sort));
+		return toDTO.convertListToSelectDTO(repository.findAll(sort));
 	}
 
 }

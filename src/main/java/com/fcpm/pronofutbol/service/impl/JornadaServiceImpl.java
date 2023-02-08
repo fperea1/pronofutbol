@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fcpm.pronofutbol.constant.Constantes;
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.JornadaDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
-import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.entities.BaseEntity;
 import com.fcpm.pronofutbol.entities.Jornada;
 import com.fcpm.pronofutbol.exceptions.ServiceException;
@@ -35,8 +35,8 @@ public class JornadaServiceImpl extends BaseServiceImpl implements JornadaServic
 	
 	public JornadaServiceImpl() {
 		super();
-		toEntity = new Converter<JornadaDTO, Jornada>(JornadaDTO.class, Jornada.class);
-		toDTO = new Converter<Jornada, JornadaDTO>(Jornada.class, JornadaDTO.class);
+		toEntity = new Converter<>(JornadaDTO.class, Jornada.class);
+		toDTO = new Converter<>(Jornada.class, JornadaDTO.class);
 	}
 	
 	@Override
@@ -78,13 +78,12 @@ public class JornadaServiceImpl extends BaseServiceImpl implements JornadaServic
 		repository.deleteById(id);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<SelectDTO> findForSelect() {
+	public List<BaseDTO> findForSelect() {
 		
 		Sort sort = Sort.by("nombre").ascending();
 		
-		return (List<SelectDTO>) toDTO.convertListToSelectDTO(repository.findAll(sort));
+		return toDTO.convertListToSelectDTO(repository.findAll(sort));
 	}
 
 }

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @JGlobalMap
-public class ArbitroDTO extends BaseDTO {
+public class ArbitroDTO implements BaseDTO {
 
 	private Integer id;
 	

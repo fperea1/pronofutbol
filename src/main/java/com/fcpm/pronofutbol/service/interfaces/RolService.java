@@ -2,10 +2,10 @@ package com.fcpm.pronofutbol.service.interfaces;
 
 import java.util.List;
 
-import com.fcpm.pronofutbol.dtos.SelectDTO;
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 
 public interface RolService {
 
-	List<SelectDTO> findForSelect();
+	List<BaseDTO> findForSelect();
 
 }

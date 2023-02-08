@@ -6,6 +6,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 public final class I18nUtils {
 	
+	private I18nUtils() {}
+	
 	@Autowired
     private static MessageSource messageSource;
 	

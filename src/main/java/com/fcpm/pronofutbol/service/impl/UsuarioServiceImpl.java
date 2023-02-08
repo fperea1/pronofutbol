@@ -51,9 +51,9 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 
 	public UsuarioServiceImpl() {
 		super();
-		toEntity = new Converter<UsuarioDTO, Usuario>(UsuarioDTO.class, Usuario.class);
-		toDTO = new Converter<Usuario, UsuarioDTO>(Usuario.class, UsuarioDTO.class);
-		converterListadoDTO = new Converter<Usuario, UsuarioListadoDTO>(Usuario.class, UsuarioListadoDTO.class);
+		toEntity = new Converter<>(UsuarioDTO.class, Usuario.class);
+		toDTO = new Converter<>(Usuario.class, UsuarioDTO.class);
+		converterListadoDTO = new Converter<>(Usuario.class, UsuarioListadoDTO.class);
 	}
 
 	@Override
@@ -97,8 +97,7 @@ public class UsuarioServiceImpl extends BaseServiceImpl implements UsuarioServic
 	@Transactional
 	@Override
 	public void update(UsuarioDTO usuario) {
-		//TODO: revisar lo del cambio de la contraseña. No debería hacer falta
-	//	usuario.setPassword(repository.getPassword(usuario.getId()));
+		
 		repository.save((Usuario) toEntity.toEntity(usuario));
 	}
 

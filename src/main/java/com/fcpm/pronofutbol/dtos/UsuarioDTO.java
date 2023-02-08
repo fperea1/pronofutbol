@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @JGlobalMap
-public class UsuarioDTO extends BaseDTO {
+public class UsuarioDTO implements BaseDTO {
 
 	@JsonView(View.Public.class)
 	private Integer id;

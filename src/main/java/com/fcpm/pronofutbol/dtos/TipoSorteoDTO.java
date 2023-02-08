@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @JGlobalMap
-public class TipoSorteoDTO extends BaseDTO {
+public class TipoSorteoDTO implements BaseDTO {
 
 	@JsonView(View.Public.class)
 	private Integer id;

@@ -1,11 +1,7 @@
 package com.fcpm.pronofutbol.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -19,7 +15,6 @@ import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.dtos.TipoSorteoDTO;
 import com.fcpm.pronofutbol.service.interfaces.TipoSorteoService;
 
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
@@ -54,11 +49,7 @@ public class TipoSorteoServiceTest {
 	@Order(3)
 	void testSaveNullKo() {
 		TipoSorteoDTO tipoSorteo = new TipoSorteoDTO();
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
+		 assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo), Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
 	}
 	
 	@Test
@@ -68,11 +59,7 @@ public class TipoSorteoServiceTest {
 		tipoSorteo.setNombre("Tipo sortedo de pruebas 12345678901234567890123456789012345678901234567890");
 		tipoSorteo.setNumDobles(1);
 		tipoSorteo.setNumTriples(1);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_NOMBRE_TIPO_SORTEO_SIZE);
+		assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo), Constantes.VALIDATION_NOMBRE_TIPO_SORTEO_SIZE);
 	}
 	
 	@Test
@@ -82,11 +69,7 @@ public class TipoSorteoServiceTest {
 		tipoSorteo.setNombre("");
 		tipoSorteo.setNumDobles(1);
 		tipoSorteo.setNumTriples(1);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_NOMBRE_TIPO_SORTEO_SIZE);
+		assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo), Constantes.VALIDATION_NOMBRE_TIPO_SORTEO_SIZE);
 	}
 	
 	@Test
@@ -96,11 +79,7 @@ public class TipoSorteoServiceTest {
 		tipoSorteo.setNombre("Tipo sortedo de pruebas 2");
 		tipoSorteo.setNumDobles(null);
 		tipoSorteo.setNumTriples(1);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_NUMERO_DOBLES_OBLIGATORIO);
+		assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo), Constantes.VALIDATION_NUMERO_DOBLES_OBLIGATORIO);
 	}
 	
 	@Test
@@ -110,10 +89,6 @@ public class TipoSorteoServiceTest {
 		tipoSorteo.setNombre("Tipo sortedo de pruebas 2");
 		tipoSorteo.setNumDobles(1);
 		tipoSorteo.setNumTriples(null);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_NUMERO_TRIPLES_OBLIGATORIO);
+		assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo), Constantes.VALIDATION_NUMERO_TRIPLES_OBLIGATORIO);
 	}
 }

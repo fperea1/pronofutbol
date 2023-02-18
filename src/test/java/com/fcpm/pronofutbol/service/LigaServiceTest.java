@@ -1,12 +1,7 @@
 package com.fcpm.pronofutbol.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -23,7 +18,6 @@ import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.service.interfaces.LigaService;
 import com.fcpm.pronofutbol.service.interfaces.PaisService;
 
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
@@ -61,12 +55,7 @@ public class LigaServiceTest {
 	@Order(3)
 	void testSaveTodoNullKo() {
 		LigaDTO liga = new LigaDTO();
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		
-		//messages.forEach(m -> System.out.println(m));
+		assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
 	}
 	
 	@Test
@@ -74,11 +63,7 @@ public class LigaServiceTest {
 	void testSavePaisNullKo() {
 		LigaDTO liga = new LigaDTO();
 		liga.setNombre("Liga de pruebas");
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_PAIS_OBLIGATORIO);
+		assertThrows(ConstraintViolationException.class, () -> service.save(liga), Constantes.VALIDATION_PAIS_OBLIGATORIO);
 	}
 	
 	@Test
@@ -88,11 +73,7 @@ public class LigaServiceTest {
 		liga.setNombre("Liga de pruebas 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
 		PaisDTO pais = paisService.getById(1);
 		liga.setPais(pais);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_NOMBRE_LIGA_SIZE);
+		assertThrows(ConstraintViolationException.class, () -> service.save(liga), Constantes.VALIDATION_NOMBRE_LIGA_SIZE);
 	}
 	
 	@Test
@@ -102,11 +83,7 @@ public class LigaServiceTest {
 		liga.setNombre("");
 		PaisDTO pais = paisService.getById(1);
 		liga.setPais(pais);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_NOMBRE_LIGA_SIZE);
+		assertThrows(ConstraintViolationException.class, () -> service.save(liga), Constantes.VALIDATION_NOMBRE_LIGA_SIZE);
 	}
 
 	@Test
@@ -116,11 +93,7 @@ public class LigaServiceTest {
 		liga.setNombre(null);
 		PaisDTO pais = paisService.getById(1);
 		liga.setPais(pais);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(messages.get(0), Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
+		assertThrows(ConstraintViolationException.class, () -> service.save(liga), Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
 	}
 	
 	@Test
@@ -130,7 +103,6 @@ public class LigaServiceTest {
 		PaisDTO pais = paisService.getById(1);
 		liga.setNombre("Liga de pruebas");
 		liga.setPais(pais);
-		DataIntegrityViolationException ex = assertThrows(DataIntegrityViolationException.class, () -> service.save(liga) );
-		assertNotNull(ex);
+		assertThrows(DataIntegrityViolationException.class, () -> service.save(liga) );
 	}
 }

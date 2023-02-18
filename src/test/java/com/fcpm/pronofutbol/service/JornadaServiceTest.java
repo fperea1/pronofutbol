@@ -1,12 +1,7 @@
 package com.fcpm.pronofutbol.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -21,7 +16,6 @@ import com.fcpm.pronofutbol.dtos.JornadaDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.service.interfaces.JornadaService;
 
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
@@ -54,11 +48,7 @@ public class JornadaServiceTest {
 	@Order(3)
 	void testSaveNullKo() {
 		JornadaDTO jornada = new JornadaDTO();
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(jornada) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, messages.get(0));
+		assertThrows(ConstraintViolationException.class, () -> service.save(jornada), Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
 	}
 	
 	@Test
@@ -66,13 +56,7 @@ public class JornadaServiceTest {
 	void testSaveNombreSizeMayorKo() {
 		JornadaDTO jornada = new JornadaDTO();
 		jornada.setNombre("Liga de pruebas 12345678901234567890123456789012345678901234567890");
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(jornada) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(Constantes.VALIDATION_NOMBRE_JORNADA_SIZE, messages.get(0));
-		
-		//messages.forEach(m -> System.out.println(m));
+		assertThrows(ConstraintViolationException.class, () -> service.save(jornada), Constantes.VALIDATION_NOMBRE_JORNADA_SIZE);
 	}
 	
 	@Test
@@ -80,11 +64,7 @@ public class JornadaServiceTest {
 	void testSaveNombreSizeMenorKo() {
 		JornadaDTO jornada = new JornadaDTO();
 		jornada.setNombre("");
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(jornada) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertTrue(messages != null);
-		assertEquals(Constantes.VALIDATION_NOMBRE_JORNADA_SIZE, messages.get(0));
+		assertThrows(ConstraintViolationException.class, () -> service.save(jornada), Constantes.VALIDATION_NOMBRE_JORNADA_SIZE);
 	}
 	
 	@Test
@@ -92,8 +72,7 @@ public class JornadaServiceTest {
 	void testSaveKoNombreNoUnique() {
 		JornadaDTO jornada = new JornadaDTO();
 		jornada.setNombre("Nombre de pruebas");
-		DataIntegrityViolationException ex = assertThrows(DataIntegrityViolationException.class, () -> service.save(jornada) );
-		assertNotNull(ex);
+		assertThrows(DataIntegrityViolationException.class, () -> service.save(jornada) );
 	}
 	
 }

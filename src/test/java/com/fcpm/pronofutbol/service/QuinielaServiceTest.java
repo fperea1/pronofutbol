@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -24,7 +22,6 @@ import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.service.interfaces.LigaService;
 import com.fcpm.pronofutbol.service.interfaces.QuinielaService;
 
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
@@ -36,9 +33,9 @@ class QuinielaServiceTest {
 
 	@Autowired
 	private LigaService ligaService;
-	
+
 	@Test
-	@Order(1) 
+	@Order(1)
 	void testSaveOk() {
 		QuinielaDTO quiniela = new QuinielaDTO();
 		quiniela.setNumero(1);
@@ -59,9 +56,9 @@ class QuinielaServiceTest {
 	void testFindByFilter() {
 		String filtro = "{\"first\":0,\"rows\":10,\"sortOrder\":1,\"filters\":{},\"globalFilter\":null}";
 		ResultTableDTO result = service.findByFilter(filtro, false);
-		assertTrue(result == null || result.getList().size() >= 1);
+		assertTrue((result == null) || (result.getList().size() >= 1));
 	}
-	
+
 	@Test
 	@Order(3)
 	void testSaveKoFechaNull() {
@@ -72,17 +69,10 @@ class QuinielaServiceTest {
 		quiniela.setFecha(null);
 		LigaDTO liga = ligaService.getById(1);
 		quiniela.setLiga(liga);
-<<<<<<< HEAD
-		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela), Constantes.VALIDATION_FECHA_OBLIGATORIO);
-=======
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertNotNull(messages);
-		assertEquals(Constantes.VALIDATION_FECHA_OBLIGATORIO, messages.get(0));
->>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
+		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela),
+				Constantes.VALIDATION_FECHA_OBLIGATORIO);
 	}
-	
+
 	@Test
 	@Order(4)
 	void testSaveKoLigaNull() {
@@ -91,17 +81,10 @@ class QuinielaServiceTest {
 		quiniela.setNombre("Segunda Semana");
 		quiniela.setActualizada(false);
 		quiniela.setFecha(new Date());
-<<<<<<< HEAD
-		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela), Constantes.VALIDATION_LIGA_OBLIGATORIO);
-=======
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertNotNull(messages);
-		assertEquals(Constantes.VALIDATION_LIGA_OBLIGATORIO, messages.get(0));
->>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
+		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela),
+				Constantes.VALIDATION_LIGA_OBLIGATORIO);
 	}
-	
+
 	@Test
 	@Order(5)
 	void testSaveKoNumeroNull() {
@@ -112,17 +95,10 @@ class QuinielaServiceTest {
 		quiniela.setFecha(new Date());
 		LigaDTO liga = ligaService.getById(1);
 		quiniela.setLiga(liga);
-<<<<<<< HEAD
-		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela), Constantes.VALIDATION_NUMERO_OBLIGATORIO);
-=======
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertNotNull(messages);
-		assertEquals(Constantes.VALIDATION_NUMERO_OBLIGATORIO, messages.get(0));
->>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
+		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela),
+				Constantes.VALIDATION_NUMERO_OBLIGATORIO);
 	}
-	
+
 	@Test
 	@Order(6)
 	void testSaveKoActualizadaNull() {
@@ -133,17 +109,11 @@ class QuinielaServiceTest {
 		quiniela.setFecha(new Date());
 		LigaDTO liga = ligaService.getById(1);
 		quiniela.setLiga(liga);
-<<<<<<< HEAD
-		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela), Constantes.VALIDATION_ACTUALIZADA_OBLIGATORIO);
-=======
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertNotNull(messages);
-		assertEquals(Constantes.VALIDATION_ACTUALIZADA_OBLIGATORIO, messages.get(0));
->>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
+		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela),
+				Constantes.VALIDATION_ACTUALIZADA_OBLIGATORIO);
+
 	}
-	
+
 	@Test
 	@Order(7)
 	void testSaveKoNombreNull() {
@@ -154,17 +124,11 @@ class QuinielaServiceTest {
 		quiniela.setFecha(new Date());
 		LigaDTO liga = ligaService.getById(1);
 		quiniela.setLiga(liga);
-<<<<<<< HEAD
-		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela), Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
-=======
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
-		List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-		assertNotNull(messages);
-		assertEquals(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, messages.get(0));
->>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
+		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela),
+				Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
+
 	}
-	
+
 	@Test
 	@Order(8)
 	void testSaveKoNumeroNoUnique() {
@@ -175,9 +139,9 @@ class QuinielaServiceTest {
 		quiniela.setFecha(new Date());
 		LigaDTO liga = ligaService.getById(1);
 		quiniela.setLiga(liga);
-		assertThrows(DataIntegrityViolationException.class, () -> service.save(quiniela) );
+		assertThrows(DataIntegrityViolationException.class, () -> service.save(quiniela));
 	}
-	
+
 	@Test
 	@Order(9)
 	void testSaveKoNombreNoUnique() {
@@ -188,6 +152,6 @@ class QuinielaServiceTest {
 		quiniela.setFecha(new Date());
 		LigaDTO liga = ligaService.getById(1);
 		quiniela.setLiga(liga);
-		assertThrows(DataIntegrityViolationException.class, () -> service.save(quiniela) );
+		assertThrows(DataIntegrityViolationException.class, () -> service.save(quiniela));
 	}
 }

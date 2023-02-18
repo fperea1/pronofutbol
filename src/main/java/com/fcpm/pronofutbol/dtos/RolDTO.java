@@ -5,7 +5,7 @@ import com.fcpm.pronofutbol.views.View;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
 @JGlobalMap
-public class RolDTO extends BaseDTO {
+public class RolDTO implements BaseDTO {
 
 	@JsonView(View.Public.class)
 	private Integer id;

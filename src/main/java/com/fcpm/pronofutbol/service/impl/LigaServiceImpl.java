@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fcpm.pronofutbol.constant.Constantes;
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.LigaDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
-import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.entities.BaseEntity;
 import com.fcpm.pronofutbol.entities.Liga;
 import com.fcpm.pronofutbol.entities.Quiniela;
@@ -39,8 +39,8 @@ public class LigaServiceImpl extends BaseServiceImpl implements LigaService {
 	
 	public LigaServiceImpl() {
 		super();
-		toEntity = new Converter<LigaDTO, Liga>(LigaDTO.class, Liga.class);
-		toDTO = new Converter<Liga, LigaDTO>(Liga.class, LigaDTO.class);
+		toEntity = new Converter<>(LigaDTO.class, Liga.class);
+		toDTO = new Converter<>(Liga.class, LigaDTO.class);
 	}
 	
 	@Override
@@ -96,13 +96,12 @@ public class LigaServiceImpl extends BaseServiceImpl implements LigaService {
 		repository.deleteById(id);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<SelectDTO> findForSelect() {
+	public List<BaseDTO> findForSelect() {
 		
 		Sort sort = Sort.by("nombre").ascending();
 		
-		return (List<SelectDTO>) toDTO.convertListToSelectDTO(repository.findAll(sort));
+		return toDTO.convertListToSelectDTO(repository.findAll(sort));
 	}
 
 }

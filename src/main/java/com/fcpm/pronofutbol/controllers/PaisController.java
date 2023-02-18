@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fcpm.pronofutbol.constant.Constantes;
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.PaisDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
-import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.enums.reportes.TablaPaisEnum;
 import com.fcpm.pronofutbol.service.interfaces.PaisService;
 import com.fcpm.pronofutbol.utils.I18nUtils;
@@ -39,18 +39,15 @@ public class PaisController extends BaseController {
 	private PaisService service;
 	
 	@GetMapping(Constantes.FIND_FOR_SELECT)
-    public ResponseEntity<List<SelectDTO>> findAll() {
+    public ResponseEntity<List<BaseDTO>> findForSelect() {
 		
-		List<SelectDTO> list = service.findForSelect();
-		
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(service.findForSelect(), HttpStatus.OK);
     }
 	
 	@GetMapping(Constantes.FIND_BY_FILTER)
     public ResponseEntity<ResultTableDTO> findByFilter(@RequestParam String filtro) {
 		
-		ResultTableDTO resultTable = service.findByFilter(filtro, false);
-        return new ResponseEntity<>(resultTable, HttpStatus.OK);
+        return new ResponseEntity<>(service.findByFilter(filtro, false), HttpStatus.OK);
     }
 	
 	@GetMapping(value = Constantes.GET_REPORT_EXCEL)

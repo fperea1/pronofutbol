@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fcpm.pronofutbol.constant.Constantes;
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.PaisDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
-import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.entities.BaseEntity;
 import com.fcpm.pronofutbol.entities.Pais;
 import com.fcpm.pronofutbol.exceptions.ServiceException;
@@ -35,8 +35,8 @@ public class PaisServiceImpl extends BaseServiceImpl implements PaisService {
 	
 	public PaisServiceImpl() {
 		super();
-		toEntity = new Converter<PaisDTO, Pais>(PaisDTO.class, Pais.class);
-		toDTO = new Converter<Pais, PaisDTO>(Pais.class, PaisDTO.class);
+		toEntity = new Converter<>(PaisDTO.class, Pais.class);
+		toDTO = new Converter<>(Pais.class, PaisDTO.class);
 	}
 	
 	@Override
@@ -78,13 +78,12 @@ public class PaisServiceImpl extends BaseServiceImpl implements PaisService {
 		repository.deleteById(id);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<SelectDTO> findForSelect() {
+	public List<BaseDTO> findForSelect() {
 		
 		Sort sort = Sort.by("nombre").ascending();
 		
-		return (List<SelectDTO>) toDTO.convertListToSelectDTO(repository.findAll(sort));
+		return toDTO.convertListToSelectDTO(repository.findAll(sort));
 	}
 
 }

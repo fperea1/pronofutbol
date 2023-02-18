@@ -72,7 +72,15 @@ class QuinielaServiceTest {
 		quiniela.setFecha(null);
 		LigaDTO liga = ligaService.getById(1);
 		quiniela.setLiga(liga);
+<<<<<<< HEAD
 		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela), Constantes.VALIDATION_FECHA_OBLIGATORIO);
+=======
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_FECHA_OBLIGATORIO, messages.get(0));
+>>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
 	}
 	
 	@Test
@@ -83,7 +91,15 @@ class QuinielaServiceTest {
 		quiniela.setNombre("Segunda Semana");
 		quiniela.setActualizada(false);
 		quiniela.setFecha(new Date());
+<<<<<<< HEAD
 		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela), Constantes.VALIDATION_LIGA_OBLIGATORIO);
+=======
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_LIGA_OBLIGATORIO, messages.get(0));
+>>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
 	}
 	
 	@Test
@@ -96,7 +112,15 @@ class QuinielaServiceTest {
 		quiniela.setFecha(new Date());
 		LigaDTO liga = ligaService.getById(1);
 		quiniela.setLiga(liga);
+<<<<<<< HEAD
 		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela), Constantes.VALIDATION_NUMERO_OBLIGATORIO);
+=======
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NUMERO_OBLIGATORIO, messages.get(0));
+>>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
 	}
 	
 	@Test
@@ -109,7 +133,15 @@ class QuinielaServiceTest {
 		quiniela.setFecha(new Date());
 		LigaDTO liga = ligaService.getById(1);
 		quiniela.setLiga(liga);
+<<<<<<< HEAD
 		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela), Constantes.VALIDATION_ACTUALIZADA_OBLIGATORIO);
+=======
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_ACTUALIZADA_OBLIGATORIO, messages.get(0));
+>>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
 	}
 	
 	@Test
@@ -122,7 +154,15 @@ class QuinielaServiceTest {
 		quiniela.setFecha(new Date());
 		LigaDTO liga = ligaService.getById(1);
 		quiniela.setLiga(liga);
+<<<<<<< HEAD
 		assertThrows(ConstraintViolationException.class, () -> service.save(quiniela), Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
+=======
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(quiniela) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, messages.get(0));
+>>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
 	}
 	
 	@Test

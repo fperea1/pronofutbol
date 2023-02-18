@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fcpm.pronofutbol.constant.Constantes;
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.dtos.TipoSorteoDTO;
 import com.fcpm.pronofutbol.entities.BaseEntity;
@@ -33,8 +35,8 @@ public class TipoSorteoServiceImpl extends BaseServiceImpl implements TipoSorteo
 	
 	public TipoSorteoServiceImpl() {
 		super();
-		toEntity = new Converter<TipoSorteoDTO, TipoSorteo>(TipoSorteoDTO.class, TipoSorteo.class);
-		toDTO = new Converter<TipoSorteo, TipoSorteoDTO>(TipoSorteo.class, TipoSorteoDTO.class);
+		toEntity = new Converter<>(TipoSorteoDTO.class, TipoSorteo.class);
+		toDTO = new Converter<>(TipoSorteo.class, TipoSorteoDTO.class);
 	}
 
 	@Override
@@ -69,12 +71,12 @@ public class TipoSorteoServiceImpl extends BaseServiceImpl implements TipoSorteo
 		
 		repository.save((TipoSorteo) toEntity.toEntity(tipoSorteo));
 	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<TipoSorteoDTO> findAll() {
-		
-		return (List<TipoSorteoDTO>) toDTO.convertToListDTO(repository.findAll());
-	}
 	
+	@Override
+	public List<BaseDTO> findForSelect() {
+		
+		Sort sort = Sort.by("nombre").ascending();
+		
+		return toDTO.convertListToSelectDTO(repository.findAll(sort));
+	}
 }

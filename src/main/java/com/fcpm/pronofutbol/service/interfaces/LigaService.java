@@ -2,9 +2,9 @@ package com.fcpm.pronofutbol.service.interfaces;
 
 import java.util.List;
 
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.LigaDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
-import com.fcpm.pronofutbol.dtos.SelectDTO;
 
 public interface LigaService {
 
@@ -16,7 +16,7 @@ public interface LigaService {
 
 	void update(LigaDTO dto);
 
-	List<SelectDTO> findForSelect();
+	List<BaseDTO> findForSelect();
 
 	void delete(Integer id);
 

@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @JGlobalMap
-public class QuinielaDTO extends BaseDTO {
+public class QuinielaDTO implements BaseDTO {
 
 	private Integer id;
 	

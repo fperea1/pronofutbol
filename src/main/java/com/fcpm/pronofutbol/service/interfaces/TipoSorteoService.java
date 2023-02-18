@@ -2,6 +2,7 @@ package com.fcpm.pronofutbol.service.interfaces;
 
 import java.util.List;
 
+import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.dtos.TipoSorteoDTO;
 
@@ -15,6 +16,6 @@ public interface TipoSorteoService {
 
 	void update(TipoSorteoDTO dto);
 
-	List<TipoSorteoDTO> findAll();
+	List<BaseDTO> findForSelect();
 
 }

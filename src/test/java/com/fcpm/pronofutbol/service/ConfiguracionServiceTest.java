@@ -1,9 +1,13 @@
 package com.fcpm.pronofutbol.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -18,11 +22,12 @@ import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.exceptions.ServiceException;
 import com.fcpm.pronofutbol.service.interfaces.ConfiguracionService;
 
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-public class ConfiguracionServiceTest {
+class ConfiguracionServiceTest {
 
 	@Autowired
 	private ConfiguracionService service;
@@ -53,8 +58,11 @@ public class ConfiguracionServiceTest {
 		ConfiguracionDTO config = new ConfiguracionDTO();
 		config.setNombre("");
 		config.setValor("Valor 2");
-		assertThrows(ConstraintViolationException.class, () -> service.save(config),
-				Constantes.VALIDATION_NOMBRE_CONFIG_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_CONFIG_SIZE, messages.get(0));
 	}
 
 	@Test
@@ -63,8 +71,11 @@ public class ConfiguracionServiceTest {
 		ConfiguracionDTO config = new ConfiguracionDTO();
 		config.setNombre("Co01234567890123456789012345678901234567890123456789");
 		config.setValor("Valor 2");
-		assertThrows(ConstraintViolationException.class, () -> service.save(config),
-				Constantes.VALIDATION_NOMBRE_CONFIG_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_CONFIG_SIZE, messages.get(0));	
 	}
 
 	@Test
@@ -73,8 +84,11 @@ public class ConfiguracionServiceTest {
 		ConfiguracionDTO config = new ConfiguracionDTO();
 		config.setNombre(null);
 		config.setValor("Valor 2");
-		assertThrows(ConstraintViolationException.class, () -> service.save(config),
-				Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, messages.get(0));	
 	}
 
 	@Test
@@ -83,8 +97,11 @@ public class ConfiguracionServiceTest {
 		ConfiguracionDTO config = new ConfiguracionDTO();
 		config.setNombre("Configuración 2");
 		config.setValor("");
-		assertThrows(ConstraintViolationException.class, () -> service.save(config),
-				Constantes.VALIDATION_VALOR_CONFIG_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_VALOR_CONFIG_SIZE, messages.get(0));
 	}
 
 	@Test
@@ -92,14 +109,16 @@ public class ConfiguracionServiceTest {
 	void testSaveValorMaxSizeKo() {
 		ConfiguracionDTO config = new ConfiguracionDTO();
 		config.setNombre("Configuración 2");
-		config.setValor(
-				"Ob0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
-						+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
-						+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
-						+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
-						+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
-		assertThrows(ConstraintViolationException.class, () -> service.save(config),
-				Constantes.VALIDATION_VALOR_CONFIG_SIZE);
+		config.setValor("Ob0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
+				+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
+				+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
+				+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
+				+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals( Constantes.VALIDATION_VALOR_CONFIG_SIZE, messages.get(0));
 	}
 
 	@Test
@@ -108,8 +127,11 @@ public class ConfiguracionServiceTest {
 		ConfiguracionDTO config = new ConfiguracionDTO();
 		config.setNombre("Configuración 2");
 		config.setValor(null);
-		assertThrows(ConstraintViolationException.class, () -> service.save(config),
-				Constantes.VALIDATION_VALOR_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(config) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_VALOR_OBLIGATORIO, messages.get(0));	
 	}
 
 	@Test
@@ -132,20 +154,26 @@ public class ConfiguracionServiceTest {
 
 	@Test
 	@Order(12)
-	void testGetByIdKo() {
-		assertThrows(ServiceException.class, () -> service.getById(100), Constantes.EXC_NO_EXISTE_ENTIDAD);
+	void testGetByIdKo() {		
+		ServiceException ex = assertThrows(ServiceException.class, () -> service.getById(100) );
+		assertNotNull(ex);
+		assertEquals(Constantes.EXC_NO_EXISTE_ENTIDAD, ex.getMessage());
 	}
 
 	@Test
 	@Order(13)
 	void testDeleteByIdOk() {
 		service.deleteById(1);
-		assertThrows(ServiceException.class, () -> service.getById(1), Constantes.EXC_NO_EXISTE_ENTIDAD);
+		ServiceException ex = assertThrows(ServiceException.class, () -> service.getById(1) );
+		assertNotNull(ex);
+		assertEquals(Constantes.EXC_NO_EXISTE_ENTIDAD, ex.getMessage());
 	}
 
 	@Test
 	@Order(14)
 	void testDeleteByIdKo() {
-		assertThrows(ServiceException.class, () -> service.deleteById(25), Constantes.EXC_NO_EXISTE_ENTIDAD);
+		ServiceException ex = assertThrows(ServiceException.class, () -> service.deleteById(25) );
+		assertNotNull(ex);
+		assertEquals(Constantes.EXC_NO_EXISTE_ENTIDAD, ex.getMessage());
 	}
 }

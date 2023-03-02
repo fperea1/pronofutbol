@@ -1,9 +1,13 @@
 package com.fcpm.pronofutbol.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -17,11 +21,12 @@ import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.entities.Log;
 import com.fcpm.pronofutbol.service.interfaces.LogService;
 
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-public class LogServiceTest {
+class LogServiceTest {
 	
 	@Autowired
 	private LogService service;
@@ -58,7 +63,11 @@ public class LogServiceTest {
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_USERNAME_LOG_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_USERNAME_LOG_SIZE, messages.get(0));
 	}
 	
 	@Test
@@ -70,7 +79,11 @@ public class LogServiceTest {
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_USERNAME_LOG_SIZE);		
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_USERNAME_LOG_SIZE, messages.get(0));		
 	}
 	
 	@Test
@@ -82,7 +95,11 @@ public class LogServiceTest {
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_USERNAME_OBLIGATORIO);		
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_USERNAME_OBLIGATORIO, messages.get(0));		
 	}
 	
 	@Test
@@ -94,7 +111,11 @@ public class LogServiceTest {
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_ENTIDAD_LOG_SIZE);	
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_ENTIDAD_LOG_SIZE, messages.get(0));	
 		
 	}
 	
@@ -107,7 +128,11 @@ public class LogServiceTest {
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_ENTIDAD_LOG_SIZE);			
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_ENTIDAD_LOG_SIZE, messages.get(0));			
 	}
 	
 	@Test
@@ -119,7 +144,11 @@ public class LogServiceTest {
 		log.setAccion("Acción");
 		log.setObservaciones("Observaciones");
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_ENTIDAD_OBLIGATORIO);	
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_ENTIDAD_OBLIGATORIO, messages.get(0));	
 		
 	}
 	
@@ -132,7 +161,11 @@ public class LogServiceTest {
 		log.setAccion("");
 		log.setObservaciones("Observaciones");
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_ACCION_LOG_SIZE);		
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_ACCION_LOG_SIZE, messages.get(0));		
 	}
 	
 	@Test
@@ -144,7 +177,11 @@ public class LogServiceTest {
 		log.setAccion("Ac01234567890123456789012345678901234567890123456789");
 		log.setObservaciones("Observaciones");
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_ACCION_LOG_SIZE);		
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_ACCION_LOG_SIZE, messages.get(0));		
 	}
 	
 	@Test
@@ -156,7 +193,11 @@ public class LogServiceTest {
 		log.setAccion(null);
 		log.setObservaciones("Observaciones");
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_ACCION_OBLIGATORIO);	
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_ACCION_OBLIGATORIO, messages.get(0));	
 	}
 	
 	@Test
@@ -168,7 +209,11 @@ public class LogServiceTest {
 		log.setAccion("Acción 2");
 		log.setObservaciones("");
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_OBSERVACIONES_LOG_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_OBSERVACIONES_LOG_SIZE, messages.get(0));
 	}
 	
 	@Test
@@ -184,7 +229,11 @@ public class LogServiceTest {
 				+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
 				+ "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789");
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_OBSERVACIONES_LOG_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_OBSERVACIONES_LOG_SIZE, messages.get(0));
 	}
 	
 	@Test
@@ -196,7 +245,11 @@ public class LogServiceTest {
 		log.setAccion("Acción 2");
 		log.setObservaciones(null);
 		log.setFecha(new Date());
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_OBSERVACIONES_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_OBSERVACIONES_OBLIGATORIO, messages.get(0));
 	}
 	
 	@Test
@@ -208,7 +261,11 @@ public class LogServiceTest {
 		log.setAccion("Acción 2");
 		log.setObservaciones("Obligaciones 2");
 		log.setFecha(null);
-		assertThrows(ConstraintViolationException.class, () -> service.save(log), Constantes.VALIDATION_FECHA_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(log) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_FECHA_OBLIGATORIO, messages.get(0));
 	}
 
 }

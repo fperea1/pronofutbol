@@ -1,7 +1,12 @@
 package com.fcpm.pronofutbol.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -15,11 +20,12 @@ import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.dtos.TipoSorteoDTO;
 import com.fcpm.pronofutbol.service.interfaces.TipoSorteoService;
 
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-public class TipoSorteoServiceTest {
+class TipoSorteoServiceTest {
 
 	@Autowired
 	private TipoSorteoService service;
@@ -49,7 +55,11 @@ public class TipoSorteoServiceTest {
 	@Order(3)
 	void testSaveNullKo() {
 		TipoSorteoDTO tipoSorteo = new TipoSorteoDTO();
-		 assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo), Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, messages.get(0));
 	}
 	
 	@Test
@@ -59,7 +69,11 @@ public class TipoSorteoServiceTest {
 		tipoSorteo.setNombre("Tipo sortedo de pruebas 12345678901234567890123456789012345678901234567890");
 		tipoSorteo.setNumDobles(1);
 		tipoSorteo.setNumTriples(1);
-		assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo), Constantes.VALIDATION_NOMBRE_TIPO_SORTEO_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_TIPO_SORTEO_SIZE, messages.get(0));
 	}
 	
 	@Test
@@ -69,7 +83,11 @@ public class TipoSorteoServiceTest {
 		tipoSorteo.setNombre("");
 		tipoSorteo.setNumDobles(1);
 		tipoSorteo.setNumTriples(1);
-		assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo), Constantes.VALIDATION_NOMBRE_TIPO_SORTEO_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_TIPO_SORTEO_SIZE, messages.get(0));
 	}
 	
 	@Test
@@ -79,7 +97,11 @@ public class TipoSorteoServiceTest {
 		tipoSorteo.setNombre("Tipo sortedo de pruebas 2");
 		tipoSorteo.setNumDobles(null);
 		tipoSorteo.setNumTriples(1);
-		assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo), Constantes.VALIDATION_NUMERO_DOBLES_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NUMERO_DOBLES_OBLIGATORIO, messages.get(0));
 	}
 	
 	@Test
@@ -89,6 +111,10 @@ public class TipoSorteoServiceTest {
 		tipoSorteo.setNombre("Tipo sortedo de pruebas 2");
 		tipoSorteo.setNumDobles(1);
 		tipoSorteo.setNumTriples(null);
-		assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo), Constantes.VALIDATION_NUMERO_TRIPLES_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(tipoSorteo) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NUMERO_TRIPLES_OBLIGATORIO, messages.get(0));
 	}
 }

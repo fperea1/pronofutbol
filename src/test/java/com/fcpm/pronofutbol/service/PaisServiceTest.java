@@ -3,8 +3,13 @@
  */
 package com.fcpm.pronofutbol.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -19,11 +24,12 @@ import com.fcpm.pronofutbol.dtos.PaisDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.service.interfaces.PaisService;
 
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-public class PaisServiceTest {
+class PaisServiceTest {
 
 	@Autowired
 	private PaisService service;
@@ -51,7 +57,11 @@ public class PaisServiceTest {
 	@Order(3)
 	void testSaveNullKo() {
 		PaisDTO pais = new PaisDTO();
-		assertThrows(ConstraintViolationException.class, () -> service.save(pais), Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(pais) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, messages.get(0));
 	}
 	
 	@Test
@@ -59,7 +69,13 @@ public class PaisServiceTest {
 	void testSaveNombreSizeMayorKo() {
 		PaisDTO pais = new PaisDTO();
 		pais.setNombre("Nombre de pruebas 12345678901234567890123456789012345678901234567890");
-		assertThrows(ConstraintViolationException.class, () -> service.save(pais), Constantes.VALIDATION_NOMBRE_PAIS_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(pais) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_PAIS_SIZE, messages.get(0));
+		
+		//messages.forEach(m -> System.out.println(m));
 	}
 	
 	@Test
@@ -67,7 +83,11 @@ public class PaisServiceTest {
 	void testSaveNombreSizeMenorKo() {
 		PaisDTO pais = new PaisDTO();
 		pais.setNombre("");
-		assertThrows(ConstraintViolationException.class, () -> service.save(pais), Constantes.VALIDATION_NOMBRE_PAIS_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(pais) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_PAIS_SIZE, messages.get(0));
 	}
 	
 	@Test

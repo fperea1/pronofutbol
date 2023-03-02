@@ -1,8 +1,12 @@
 package com.fcpm.pronofutbol.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -19,11 +23,12 @@ import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.service.interfaces.ArbitroService;
 import com.fcpm.pronofutbol.service.interfaces.LigaService;
 
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-public class ArbitroServiceTest {
+class ArbitroServiceTest {
 
 	@Autowired
 	private ArbitroService service;
@@ -64,8 +69,11 @@ public class ArbitroServiceTest {
 		arbitro.setGanadosVisitante(2);
 		LigaDTO liga = ligaService.getById(1);
 		arbitro.setLiga(liga);
-		assertThrows(ConstraintViolationException.class, () -> service.save(arbitro),
-				Constantes.VALIDATION_GANADOS_LOCAL_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(arbitro) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_GANADOS_LOCAL_OBLIGATORIO, messages.get(0));
 	}
 
 	@Test
@@ -76,8 +84,11 @@ public class ArbitroServiceTest {
 		arbitro.setGanadosLocal(0);
 		arbitro.setEmpatados(1);
 		arbitro.setGanadosVisitante(2);
-		assertThrows(ConstraintViolationException.class, () -> service.save(arbitro),
-				Constantes.VALIDATION_LIGA_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(arbitro) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_LIGA_OBLIGATORIO, messages.get(0));
 	}
 
 	@Test
@@ -90,8 +101,11 @@ public class ArbitroServiceTest {
 		arbitro.setGanadosVisitante(2);
 		LigaDTO liga = ligaService.getById(1);
 		arbitro.setLiga(liga);
-		assertThrows(ConstraintViolationException.class, () -> service.save(arbitro),
-				Constantes.VALIDATION_EMPATADOS_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(arbitro) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_EMPATADOS_OBLIGATORIO, messages.get(0));
 	}
 
 	@Test
@@ -104,8 +118,11 @@ public class ArbitroServiceTest {
 		arbitro.setGanadosVisitante(null);
 		LigaDTO liga = ligaService.getById(1);
 		arbitro.setLiga(liga);
-		assertThrows(ConstraintViolationException.class, () -> service.save(arbitro),
-				Constantes.VALIDATION_GANADOS_VISITANTE_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(arbitro) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_GANADOS_VISITANTE_OBLIGATORIO, messages.get(0));
 	}
 
 	@Test
@@ -118,8 +135,11 @@ public class ArbitroServiceTest {
 		arbitro.setGanadosVisitante(2);
 		LigaDTO liga = ligaService.getById(1);
 		arbitro.setLiga(liga);
-		assertThrows(ConstraintViolationException.class, () -> service.save(arbitro),
-				Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(arbitro) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, messages.get(0));
 	}
 
 	@Test

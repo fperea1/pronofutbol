@@ -1,7 +1,12 @@
 package com.fcpm.pronofutbol.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -18,11 +23,12 @@ import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.service.interfaces.LigaService;
 import com.fcpm.pronofutbol.service.interfaces.PaisService;
 
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
-public class LigaServiceTest {
+class LigaServiceTest {
 
 	@Autowired
 	private LigaService service;
@@ -55,7 +61,12 @@ public class LigaServiceTest {
 	@Order(3)
 	void testSaveTodoNullKo() {
 		LigaDTO liga = new LigaDTO();
-		assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		
+		//messages.forEach(m -> System.out.println(m));
 	}
 	
 	@Test
@@ -63,7 +74,11 @@ public class LigaServiceTest {
 	void testSavePaisNullKo() {
 		LigaDTO liga = new LigaDTO();
 		liga.setNombre("Liga de pruebas");
-		assertThrows(ConstraintViolationException.class, () -> service.save(liga), Constantes.VALIDATION_PAIS_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_PAIS_OBLIGATORIO, messages.get(0));
 	}
 	
 	@Test
@@ -73,7 +88,11 @@ public class LigaServiceTest {
 		liga.setNombre("Liga de pruebas 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
 		PaisDTO pais = paisService.getById(1);
 		liga.setPais(pais);
-		assertThrows(ConstraintViolationException.class, () -> service.save(liga), Constantes.VALIDATION_NOMBRE_LIGA_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_LIGA_SIZE, messages.get(0));
 	}
 	
 	@Test
@@ -83,7 +102,11 @@ public class LigaServiceTest {
 		liga.setNombre("");
 		PaisDTO pais = paisService.getById(1);
 		liga.setPais(pais);
-		assertThrows(ConstraintViolationException.class, () -> service.save(liga), Constantes.VALIDATION_NOMBRE_LIGA_SIZE);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_LIGA_SIZE, messages.get(0));
 	}
 
 	@Test
@@ -93,7 +116,11 @@ public class LigaServiceTest {
 		liga.setNombre(null);
 		PaisDTO pais = paisService.getById(1);
 		liga.setPais(pais);
-		assertThrows(ConstraintViolationException.class, () -> service.save(liga), Constantes.VALIDATION_NOMBRE_OBLIGATORIO);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
+		List<String> messages = ex.getConstraintViolations().stream()
+	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+		assertNotNull(messages);
+		assertEquals(Constantes.VALIDATION_NOMBRE_OBLIGATORIO, messages.get(0));
 	}
 	
 	@Test

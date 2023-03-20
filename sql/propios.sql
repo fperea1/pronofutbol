@@ -1,16 +1,16 @@
 
 drop table pronosticos;
-drop table tipo_sorteo;
+drop table tipo_sorteo; --
 ALTER TABLE partidos DROP CONSTRAINT FK__partidos__id_por__6FE99F9F; -- cambiar nombre de constraint
 drop table partidos;
 drop table porcentajes;
 drop table enfrentamientos;
 drop table equipos;
-drop table arbitros;
-drop table jornadas;
-drop table quinielas;
-drop table ligas;
-drop table paises;
+drop table arbitros; --
+drop table jornadas; --
+drop table quinielas; --
+drop table ligas;  --
+drop table paises; --
 
 CREATE TABLE "paises" (
 	"id" INT PRIMARY KEY IDENTITY (1,1),  

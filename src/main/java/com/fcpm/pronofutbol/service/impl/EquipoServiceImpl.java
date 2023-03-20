@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fcpm.pronofutbol.constant.Constantes;
-import com.fcpm.pronofutbol.dtos.ArbitroDTO;
 import com.fcpm.pronofutbol.dtos.BaseDTO;
+import com.fcpm.pronofutbol.dtos.EquipoDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
-import com.fcpm.pronofutbol.entities.Arbitro;
 import com.fcpm.pronofutbol.entities.BaseEntity;
+import com.fcpm.pronofutbol.entities.Equipo;
 import com.fcpm.pronofutbol.entities.Liga;
 import com.fcpm.pronofutbol.exceptions.ServiceException;
-import com.fcpm.pronofutbol.repositories.ArbitroRepository;
-import com.fcpm.pronofutbol.service.interfaces.ArbitroService;
+import com.fcpm.pronofutbol.repositories.EquipoRepository;
+import com.fcpm.pronofutbol.service.interfaces.EquipoService;
 import com.fcpm.pronofutbol.utils.Converter;
 import com.fcpm.pronofutbol.utils.bd.FiltroTablasView;
 import com.fcpm.pronofutbol.utils.bd.FiltrosUtils;
@@ -28,40 +28,40 @@ import jakarta.persistence.criteria.Join;
 
 @Service
 @Transactional(readOnly = true)
-public class ArbitroServiceImpl extends BaseServiceImpl implements ArbitroService {
+public class EquipoServiceImpl extends BaseServiceImpl implements EquipoService {
 
 	@Autowired
-	private ArbitroRepository repository;
+	private EquipoRepository repository;
 
-	private Converter<ArbitroDTO, Arbitro> toEntity;
+	private Converter<EquipoDTO, Equipo> toEntity;
 
-	private Converter<Arbitro, ArbitroDTO> toDTO;
+	private Converter<Equipo, EquipoDTO> toDTO;
 
-	public ArbitroServiceImpl() {
+	public EquipoServiceImpl() {
 		super();
-		toEntity = new Converter<>(ArbitroDTO.class, Arbitro.class);
-		toDTO = new Converter<>(Arbitro.class, ArbitroDTO.class);
+		toEntity = new Converter<>(EquipoDTO.class, Equipo.class);
+		toDTO = new Converter<>(Equipo.class, EquipoDTO.class);
 	}
 
 	@Override
-	public void save(ArbitroDTO arbitro) {
+	public void save(EquipoDTO equipo) {
 
-		repository.save((Arbitro) toEntity.toEntity(arbitro));
+		repository.save((Equipo) toEntity.toEntity(equipo));
 	}
 
 	@Override
-	public void update(ArbitroDTO arbitro) {
+	public void update(EquipoDTO equipo) {
 
-		repository.save((Arbitro) toEntity.toEntity(arbitro));
+		repository.save((Equipo) toEntity.toEntity(equipo));
 	}
 
 	@Override
-	public ArbitroDTO getById(Integer id) {
+	public EquipoDTO getById(Integer id) {
 
 		if (!repository.existsById(id)) {
 			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
 		}
-		return (ArbitroDTO) toDTO.toDTO(repository.findById(id).orElse(null));
+		return (EquipoDTO) toDTO.toDTO(repository.findById(id).orElse(null));
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class ArbitroServiceImpl extends BaseServiceImpl implements ArbitroServic
 
 	private Specification<BaseEntity> hasLigaConNombre(String nombre) {
 		return (root, query, criteriaBuilder) -> {
-			Join<Liga, Arbitro> liga = root.join("liga");
+			Join<Liga, Equipo> liga = root.join("liga");
 			return criteriaBuilder.equal(liga.get("nombre"), nombre);
 		};
 	}
@@ -103,4 +103,5 @@ public class ArbitroServiceImpl extends BaseServiceImpl implements ArbitroServic
 
 		return toDTO.convertListToSelectDTO(repository.findAll(sort));
 	}
+
 }

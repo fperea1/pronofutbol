@@ -14,9 +14,9 @@ public enum TablaUsuariosEnum {
 	ACTIVO(Constantes.ACTIVO, "activo"),
 	ROLES(Constantes.T_ROLES, "roles");
 
-	public String titulo;
+	private String titulo;
 	
-	public String column;
+	private String column;
 
 	private TablaUsuariosEnum(String titulo, String column) {
 		this.titulo = titulo;
@@ -26,17 +26,9 @@ public enum TablaUsuariosEnum {
 	public String getTitulo() {
 		return titulo;
 	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
 	
 	public String getColumn() {
 		return column;
-	}
-
-	public void setColumn(String column) {
-		this.column = column;
 	}
 
 	public static Stream<TablaUsuariosEnum> stream() {

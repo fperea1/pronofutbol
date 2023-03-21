@@ -2,7 +2,6 @@ package com.fcpm.pronofutbol.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,17 +28,6 @@ import jakarta.validation.ConstraintViolationException;
 public class GlobalExceptionHandler {
 	
 	   Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
-//	   @ExceptionHandler(TransactionSystemException.class)
-//	   protected ResponseEntity<List<String>> handleTransactionException(TransactionSystemException ex) throws Throwable {
-//	       Throwable cause = ex.getCause();
-//	       if (!(cause instanceof RollbackException)) throw cause;
-//	       if (!(cause.getCause() instanceof ConstraintViolationException)) throw cause.getCause();
-//	       ConstraintViolationException validationException = (ConstraintViolationException) cause.getCause();
-//	       List<String> messages = validationException.getConstraintViolations().stream()
-//	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
-//	       return new ResponseEntity<>(messages, HttpStatus.CONFLICT);
-//	   }
 	   
 	   @ExceptionHandler(ServiceException.class)
 	   protected ResponseEntity<String> handleServiceException(ServiceException ex) {
@@ -53,9 +41,9 @@ public class GlobalExceptionHandler {
 	      
 		   logger.error(ex.getMessage(), ex);
 		   List<String> messages = ex.getConstraintViolations().stream()
-	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+	               .map(ConstraintViolation::getMessage).toList();
 		   
-		   List<String> messagesI = new ArrayList<String>();
+		   List<String> messagesI = new ArrayList<>();
 				   messages.stream().forEach(m  -> messagesI.add(I18nUtils.getMensaje(m)));
 		   
 		   return new ResponseEntity<>(messagesI, HttpStatus.CONFLICT);
@@ -65,7 +53,7 @@ public class GlobalExceptionHandler {
 	   protected ResponseEntity<List<String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
 		      
 		   logger.error(ex.getMessage(), ex);
-		   List<String> messages = new ArrayList<String>();
+		   List<String> messages = new ArrayList<>();
 		   ex.getBindingResult().getAllErrors()
 				      .stream()
 				      .filter(FieldError.class::isInstance)
@@ -78,8 +66,9 @@ public class GlobalExceptionHandler {
 	   protected ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
 	      
 		   logger.error(ex.getMessage(), ex);
-	       return new ResponseEntity<>((ex.getRootCause() != null && ex.getRootCause().getMessage() != null) 
-	    		   ? ex.getRootCause().getMessage() : I18nUtils.getMensaje(Constantes.EXC_INTEGRIDAD_DATOS), HttpStatus.CONFLICT);
+		   Throwable th = ex.getRootCause();
+	       return new ResponseEntity<>((th != null && th.getMessage() != null) 
+	    		   ? th.getMessage() : I18nUtils.getMensaje(Constantes.EXC_INTEGRIDAD_DATOS), HttpStatus.CONFLICT);
 	   }
 	   
 	   @ExceptionHandler(MissingRequestHeaderException.class)
@@ -102,13 +91,6 @@ public class GlobalExceptionHandler {
 		   logger.error(ex.getMessage(), ex);
 	       return new ResponseEntity<>(I18nUtils.getMensaje(Constantes.EXC_FALTAN_PARAM_PETICION), HttpStatus.BAD_REQUEST);
 	   }
-	   
-//	   @ExceptionHandler(BadCredentialsException.class)
-//	   protected ResponseEntity<String> handleBadCredentialsException(BadCredentialsException ex) {
-//		      
-//		   logger.error(ex.getMessage(), ex);
-//	       return new ResponseEntity<>(Constantes.EXC_CREDENCIALES_ERRONEAS, HttpStatus.BAD_REQUEST);
-//	   }
 	   
 	   @ExceptionHandler(AuthenticationException.class)
 	   protected ResponseEntity<String> handleAuthenticationException(AuthenticationException ex) {

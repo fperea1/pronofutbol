@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,14 +57,14 @@ public class ConfiguracionController extends BaseController {
 	
 	@PostMapping(Constantes.SAVE)
     public ResponseEntity<String> save(@Valid @RequestBody ConfiguracionDTO configuracion) {
-		service.save(configuracion);
+		service.crear(configuracion);
 		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.ALTA, 
 				I18nUtils.getMensaje(Constantes.CONFIGURACION) + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
     }
 	
-	@PutMapping(Constantes.UPDATE)
-    public ResponseEntity<String> update(@Valid @RequestBody ConfiguracionDTO configuracion) {
-		service.update(configuracion);
+	@PutMapping(Constantes.UPDATE + "/{id}")
+    public ResponseEntity<String> update(@PathVariable Integer id, @Valid @RequestBody ConfiguracionDTO configuracion) {
+		service.actualizar(id, configuracion);
 		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.EDICION, 
 				I18nUtils.getMensaje(Constantes.CONFIGURACION) + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
     }
@@ -76,7 +77,7 @@ public class ConfiguracionController extends BaseController {
 	@DeleteMapping(Constantes.DELETE)
     public ResponseEntity<String> deleteById(@RequestParam Integer id) {
 		ConfiguracionDTO configuracion = service.getById(id);
-		service.deleteById(id);
+		service.borrar(id);
 		return responseOperationCorrecta(Constantes.CONFIGURACION, Constantes.BAJA, 
 				I18nUtils.getMensaje(Constantes.CONFIGURACION) + Constantes.SEPARADOR_DOS_PUNTOS + configuracion.getNombre());
 	}

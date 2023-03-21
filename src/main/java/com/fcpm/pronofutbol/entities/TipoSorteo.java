@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -29,11 +31,15 @@ public class TipoSorteo extends BaseEntity {
 	
 	@Column(name = "num_dobles")
 	@NotNull(message = Constantes.VALIDATION_NUMERO_DOBLES_OBLIGATORIO)
+	@Min(value = 0)
+	@Max(value = 14)
 	@JMap
 	private Integer numDobles;
 	
 	@Column(name = "num_triples")
 	@NotNull(message = Constantes.VALIDATION_NUMERO_TRIPLES_OBLIGATORIO)
+	@Min(value = 0)
+	@Max(value = 14)
 	@JMap
 	private Integer numTriples;
 

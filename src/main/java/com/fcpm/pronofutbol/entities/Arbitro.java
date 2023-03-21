@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -31,14 +32,17 @@ public class Arbitro extends BaseEntity {
 	
 	@Column(name = "ganados_local", nullable=false)
 	@NotNull(message = Constantes.VALIDATION_GANADOS_LOCAL_OBLIGATORIO)
+	@Min(value = 0)
 	private Integer ganadosLocal;
 	
 	@Column(name = "empatados", nullable=false)
 	@NotNull(message = Constantes.VALIDATION_EMPATADOS_OBLIGATORIO)
+	@Min(value = 0)
 	private Integer empatados;
 	
 	@Column(name = "ganados_visitante", nullable=false)
 	@NotNull(message = Constantes.VALIDATION_GANADOS_VISITANTE_OBLIGATORIO)
+	@Min(value = 0)
 	private Integer ganadosVisitante;
 	
 	@ManyToOne

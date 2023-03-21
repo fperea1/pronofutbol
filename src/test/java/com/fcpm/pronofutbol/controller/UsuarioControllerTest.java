@@ -19,6 +19,9 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -163,11 +166,13 @@ class UsuarioControllerTest {
 	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_USERNAME_USUARIO_SIZE))));	
 	}
 	
-	@Test
 	@Order(7) 
-	void testSaveKoPasswordNull() throws Exception {
+	@ParameterizedTest
+	@NullSource
+	@ValueSource(strings = {"abc", "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"})
+	void testSaveKoPasswordNull(String arg) throws Exception {
 		
-		UsuarioDTO u = getUsuario("username", "nombre test", null, "tes@ezentis");
+		UsuarioDTO u = getUsuario("username", "nombre test", arg, "tes@ezentis");
 		
 		String requestJson = getJson(u);
 		
@@ -185,47 +190,6 @@ class UsuarioControllerTest {
 	
 	@Test
 	@Order(8) 
-	void testSaveKoPasswordMinSize() throws Exception {
-		
-		UsuarioDTO u = getUsuario("username", "nombre test", "abc", "tes@ezentis");
-		
-		String requestJson = getJson(u);
-		
-		mockMvc
-	    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
-	    .contentType(APPLICATION_JSON_UTF8)
-	    .content(requestJson)
-	    .header("authorization", "Bearer " + token))
-	    .andDo(print())
-	    .andExpect(status().isBadRequest())
-	    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-	    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_LIMITE_CARACTERES_PASSWORD))));
-		
-	}
-	
-	@Test
-	@Order(9) 
-	void testSaveKoPasswordMaxSize() throws Exception {
-		
-		UsuarioDTO u = getUsuario("username", "nombre test", 
-				"01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", "tes@ezentis");
-		
-		String requestJson = getJson(u);
-		
-		mockMvc
-		    .perform(post(Constantes.USUARIOS + Constantes.SAVE)
-		    .contentType(APPLICATION_JSON_UTF8)
-		    .content(requestJson)
-		    .header("authorization", "Bearer " + token))
-		    .andDo(print())
-		    .andExpect(status().isBadRequest())
-		    .andExpect(result -> assertTrue(result.getResolvedException() instanceof ServiceException))
-		    .andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_LIMITE_CARACTERES_PASSWORD))));
-		
-	}
-	
-	@Test
-	@Order(10) 
 	void testSaveKoNombreNull() throws Exception {
 		
 		UsuarioDTO u = getUsuario("username", null, "passwordTest", "tes@ezentis");
@@ -244,7 +208,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(11) 
+	@Order(9) 
 	void testSaveKoNombreMinSize() throws Exception {
 		
 		UsuarioDTO u = getUsuario("username", "", "passwordTest", "tes@ezentis");
@@ -263,7 +227,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(12) 
+	@Order(10) 
 	void testSaveKoNombreMaxSize() throws Exception {
 		
 		UsuarioDTO u = getUsuario("username", "012345678901234567890123456789012345678901234567890", "passwordTest", "tes@ezentis");
@@ -282,7 +246,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(13) 
+	@Order(11) 
 	void testSaveKoEmailNull() throws Exception {
 		
 		UsuarioDTO u = getUsuario("username", "nombre", "passwordTest", null);
@@ -301,7 +265,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(14) 
+	@Order(12) 
 	void testSaveKoEmailMalFormado() throws Exception {
 		
 		UsuarioDTO u = getUsuario("username", "nombre", "passwordTest", "email");
@@ -320,7 +284,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(15) 
+	@Order(13) 
 	void testUpdateOk() throws Exception {
 		
 		ResultActions response = mockMvc
@@ -334,7 +298,7 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-		    .perform(put(Constantes.USUARIOS + Constantes.UPDATE)
+		    .perform(put(Constantes.USUARIOS + Constantes.UPDATE + "/" + u.getId())
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
@@ -342,7 +306,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(16) 
+	@Order(14) 
 	void testUpdateUserNoExists() throws Exception {
 		
 		UsuarioDTO u = getUsuario("userTestNoUpdate", "nombre test", null, "tes@ezentis");
@@ -350,18 +314,18 @@ class UsuarioControllerTest {
 		String requestJson = getJson(u);
 		
 		mockMvc
-		    .perform(put(Constantes.USUARIOS + Constantes.UPDATE)
+		    .perform(put(Constantes.USUARIOS + Constantes.UPDATE + "/30")
 		    .contentType(APPLICATION_JSON_UTF8)
 		    .content(requestJson)
 		    .header("authorization", "Bearer " + token))
-		    .andExpect(status().isConflict())
-			.andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.VALIDATION_FECHA_ALTA_OBLIGATORIO))));
+		    .andExpect(status().isBadRequest())
+			.andExpect(content().string(containsString(I18nUtils.getMensaje(Constantes.EXC_NO_EXISTE_ENTIDAD))));
 		
 	}
 	
 
 	@Test
-	@Order(17) 
+	@Order(15) 
 	void testMetodoNoExiste() throws Exception {
 		
 		UsuarioDTO u = getUsuario("userTestNoUpdate", "nombre test", null, "tes@ezentis");
@@ -378,7 +342,7 @@ class UsuarioControllerTest {
 	
 
 	@Test
-	@Order(18) 
+	@Order(16) 
 	void testFindByIdOk() throws Exception {
 		
 		mockMvc
@@ -391,7 +355,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(19) 
+	@Order(17) 
 	void testFindByIdUserNoExists() throws Exception {
 		
 		mockMvc
@@ -404,7 +368,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(20) 
+	@Order(18) 
 	void testDeleteById() throws Exception {
 		
 		UsuarioDTO u = getUsuario("delete", "delete test", "passwordTest", "delete@ezentis");
@@ -426,7 +390,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(21) 
+	@Order(19) 
 	void testDeleteByIdUserNoExists() throws Exception {
 		
 		mockMvc
@@ -439,7 +403,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(22) 
+	@Order(20) 
 	void testDeactivateById() throws Exception {
 		
 		mockMvc
@@ -451,7 +415,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(23) 
+	@Order(21) 
 	void testDeactivateByIdUserNoExists() throws Exception {
 
 		mockMvc
@@ -465,7 +429,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(24) 
+	@Order(22) 
 	void testActivateById() throws Exception {
 
 		mockMvc
@@ -477,7 +441,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(25) 
+	@Order(23) 
 	void testActivateByIdUserNoExists() throws Exception {
 		
 		mockMvc
@@ -491,7 +455,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(26) 
+	@Order(24) 
 	void testPeticionSinToken() throws Exception {
 		
 		mockMvc
@@ -503,7 +467,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(27) 
+	@Order(25) 
 	void testCambioPasswordUserOk() throws Exception {
 		
 		CambioPasswordDTO c = getCambioPasswordDTO(1, "Administrador01", "passwordTest2", "passwordTest2");
@@ -532,7 +496,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(28) 
+	@Order(26) 
 	void testCambioPasswordUserKo() throws Exception {
 		
 		CambioPasswordDTO c = getCambioPasswordDTO(2, "erronea", "passwordTest", "passwordTest");
@@ -550,7 +514,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(29) 
+	@Order(27) 
 	void testCambioPasswordAdminOk() throws Exception {
 		
 		CambioPasswordDTO c = getCambioPasswordDTO(2, "passwordTest", "passwordTest2", "passwordTest2");
@@ -566,7 +530,7 @@ class UsuarioControllerTest {
 	}
 	
 	@Test
-	@Order(30) 
+	@Order(28) 
 	void testCambioPasswordAdminKo() throws Exception {
 		
 		CambioPasswordDTO c = getCambioPasswordDTO(2000, "bbbbaaaaaa", "bbbbaaaaaa", "bbbbaaaaaa");
@@ -585,7 +549,7 @@ class UsuarioControllerTest {
 	}
 
 	@Test
-	@Order(31) 
+	@Order(29) 
 	void testCambioPasswordDiferentKo() throws Exception {
 		
 		CambioPasswordDTO c = getCambioPasswordDTO(1, "Administrador01", "passwordTest", "passwordTest3");

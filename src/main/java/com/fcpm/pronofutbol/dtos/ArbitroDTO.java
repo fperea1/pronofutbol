@@ -3,6 +3,7 @@ package com.fcpm.pronofutbol.dtos;
 import com.fcpm.pronofutbol.constant.Constantes;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -16,12 +17,15 @@ public class ArbitroDTO implements BaseDTO {
 	private String nombre;
 	
 	@NotNull(message = Constantes.VALIDATION_GANADOS_LOCAL_OBLIGATORIO)
+	@Min(value = 0)
 	private Integer ganadosLocal;
 	
 	@NotNull(message = Constantes.VALIDATION_EMPATADOS_OBLIGATORIO)
+	@Min(value = 0)
 	private Integer empatados;
 	
 	@NotNull(message = Constantes.VALIDATION_GANADOS_VISITANTE_OBLIGATORIO)
+	@Min(value = 0)
 	private Integer ganadosVisitante;
 	
 	@NotNull(message = Constantes.VALIDATION_LIGA_OBLIGATORIO)

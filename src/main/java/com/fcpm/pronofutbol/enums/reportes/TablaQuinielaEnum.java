@@ -12,9 +12,9 @@ public enum TablaQuinielaEnum {
 	ACTUALIZADA(Constantes.ACTIVO, "actualizada"),
 	LIGA(Constantes.LIGA, "liga");
 
-	public String titulo;
+	private String titulo;
 	
-	public String column;
+	private String column;
 
 	private TablaQuinielaEnum(String titulo, String column) {
 		this.titulo = titulo;
@@ -24,17 +24,9 @@ public enum TablaQuinielaEnum {
 	public String getTitulo() {
 		return titulo;
 	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
 	
 	public String getColumn() {
 		return column;
-	}
-
-	public void setColumn(String column) {
-		this.column = column;
 	}
 
 	public static Stream<TablaQuinielaEnum> stream() {

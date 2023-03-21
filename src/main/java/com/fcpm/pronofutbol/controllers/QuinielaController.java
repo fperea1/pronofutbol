@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fcpm.pronofutbol.constant.Constantes;
-import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.QuinielaDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
+import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.enums.reportes.TablaQuinielaEnum;
 import com.fcpm.pronofutbol.service.interfaces.QuinielaService;
 import com.fcpm.pronofutbol.utils.I18nUtils;
@@ -39,7 +39,7 @@ public class QuinielaController extends BaseController {
 	private QuinielaService service;
 	
 	@GetMapping(Constantes.FIND_FOR_SELECT)
-    public ResponseEntity<List<BaseDTO>> findForSelect() {
+    public ResponseEntity<List<SelectDTO>> findForSelect() {
 		
         return new ResponseEntity<>(service.findForSelect(), HttpStatus.OK);
     }
@@ -65,14 +65,14 @@ public class QuinielaController extends BaseController {
 	
 	@PostMapping(Constantes.SAVE)
     public ResponseEntity<String> save(@Valid @RequestBody QuinielaDTO dto) {
-		service.save(dto);
+		service.crear(dto);
 		return responseOperationCorrecta(Constantes.QUINIELA, Constantes.ALTA, 
 				I18nUtils.getMensaje(Constantes.QUINIELA) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
     }
 	
-	@PutMapping(Constantes.UPDATE)
-    public ResponseEntity<String> update(@Valid @RequestBody QuinielaDTO dto) {
-		service.update(dto);
+	@PutMapping(Constantes.UPDATE + "/{id}")
+    public ResponseEntity<String> update(@PathVariable Integer id, @Valid @RequestBody QuinielaDTO dto) {
+		service.actualizar(id, dto);
 		return responseOperationCorrecta(Constantes.QUINIELA, Constantes.EDICION, 
 				I18nUtils.getMensaje(Constantes.QUINIELA) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
     }
@@ -85,7 +85,7 @@ public class QuinielaController extends BaseController {
 	@DeleteMapping(Constantes.DELETE + "/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id) {
 		QuinielaDTO dto = service.getById(id);
-		service.delete(id);
+		service.borrar(id);
 		return responseOperationCorrecta(Constantes.QUINIELA, Constantes.BAJA, 
 				I18nUtils.getMensaje(Constantes.QUINIELA) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre() + " - " + dto.getNumero());
 	}

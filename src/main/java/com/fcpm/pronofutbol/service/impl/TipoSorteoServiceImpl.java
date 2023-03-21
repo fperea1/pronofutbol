@@ -2,20 +2,17 @@ package com.fcpm.pronofutbol.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fcpm.pronofutbol.constant.Constantes;
-import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
+import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.dtos.TipoSorteoDTO;
 import com.fcpm.pronofutbol.entities.BaseEntity;
 import com.fcpm.pronofutbol.entities.TipoSorteo;
-import com.fcpm.pronofutbol.exceptions.ServiceException;
 import com.fcpm.pronofutbol.repositories.TipoSorteoRepository;
 import com.fcpm.pronofutbol.service.interfaces.TipoSorteoService;
 import com.fcpm.pronofutbol.utils.Converter;
@@ -24,17 +21,14 @@ import com.fcpm.pronofutbol.utils.bd.FiltrosUtils;
 
 @Service
 @Transactional(readOnly = true)
-public class TipoSorteoServiceImpl extends BaseServiceImpl implements TipoSorteoService {
+public class TipoSorteoServiceImpl extends RepositoryServiceImpl<TipoSorteo, Integer> implements TipoSorteoService {
 
-	@Autowired
-	private TipoSorteoRepository repository;
-	
 	private Converter<TipoSorteo, TipoSorteoDTO> toDTO;
 	
 	private Converter<TipoSorteoDTO, TipoSorteo> toEntity;
 	
-	public TipoSorteoServiceImpl() {
-		super();
+	public TipoSorteoServiceImpl(TipoSorteoRepository repository) {
+		super(repository);
 		toEntity = new Converter<>(TipoSorteoDTO.class, TipoSorteo.class);
 		toDTO = new Converter<>(TipoSorteo.class, TipoSorteoDTO.class);
 	}
@@ -48,35 +42,41 @@ public class TipoSorteoServiceImpl extends BaseServiceImpl implements TipoSorteo
         
 		Pageable pageable = getPageable(exportar, filtro);
         
-		return toDTO.convertToResultTableDTO(repository.findAll(spec, pageable));
+		return toDTO.convertToResultTableDTO(((TipoSorteoRepository)repository).findAll(spec, pageable));
 	}
 
+	@Transactional
 	@Override
-	public void save(TipoSorteoDTO tipoSorteo) {
+	public void crear(TipoSorteoDTO tipoSorteo) {
 		
-		repository.save((TipoSorteo) toEntity.toEntity(tipoSorteo));
+		save((TipoSorteo) toEntity.toEntity(tipoSorteo));
 	}
 
 	@Override
 	public TipoSorteoDTO getById(Integer id) {
 		
-		if (!repository.existsById(id)) {
-			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
-		}
-		return (TipoSorteoDTO) toDTO.toDTO(repository.findById(id).orElse(null));
+		return (TipoSorteoDTO) toDTO.toDTO(findById(id));
 	}
 
+	@Transactional
 	@Override
-	public void update(TipoSorteoDTO tipoSorteo) {
+	public void actualizar(Integer id, TipoSorteoDTO tipoSorteo) {
 		
-		repository.save((TipoSorteo) toEntity.toEntity(tipoSorteo));
+		update(id, (TipoSorteo) toEntity.toEntity(tipoSorteo));
 	}
 	
 	@Override
-	public List<BaseDTO> findForSelect() {
+	public List<SelectDTO> findForSelect() {
 		
 		Sort sort = Sort.by("nombre").ascending();
 		
 		return toDTO.convertListToSelectDTO(repository.findAll(sort));
+	}
+
+	@Transactional
+	@Override
+	public void borrar(Integer id) {
+		
+		deleteById(id);
 	}
 }

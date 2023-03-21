@@ -5,6 +5,8 @@ import com.fcpm.pronofutbol.constant.Constantes;
 import com.fcpm.pronofutbol.views.View;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -21,10 +23,14 @@ public class TipoSorteoDTO implements BaseDTO {
 	
 	@JsonView(View.Public.class)
 	@NotNull(message = Constantes.VALIDATION_NUMERO_DOBLES_OBLIGATORIO)
+	@Min(value = 0)
+	@Max(value = 14)
 	private Integer numDobles;
 	
 	@JsonView(View.Public.class)
 	@NotNull(message = Constantes.VALIDATION_NUMERO_TRIPLES_OBLIGATORIO)
+	@Min(value = 0)
+	@Max(value = 14)
 	private Integer numTriples;
 
 	public Integer getId() {

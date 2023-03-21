@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fcpm.pronofutbol.constant.Constantes;
-import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.JornadaDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
+import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.enums.reportes.TablaPaisEnum;
 import com.fcpm.pronofutbol.service.interfaces.JornadaService;
 import com.fcpm.pronofutbol.utils.I18nUtils;
@@ -39,7 +39,7 @@ public class JornadaController extends BaseController {
 	private JornadaService service;
 	
 	@GetMapping(Constantes.FIND_FOR_SELECT)
-    public ResponseEntity<List<BaseDTO>> findForSelect() {
+    public ResponseEntity<List<SelectDTO>> findForSelect() {
 		
         return new ResponseEntity<>(service.findForSelect(), HttpStatus.OK);
     }
@@ -65,14 +65,14 @@ public class JornadaController extends BaseController {
 	
 	@PostMapping(Constantes.SAVE)
     public ResponseEntity<String> save(@Valid @RequestBody JornadaDTO dto) {
-		service.save(dto);
+		service.crear(dto);
 		return responseOperationCorrecta(Constantes.JORNADA, Constantes.ALTA, 
 				I18nUtils.getMensaje(Constantes.JORNADA) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
     }
 	
-	@PutMapping(Constantes.UPDATE)
-    public ResponseEntity<String> update(@Valid @RequestBody JornadaDTO dto) {
-		service.update(dto);
+	@PutMapping(Constantes.UPDATE + "/{id}")
+    public ResponseEntity<String> update(@PathVariable Integer id, @Valid @RequestBody JornadaDTO dto) {
+		service.actualizar(id, dto);
 		return responseOperationCorrecta(Constantes.JORNADA, Constantes.EDICION, 
 				I18nUtils.getMensaje(Constantes.JORNADA) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
     }
@@ -85,7 +85,7 @@ public class JornadaController extends BaseController {
 	@DeleteMapping(Constantes.DELETE + "/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id) {
 		JornadaDTO dto = service.getById(id);
-		service.delete(id);
+		service.borrar(id);
 		return responseOperationCorrecta(Constantes.JORNADA, Constantes.BAJA, 
 				I18nUtils.getMensaje(Constantes.JORNADA) + Constantes.SEPARADOR_DOS_PUNTOS + dto.getNombre());
 	}

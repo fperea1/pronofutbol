@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 
 import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
+import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.entities.BaseEntity;
 import com.googlecode.jmapper.JMapper;
 
@@ -26,8 +27,8 @@ public class Converter <O, D> {
     }
 	
 	@SuppressWarnings("unchecked")
-	public List<BaseDTO> convertListToSelectDTO(List<? extends BaseEntity> lista) {
-		return (List<BaseDTO>) lista.stream().map(temp-> mapper.getDestination((O) temp)).toList();
+	public List<SelectDTO> convertListToSelectDTO(List<? extends BaseEntity> lista) {
+		return (List<SelectDTO>) lista.stream().map(temp-> mapper.getDestination((O) temp)).toList();
     }
 	
 	@SuppressWarnings("unchecked")

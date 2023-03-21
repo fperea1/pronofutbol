@@ -15,6 +15,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.fcpm.pronofutbol.constant.Constantes;
 import com.fcpm.pronofutbol.dtos.LigaDTO;
@@ -27,6 +28,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @TestMethodOrder(OrderAnnotation.class)
 class LigaServiceTest {
 
@@ -45,9 +47,9 @@ class LigaServiceTest {
 		PaisDTO pais = paisService.getById(1);
 		liga.setNombre("Liga de pruebas");
 		liga.setPais(pais);
-		service.save(liga);
+		service.crear(liga);
 		ResultTableDTO result = service.findByFilter(filtro, false);
-		assertTrue(result == null || result.getList().size() >= 2);
+		assertTrue(result != null && result.getList().size() >= 2);
 	}
 	
 	@Test
@@ -61,7 +63,7 @@ class LigaServiceTest {
 	@Order(3)
 	void testSaveTodoNullKo() {
 		LigaDTO liga = new LigaDTO();
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(liga) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -74,7 +76,7 @@ class LigaServiceTest {
 	void testSavePaisNullKo() {
 		LigaDTO liga = new LigaDTO();
 		liga.setNombre("Liga de pruebas");
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(liga) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -88,7 +90,7 @@ class LigaServiceTest {
 		liga.setNombre("Liga de pruebas 1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890");
 		PaisDTO pais = paisService.getById(1);
 		liga.setPais(pais);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(liga) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -102,7 +104,7 @@ class LigaServiceTest {
 		liga.setNombre("");
 		PaisDTO pais = paisService.getById(1);
 		liga.setPais(pais);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(liga) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -116,7 +118,7 @@ class LigaServiceTest {
 		liga.setNombre(null);
 		PaisDTO pais = paisService.getById(1);
 		liga.setPais(pais);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(liga) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(liga) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -130,6 +132,6 @@ class LigaServiceTest {
 		PaisDTO pais = paisService.getById(1);
 		liga.setNombre("Liga de pruebas");
 		liga.setPais(pais);
-		assertThrows(DataIntegrityViolationException.class, () -> service.save(liga) );
+		assertThrows(DataIntegrityViolationException.class, () -> service.crear(liga) );
 	}
 }

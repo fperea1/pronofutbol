@@ -3,19 +3,11 @@ package com.fcpm.pronofutbol.service.interfaces;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
 import com.fcpm.pronofutbol.dtos.UsuarioDTO;
 
-public interface UsuarioService {
+public interface UsuarioService extends BaseService<UsuarioDTO, Integer> {
 
 	ResultTableDTO findByFilter(String filtroWeb, boolean exportar);
 	
-	void save(UsuarioDTO dto);
-	
-	void update(UsuarioDTO dto);
-	
-	UsuarioDTO getById(Integer id);
-	
 	UsuarioDTO findByUsername(String username);
-	
-	void deleteById(Integer id);
 	
 	void deactivate(Integer id);
 	

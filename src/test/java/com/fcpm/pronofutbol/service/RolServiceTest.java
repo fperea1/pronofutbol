@@ -7,11 +7,13 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import com.fcpm.pronofutbol.dtos.BaseDTO;
+import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.service.interfaces.RolService;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class RolServiceTest {
 	
 	@Autowired
@@ -19,7 +21,7 @@ class RolServiceTest {
 
 	@Test
 	void testFindAll() {
-		List<BaseDTO> result = service.findForSelect();
+		List<SelectDTO> result = service.findForSelect();
 		assertTrue(result == null || result.size() >= 2);
 	}
 

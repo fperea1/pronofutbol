@@ -12,9 +12,9 @@ public enum TablaLogsEnum {
 	OBSERVACIONES(Constantes.OBSERVACIONES, "observaciones"),
 	FECHA(Constantes.FECHA, "fecha");
 
-	public String titulo;
+	private String titulo;
 	
-	public String column;
+	private String column;
 
 	private TablaLogsEnum(String titulo, String column) {
 		this.titulo = titulo;
@@ -24,17 +24,9 @@ public enum TablaLogsEnum {
 	public String getTitulo() {
 		return titulo;
 	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
 	
 	public String getColumn() {
 		return column;
-	}
-
-	public void setColumn(String column) {
-		this.column = column;
 	}
 
 	public static Stream<TablaLogsEnum> stream() {

@@ -5,6 +5,7 @@ import java.util.Date;
 import com.fcpm.pronofutbol.constant.Constantes;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -14,6 +15,7 @@ public class QuinielaDTO implements BaseDTO {
 	private Integer id;
 	
 	@NotNull(message = Constantes.VALIDATION_NUMERO_OBLIGATORIO)
+	@Min(value = 1)
 	private Integer numero;
 	
 	@NotNull(message = Constantes.VALIDATION_NOMBRE_OBLIGATORIO)

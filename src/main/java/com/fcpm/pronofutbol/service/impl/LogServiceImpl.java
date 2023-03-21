@@ -18,7 +18,7 @@ import com.fcpm.pronofutbol.utils.bd.FiltrosUtils;
 
 @Service
 @Transactional(readOnly = true)
-public class LogServiceImpl extends BaseServiceImpl implements LogService {
+public class LogServiceImpl extends SpecificationBaseServiceImpl implements LogService {
 	
 	@Autowired
 	private LogRepository repository;
@@ -32,7 +32,7 @@ public class LogServiceImpl extends BaseServiceImpl implements LogService {
 
 	@Transactional
 	@Override
-	public void save(Log log) {
+	public void crear(Log log) {
 		
 		repository.save(log);
 	}

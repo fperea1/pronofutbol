@@ -14,8 +14,8 @@ import com.fcpm.pronofutbol.utils.bd.FiltroTablasView;
 import com.fcpm.pronofutbol.utils.bd.FiltrosUtils;
 import com.fcpm.pronofutbol.utils.bd.SearchCriteriaColumn;
 
-public class BaseServiceImpl {
-
+public class SpecificationBaseServiceImpl {
+	
 	protected Pageable getPageable(boolean exportar, FiltroTablasView filtro) {
 		Sort sort = getSort(filtro);
 		Pageable pageable = null;
@@ -45,4 +45,5 @@ public class BaseServiceImpl {
 		}
         return builder.build();
 	}
+
 }

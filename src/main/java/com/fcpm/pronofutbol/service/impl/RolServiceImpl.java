@@ -7,7 +7,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.entities.Rol;
 import com.fcpm.pronofutbol.repositories.RolRepository;
@@ -29,7 +28,7 @@ public class RolServiceImpl implements RolService {
 	}
 
 	@Override
-	public List<BaseDTO> findForSelect() {
+	public List<SelectDTO> findForSelect() {
 		
 		Sort sort = Sort.by("nombre").ascending();
 		

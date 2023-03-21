@@ -2,21 +2,18 @@ package com.fcpm.pronofutbol.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fcpm.pronofutbol.constant.Constantes;
-import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.LigaDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
+import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.entities.BaseEntity;
 import com.fcpm.pronofutbol.entities.Liga;
 import com.fcpm.pronofutbol.entities.Quiniela;
-import com.fcpm.pronofutbol.exceptions.ServiceException;
 import com.fcpm.pronofutbol.repositories.LigaRepository;
 import com.fcpm.pronofutbol.service.interfaces.LigaService;
 import com.fcpm.pronofutbol.utils.Converter;
@@ -28,17 +25,14 @@ import jakarta.persistence.criteria.Join;
 
 @Service
 @Transactional(readOnly = true)
-public class LigaServiceImpl extends BaseServiceImpl implements LigaService {
-	
-	@Autowired
-	private LigaRepository repository;
+public class LigaServiceImpl extends RepositoryServiceImpl<Liga, Integer> implements LigaService {
 	
 	private Converter<Liga, LigaDTO> toDTO;
 	
 	private Converter<LigaDTO, Liga> toEntity;
 	
-	public LigaServiceImpl() {
-		super();
+	public LigaServiceImpl(LigaRepository repository) {
+		super(repository);
 		toEntity = new Converter<>(LigaDTO.class, Liga.class);
 		toDTO = new Converter<>(Liga.class, LigaDTO.class);
 	}
@@ -59,7 +53,7 @@ public class LigaServiceImpl extends BaseServiceImpl implements LigaService {
         
 		Pageable pageable = getPageable(exportar, filtro);
         
-		return toDTO.convertToResultTableDTO(repository.findAll(spec, pageable));
+		return toDTO.convertToResultTableDTO(((LigaRepository)repository).findAll(spec, pageable));
 	}
 	
 	private Specification<BaseEntity> hasPaisConNombre(String nombre) {
@@ -69,35 +63,35 @@ public class LigaServiceImpl extends BaseServiceImpl implements LigaService {
 	    };
 	}
 
+	@Transactional
 	@Override
-	public void save(LigaDTO liga) {
+	public void crear(LigaDTO liga) {
 		
-		repository.save((Liga) toEntity.toEntity(liga));
+		save((Liga) toEntity.toEntity(liga));
 	}
 
 	@Override
-	public LigaDTO getById(int id) {
+	public LigaDTO getById(Integer id) {
 		
-		if (!repository.existsById(id)) {
-			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
-		}
-		return (LigaDTO) toDTO.toDTO(repository.findById(id).orElse(null));
+		return (LigaDTO) toDTO.toDTO(findById(id));
+	}
+
+	@Transactional
+	@Override
+	public void actualizar(Integer id, LigaDTO liga) {
+		
+		update(id, (Liga) toEntity.toEntity(liga));
+	}
+
+	@Transactional
+	@Override
+	public void borrar(Integer id) {
+		
+		deleteById(id);
 	}
 
 	@Override
-	public void update(LigaDTO liga) {
-		
-		repository.save((Liga) toEntity.toEntity(liga));
-	}
-
-	@Override
-	public void delete(Integer id) {
-		
-		repository.deleteById(id);
-	}
-
-	@Override
-	public List<BaseDTO> findForSelect() {
+	public List<SelectDTO> findForSelect() {
 		
 		Sort sort = Sort.by("nombre").ascending();
 		

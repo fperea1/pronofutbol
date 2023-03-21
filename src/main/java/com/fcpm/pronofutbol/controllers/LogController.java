@@ -1,7 +1,5 @@
 package com.fcpm.pronofutbol.controllers;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -38,7 +36,7 @@ public class LogController extends BaseController {
     }
 	
 	@GetMapping(value = Constantes.GET_REPORT_EXCEL)
-	public ResponseEntity<Resource> getReportExcel(@RequestParam String filtro) throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, IOException {
+	public ResponseEntity<Resource> getReportExcel(@RequestParam String filtro) {
 		
 		ResultTableDTO resultTable = service.findByFilter(filtro, true);
 

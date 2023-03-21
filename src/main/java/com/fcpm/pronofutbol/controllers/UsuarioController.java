@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,14 +61,14 @@ public class UsuarioController extends BaseController {
 	
 	@PostMapping(Constantes.SAVE)
     public ResponseEntity<String> save(@Valid @RequestBody UsuarioDTO usuario) {
-		service.save(usuario);
+		service.crear(usuario);
 		return responseOperationCorrecta(Constantes.USUARIO, Constantes.ALTA, 
 				I18nUtils.getMensaje(Constantes.USUARIO) + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
     }
 	
-	@PutMapping(Constantes.UPDATE)
-    public ResponseEntity<String> update(@Valid @RequestBody UsuarioDTO usuario) {
-		service.update(usuario);
+	@PutMapping(Constantes.UPDATE + "/{id}")
+    public ResponseEntity<String> update(@PathVariable Integer id, @Valid @RequestBody UsuarioDTO usuario) {
+		service.actualizar(id, usuario);
 		return responseOperationCorrecta(Constantes.USUARIO, Constantes.EDICION, 
 				I18nUtils.getMensaje(Constantes.USUARIO) + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
     }
@@ -81,7 +82,7 @@ public class UsuarioController extends BaseController {
 	@DeleteMapping(Constantes.DELETE)
     public ResponseEntity<String> deleteById(@RequestParam Integer id) {
 		UsuarioDTO usuario = service.getById(id);
-		service.deleteById(id);
+		service.borrar(id);
 		return responseOperationCorrecta(Constantes.USUARIO, Constantes.BAJA, 
 				I18nUtils.getMensaje(Constantes.USUARIO) + Constantes.SEPARADOR_DOS_PUNTOS + usuario.getUsername());
 	}

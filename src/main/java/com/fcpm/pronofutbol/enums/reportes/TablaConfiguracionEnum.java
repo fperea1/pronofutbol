@@ -9,9 +9,9 @@ public enum TablaConfiguracionEnum {
 	NOMBRE(Constantes.NOMBRE, "nombre"),
 	VALOR(Constantes.VALOR, "valor");
 
-	public String titulo;
+	private String titulo;
 	
-	public String column;
+	private String column;
 
 	private TablaConfiguracionEnum(String titulo, String column) {
 		this.titulo = titulo;
@@ -21,17 +21,9 @@ public enum TablaConfiguracionEnum {
 	public String getTitulo() {
 		return titulo;
 	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
 	
 	public String getColumn() {
 		return column;
-	}
-
-	public void setColumn(String column) {
-		this.column = column;
 	}
 
 	public static Stream<TablaConfiguracionEnum> stream() {

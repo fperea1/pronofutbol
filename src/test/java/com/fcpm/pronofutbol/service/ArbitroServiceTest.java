@@ -15,6 +15,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.fcpm.pronofutbol.constant.Constantes;
 import com.fcpm.pronofutbol.dtos.ArbitroDTO;
@@ -27,6 +28,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @TestMethodOrder(OrderAnnotation.class)
 class ArbitroServiceTest {
 
@@ -39,14 +41,8 @@ class ArbitroServiceTest {
 	@Test
 	@Order(1)
 	void testSaveOk() {
-		ArbitroDTO arbitro = new ArbitroDTO();
-		arbitro.setNombre("Nombre test");
-		arbitro.setGanadosLocal(0);
-		arbitro.setEmpatados(1);
-		arbitro.setGanadosVisitante(2);
-		LigaDTO liga = ligaService.getById(1);
-		arbitro.setLiga(liga);
-		service.save(arbitro);
+		ArbitroDTO arbitro = getDTO();
+		service.crear(arbitro);
 		arbitro = service.getById(1);
 		assertNotNull(arbitro);
 	}
@@ -56,20 +52,15 @@ class ArbitroServiceTest {
 	void testFindByFilter() {
 		String filtro = "{\"first\":0,\"rows\":10,\"sortOrder\":1,\"filters\":{},\"globalFilter\":null}";
 		ResultTableDTO result = service.findByFilter(filtro, false);
-		assertTrue((result == null) || (result.getList().size() >= 1));
+		assertTrue((result != null) && (result.getList().size() >= 1));
 	}
 
 	@Test
 	@Order(3)
 	void testSaveKoGanadosLocalNull() {
-		ArbitroDTO arbitro = new ArbitroDTO();
-		arbitro.setNombre("Nombre test");
+		ArbitroDTO arbitro = getDTO();
 		arbitro.setGanadosLocal(null);
-		arbitro.setEmpatados(1);
-		arbitro.setGanadosVisitante(2);
-		LigaDTO liga = ligaService.getById(1);
-		arbitro.setLiga(liga);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(arbitro) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(arbitro) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -79,12 +70,9 @@ class ArbitroServiceTest {
 	@Test
 	@Order(4)
 	void testSaveKoLigaNull() {
-		ArbitroDTO arbitro = new ArbitroDTO();
-		arbitro.setNombre("Nombre test");
-		arbitro.setGanadosLocal(0);
-		arbitro.setEmpatados(1);
-		arbitro.setGanadosVisitante(2);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(arbitro) );
+		ArbitroDTO arbitro = getDTO();
+		arbitro.setLiga(null);
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(arbitro) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -94,14 +82,9 @@ class ArbitroServiceTest {
 	@Test
 	@Order(5)
 	void testSaveKoEmpatadosNull() {
-		ArbitroDTO arbitro = new ArbitroDTO();
-		arbitro.setNombre("Nombre test");
-		arbitro.setGanadosLocal(0);
+		ArbitroDTO arbitro = getDTO();
 		arbitro.setEmpatados(null);
-		arbitro.setGanadosVisitante(2);
-		LigaDTO liga = ligaService.getById(1);
-		arbitro.setLiga(liga);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(arbitro) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(arbitro) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -111,14 +94,9 @@ class ArbitroServiceTest {
 	@Test
 	@Order(6)
 	void testSaveKoGanadosVisitanteNull() {
-		ArbitroDTO arbitro = new ArbitroDTO();
-		arbitro.setNombre("Nombre test");
-		arbitro.setGanadosLocal(0);
-		arbitro.setEmpatados(1);
+		ArbitroDTO arbitro = getDTO();
 		arbitro.setGanadosVisitante(null);
-		LigaDTO liga = ligaService.getById(1);
-		arbitro.setLiga(liga);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(arbitro) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(arbitro) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -128,14 +106,9 @@ class ArbitroServiceTest {
 	@Test
 	@Order(7)
 	void testSaveKoNombreNull() {
-		ArbitroDTO arbitro = new ArbitroDTO();
+		ArbitroDTO arbitro = getDTO();
 		arbitro.setNombre(null);
-		arbitro.setGanadosLocal(0);
-		arbitro.setEmpatados(1);
-		arbitro.setGanadosVisitante(2);
-		LigaDTO liga = ligaService.getById(1);
-		arbitro.setLiga(liga);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(arbitro) );
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(arbitro) );
 		List<String> messages = ex.getConstraintViolations().stream()
 	               .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 		assertNotNull(messages);
@@ -145,6 +118,11 @@ class ArbitroServiceTest {
 	@Test
 	@Order(8)
 	void testSaveKoNombreNoUnique() {
+		ArbitroDTO arbitro = getDTO();
+		assertThrows(DataIntegrityViolationException.class, () -> service.crear(arbitro));
+	}
+	
+	private ArbitroDTO getDTO() {
 		ArbitroDTO arbitro = new ArbitroDTO();
 		arbitro.setNombre("Nombre test");
 		arbitro.setGanadosLocal(0);
@@ -152,6 +130,6 @@ class ArbitroServiceTest {
 		arbitro.setGanadosVisitante(2);
 		LigaDTO liga = ligaService.getById(1);
 		arbitro.setLiga(liga);
-		assertThrows(DataIntegrityViolationException.class, () -> service.save(arbitro));
+		return arbitro;
 	}
 }

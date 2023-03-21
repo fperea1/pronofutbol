@@ -12,9 +12,9 @@ public enum TablaArbitrosEnum {
 	GANADOS_VISITANTE(Constantes.GANADOS_VISITANTE, "ganadosVisitante"),
 	LIGA(Constantes.LIGA, "liga");
 
-	public String titulo;
+	private String titulo;
 	
-	public String column;
+	private String column;
 
 	private TablaArbitrosEnum(String titulo, String column) {
 		this.titulo = titulo;
@@ -24,17 +24,9 @@ public enum TablaArbitrosEnum {
 	public String getTitulo() {
 		return titulo;
 	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
 	
 	public String getColumn() {
 		return column;
-	}
-
-	public void setColumn(String column) {
-		this.column = column;
 	}
 
 	public static Stream<TablaArbitrosEnum> stream() {

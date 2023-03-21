@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fcpm.pronofutbol.constant.Constantes;
-import com.fcpm.pronofutbol.dtos.BaseDTO;
+import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.service.interfaces.RolService;
 
 @RestController
@@ -21,7 +21,7 @@ public class RolController {
 	private RolService service;
 	
 	@GetMapping(Constantes.FIND_FOR_SELECT)
-    public ResponseEntity<List<BaseDTO>> findForSelect() {
+    public ResponseEntity<List<SelectDTO>> findForSelect() {
 		
         return new ResponseEntity<>(service.findForSelect(), HttpStatus.OK);
     }

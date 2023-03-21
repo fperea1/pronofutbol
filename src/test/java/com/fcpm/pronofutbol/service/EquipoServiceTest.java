@@ -14,10 +14,26 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+<<<<<<< HEAD
 import org.springframework.test.context.ActiveProfiles;
+=======
+import org.springframework.dao.DataIntegrityViolationException;
+
+import com.fcpm.pronofutbol.constant.Constantes;
+import com.fcpm.pronofutbol.dtos.EquipoDTO;
+import com.fcpm.pronofutbol.dtos.LigaDTO;
+import com.fcpm.pronofutbol.dtos.ResultTableDTO;
+import com.fcpm.pronofutbol.enums.ResultadoEnum;
+import com.fcpm.pronofutbol.service.interfaces.EquipoService;
+import com.fcpm.pronofutbol.service.interfaces.LigaService;
+
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+>>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
 
 @SpringBootTest
 @ActiveProfiles("test")
+@TestMethodOrder(OrderAnnotation.class)
 class EquipoServiceTest {
 
 	@Autowired

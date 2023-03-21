@@ -8,7 +8,7 @@ public final class Constantes {
 	// mapeo controller
 
 	public static final String AUTENTICATION = "/autenticacion";
-	
+
 	public static final String CONTACTO = "/contacto";
 
 	public static final String CONFIG = "/configuracion";
@@ -188,7 +188,7 @@ public final class Constantes {
 	public static final String NUM_DOBLES = "numero.dobles";
 
 	public static final String NUM_TRIPLES = "numero.triples";
-
+	
 	// MATCH MODE PARA BUSQUEDAS
 
 	public static final String STARTS_WITH = "startsWith";

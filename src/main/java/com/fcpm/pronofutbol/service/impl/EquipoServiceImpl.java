@@ -2,21 +2,23 @@ package com.fcpm.pronofutbol.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fcpm.pronofutbol.dtos.ArbitroDTO;
+import com.fcpm.pronofutbol.constant.Constantes;
+import com.fcpm.pronofutbol.dtos.BaseDTO;
+import com.fcpm.pronofutbol.dtos.EquipoDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
-import com.fcpm.pronofutbol.dtos.SelectDTO;
-import com.fcpm.pronofutbol.entities.Arbitro;
 import com.fcpm.pronofutbol.entities.BaseEntity;
+import com.fcpm.pronofutbol.entities.Equipo;
 import com.fcpm.pronofutbol.entities.Liga;
 import com.fcpm.pronofutbol.exceptions.ServiceException;
-import com.fcpm.pronofutbol.repositories.ArbitroRepository;
-import com.fcpm.pronofutbol.service.interfaces.ArbitroService;
+import com.fcpm.pronofutbol.repositories.EquipoRepository;
+import com.fcpm.pronofutbol.service.interfaces.EquipoService;
 import com.fcpm.pronofutbol.utils.Converter;
 import com.fcpm.pronofutbol.utils.bd.FiltroTablasView;
 import com.fcpm.pronofutbol.utils.bd.FiltrosUtils;
@@ -26,44 +28,42 @@ import jakarta.persistence.criteria.Join;
 
 @Service
 @Transactional(readOnly = true)
-public class ArbitroServiceImpl extends RepositoryServiceImpl<Arbitro, Integer> implements ArbitroService {
+public class EquipoServiceImpl extends BaseServiceImpl implements EquipoService {
 
-	private Converter<ArbitroDTO, Arbitro> toEntity;
+	@Autowired
+	private EquipoRepository repository;
 
-	private Converter<Arbitro, ArbitroDTO> toDTO;
+	private Converter<EquipoDTO, Equipo> toEntity;
 
-	public ArbitroServiceImpl(ArbitroRepository repository) {
-		super(repository);
-		toEntity = new Converter<>(ArbitroDTO.class, Arbitro.class);
-		toDTO = new Converter<>(Arbitro.class, ArbitroDTO.class);
-	}
+	private Converter<Equipo, EquipoDTO> toDTO;
 
-	@Transactional
-	@Override
-	public void crear(ArbitroDTO arbitro) {
-
-		save((Arbitro) toEntity.toEntity(arbitro));
-	}
-
-	@Transactional
-	@Override
-	public void actualizar(Integer id, ArbitroDTO arbitro) {
-
-		update(id, (Arbitro) toEntity.toEntity(arbitro));
+	public EquipoServiceImpl() {
+		super();
+		toEntity = new Converter<>(EquipoDTO.class, Equipo.class);
+		toDTO = new Converter<>(Equipo.class, EquipoDTO.class);
 	}
 
 	@Override
-	public ArbitroDTO getById(Integer id) {
+	public void save(EquipoDTO equipo) {
 
-		return (ArbitroDTO) toDTO.toDTO(findById(id));
+		repository.save((Equipo) toEntity.toEntity(equipo));
 	}
 
-	@Transactional
 	@Override
-	public void borrar(Integer id) {
-		deleteById(id);
+	public void update(EquipoDTO equipo) {
+
+		repository.save((Equipo) toEntity.toEntity(equipo));
 	}
-	
+
+	@Override
+	public EquipoDTO getById(Integer id) {
+
+		if (!repository.existsById(id)) {
+			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
+		}
+		return (EquipoDTO) toDTO.toDTO(repository.findById(id).orElse(null));
+	}
+
 	@Override
 	public ResultTableDTO findByFilter(String filtroWeb, boolean exportar) {
 
@@ -79,23 +79,29 @@ public class ArbitroServiceImpl extends RepositoryServiceImpl<Arbitro, Integer> 
 		}
 
 		Pageable pageable = getPageable(exportar, filtro);
-        
-        return toDTO.convertToResultTableDTO(((ArbitroRepository)repository).findAll(spec, pageable));
+
+		return toDTO.convertToResultTableDTO(repository.findAll(spec, pageable));
 	}
 
 	private Specification<BaseEntity> hasLigaConNombre(String nombre) {
 		return (root, query, criteriaBuilder) -> {
-			Join<Liga, Arbitro> liga = root.join("liga");
+			Join<Liga, Equipo> liga = root.join("liga");
 			return criteriaBuilder.equal(liga.get("nombre"), nombre);
 		};
 	}
 
 	@Override
-	public List<SelectDTO> findForSelect() {
-		
+	public void delete(Integer id) {
+
+		repository.deleteById(id);
 	}
+
+	@Override
+	public List<BaseDTO> findForSelect() {
+
 		Sort sort = Sort.by("nombre").ascending();
 
 		return toDTO.convertListToSelectDTO(repository.findAll(sort));
 	}
+
 }

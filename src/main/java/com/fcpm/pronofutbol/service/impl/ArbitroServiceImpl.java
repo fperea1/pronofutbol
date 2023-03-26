@@ -14,7 +14,6 @@ import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.entities.Arbitro;
 import com.fcpm.pronofutbol.entities.BaseEntity;
 import com.fcpm.pronofutbol.entities.Liga;
-import com.fcpm.pronofutbol.exceptions.ServiceException;
 import com.fcpm.pronofutbol.repositories.ArbitroRepository;
 import com.fcpm.pronofutbol.service.interfaces.ArbitroService;
 import com.fcpm.pronofutbol.utils.Converter;
@@ -93,7 +92,6 @@ public class ArbitroServiceImpl extends RepositoryServiceImpl<Arbitro, Integer> 
 	@Override
 	public List<SelectDTO> findForSelect() {
 		
-	}
 		Sort sort = Sort.by("nombre").ascending();
 
 		return toDTO.convertListToSelectDTO(repository.findAll(sort));

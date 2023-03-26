@@ -31,6 +31,8 @@ public final class Constantes {
 
 	public static final String ARBITROS = "/arbitros";
 
+	public static final String EQUIPOS = "/equipos";
+
 	// mapeo metodos controller
 
 	public static final String GENERAR_TOKEN = "/generate-token";
@@ -80,6 +82,8 @@ public final class Constantes {
 	public static final String ARBITRO = "arbitro";
 
 	public static final String TIPO_SORTEO = "tipo.sorteo";
+
+	public static final String EQUIPO = "equipo";
 
 	// Acciones Log
 
@@ -189,6 +193,20 @@ public final class Constantes {
 
 	public static final String NUM_TRIPLES = "numero.triples";
 	
+	public static final String PUNTOS = "puntos";
+	
+	public static final String EMPATADOS_LOCAL = "empatados.local";
+	
+	public static final String PERDIDOS_LOCAL = "perdidos.local";
+	
+	public static final String EMPATADOS_VISITANTE = "empatados.visitante";
+	
+	public static final String PERDIDOS_VISITANTE = "perdidos.visitante";
+	
+	public static final String RES_ULT_PARTIDO = "resul.ultimo.partido";
+	
+	public static final String RES_PENUL_PARTIDO = "resul.penultimo.partido";
+	
 	// MATCH MODE PARA BUSQUEDAS
 
 	public static final String STARTS_WITH = "startsWith";
@@ -244,6 +262,8 @@ public final class Constantes {
 	public static final String SHEET_ARBITROS = "arbitros";
 
 	public static final String SHEET_TIPOS_SORTEO = "tipos.sorteo";
+
+	public static final String SHEET_EQUIPOS = "equipos";
 
 	// CONTENT TYPE
 

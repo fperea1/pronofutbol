@@ -34,7 +34,7 @@ import com.fcpm.pronofutbol.dtos.LigaDTO;
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(OrderAnnotation.class)
-public class ArbitroControllerTest {
+class ArbitroControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;

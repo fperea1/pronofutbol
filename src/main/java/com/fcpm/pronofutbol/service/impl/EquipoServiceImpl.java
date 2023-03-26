@@ -2,21 +2,18 @@ package com.fcpm.pronofutbol.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fcpm.pronofutbol.constant.Constantes;
-import com.fcpm.pronofutbol.dtos.BaseDTO;
 import com.fcpm.pronofutbol.dtos.EquipoDTO;
 import com.fcpm.pronofutbol.dtos.ResultTableDTO;
+import com.fcpm.pronofutbol.dtos.SelectDTO;
 import com.fcpm.pronofutbol.entities.BaseEntity;
 import com.fcpm.pronofutbol.entities.Equipo;
 import com.fcpm.pronofutbol.entities.Liga;
-import com.fcpm.pronofutbol.exceptions.ServiceException;
 import com.fcpm.pronofutbol.repositories.EquipoRepository;
 import com.fcpm.pronofutbol.service.interfaces.EquipoService;
 import com.fcpm.pronofutbol.utils.Converter;
@@ -28,40 +25,40 @@ import jakarta.persistence.criteria.Join;
 
 @Service
 @Transactional(readOnly = true)
-public class EquipoServiceImpl extends BaseServiceImpl implements EquipoService {
-
-	@Autowired
-	private EquipoRepository repository;
+public class EquipoServiceImpl extends RepositoryServiceImpl<Equipo, Integer> implements EquipoService {
 
 	private Converter<EquipoDTO, Equipo> toEntity;
 
 	private Converter<Equipo, EquipoDTO> toDTO;
 
-	public EquipoServiceImpl() {
-		super();
+	public EquipoServiceImpl(EquipoRepository repository) {
+		super(repository);
 		toEntity = new Converter<>(EquipoDTO.class, Equipo.class);
 		toDTO = new Converter<>(Equipo.class, EquipoDTO.class);
 	}
 
 	@Override
-	public void save(EquipoDTO equipo) {
+	public void crear(EquipoDTO equipo) {
 
-		repository.save((Equipo) toEntity.toEntity(equipo));
+		save((Equipo) toEntity.toEntity(equipo));
 	}
 
 	@Override
-	public void update(EquipoDTO equipo) {
+	public void actualizar(Integer id, EquipoDTO equipo) {
 
-		repository.save((Equipo) toEntity.toEntity(equipo));
+		update(id, (Equipo) toEntity.toEntity(equipo));
 	}
 
 	@Override
 	public EquipoDTO getById(Integer id) {
+		
+		return (EquipoDTO) toDTO.toDTO(findById(id));
+	}
 
-		if (!repository.existsById(id)) {
-			throw new ServiceException(Constantes.EXC_NO_EXISTE_ENTIDAD);
-		}
-		return (EquipoDTO) toDTO.toDTO(repository.findById(id).orElse(null));
+	@Transactional
+	@Override
+	public void borrar(Integer id) {
+		deleteById(id);
 	}
 
 	@Override
@@ -80,7 +77,7 @@ public class EquipoServiceImpl extends BaseServiceImpl implements EquipoService 
 
 		Pageable pageable = getPageable(exportar, filtro);
 
-		return toDTO.convertToResultTableDTO(repository.findAll(spec, pageable));
+		return toDTO.convertToResultTableDTO(((EquipoRepository)repository).findAll(spec, pageable));
 	}
 
 	private Specification<BaseEntity> hasLigaConNombre(String nombre) {
@@ -91,13 +88,7 @@ public class EquipoServiceImpl extends BaseServiceImpl implements EquipoService 
 	}
 
 	@Override
-	public void delete(Integer id) {
-
-		repository.deleteById(id);
-	}
-
-	@Override
-	public List<BaseDTO> findForSelect() {
+	public List<SelectDTO> findForSelect() {
 
 		Sort sort = Sort.by("nombre").ascending();
 

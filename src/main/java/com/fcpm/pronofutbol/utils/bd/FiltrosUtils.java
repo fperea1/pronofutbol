@@ -37,7 +37,7 @@ public final class FiltrosUtils {
 
 	public static List<SearchCriteriaColumn> getFiltrosColumns(JsonNode filters) {
 		
-		List<SearchCriteriaColumn> list = new ArrayList<SearchCriteriaColumn>();
+		List<SearchCriteriaColumn> list = new ArrayList<>();
 		Iterator<String> it = filters.fieldNames();
 		while (it.hasNext()) {
 			String column = it.next();
@@ -55,7 +55,7 @@ public final class FiltrosUtils {
 	
 	public static List<SearchCriteriaColumn> getFiltrosSelect(JsonNode filters) {
 		
-		List<SearchCriteriaColumn> list = new ArrayList<SearchCriteriaColumn>();
+		List<SearchCriteriaColumn> list = new ArrayList<>();
 		Iterator<String> it = filters.fieldNames();
 		while (it.hasNext()) {
 			String column = it.next();

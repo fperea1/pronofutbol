@@ -14,10 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-<<<<<<< HEAD
-import org.springframework.test.context.ActiveProfiles;
-=======
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.fcpm.pronofutbol.constant.Constantes;
 import com.fcpm.pronofutbol.dtos.EquipoDTO;
@@ -29,7 +27,6 @@ import com.fcpm.pronofutbol.service.interfaces.LigaService;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
->>>>>>> branch 'desarrollo' of https://github.com/fperea1/pronofutbol.git
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -46,7 +43,7 @@ class EquipoServiceTest {
 	@Order(1)
 	void testSaveOk() {
 		EquipoDTO dto = getDto();
-		service.save(dto);
+		service.crear(dto);
 		dto = service.getById(1);
 		assertNotNull(dto);
 	}
@@ -62,9 +59,9 @@ class EquipoServiceTest {
 	@Test
 	@Order(3)
 	void testSaveKoNombreNull() {
-		EquipoDTO dto = new EquipoDTO();
+		EquipoDTO dto = getDto();
 		dto.setNombre(null);
-		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.save(dto));
+		ConstraintViolationException ex = assertThrows(ConstraintViolationException.class, () -> service.crear(dto));
 		List<String> messages = ex.getConstraintViolations().stream().map(ConstraintViolation::getMessage)
 				.collect(Collectors.toList());
 		assertNotNull(messages);
@@ -75,7 +72,7 @@ class EquipoServiceTest {
 	@Order(4)
 	void testSaveKoNombreNoUnique() {
 		EquipoDTO dto = getDto();
-		assertThrows(DataIntegrityViolationException.class, () -> service.save(dto));
+		assertThrows(DataIntegrityViolationException.class, () -> service.crear(dto));
 	}
 
 	private EquipoDTO getDto() {

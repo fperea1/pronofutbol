@@ -1,7 +1,6 @@
 package com.fcpm.pronofutbol.entities;
 
 import com.fcpm.pronofutbol.constant.Constantes;
-import com.fcpm.pronofutbol.dtos.LigaDTO;
 import com.fcpm.pronofutbol.enums.ResultadoEnum;
 import com.googlecode.jmapper.annotations.JGlobalMap;
 
@@ -76,6 +75,102 @@ public class Equipo extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "id_liga", nullable = false)
 	@NotNull(message = Constantes.VALIDATION_LIGA_OBLIGATORIO)
-	private LigaDTO liga;
+	private Liga liga;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Integer getPuntos() {
+		return puntos;
+	}
+
+	public void setPuntos(Integer puntos) {
+		this.puntos = puntos;
+	}
+
+	public Integer getGanadosLocal() {
+		return ganadosLocal;
+	}
+
+	public void setGanadosLocal(Integer ganadosLocal) {
+		this.ganadosLocal = ganadosLocal;
+	}
+
+	public Integer getEmpatadosLocal() {
+		return empatadosLocal;
+	}
+
+	public void setEmpatadosLocal(Integer empatadosLocal) {
+		this.empatadosLocal = empatadosLocal;
+	}
+
+	public Integer getPerdidosLocal() {
+		return perdidosLocal;
+	}
+
+	public void setPerdidosLocal(Integer perdidosLocal) {
+		this.perdidosLocal = perdidosLocal;
+	}
+
+	public Integer getGanadosVisitante() {
+		return ganadosVisitante;
+	}
+
+	public void setGanadosVisitante(Integer ganadosVisitante) {
+		this.ganadosVisitante = ganadosVisitante;
+	}
+
+	public Integer getEmpatadosVisitante() {
+		return empatadosVisitante;
+	}
+
+	public void setEmpatadosVisitante(Integer empatadosVisitante) {
+		this.empatadosVisitante = empatadosVisitante;
+	}
+
+	public Integer getPerdidosVisitante() {
+		return perdidosVisitante;
+	}
+
+	public void setPerdidosVisitante(Integer perdidosVisitante) {
+		this.perdidosVisitante = perdidosVisitante;
+	}
+
+	public ResultadoEnum getResUltimoPartido() {
+		return resUltimoPartido;
+	}
+
+	public void setResUltimoPartido(ResultadoEnum resUltimoPartido) {
+		this.resUltimoPartido = resUltimoPartido;
+	}
+
+	public ResultadoEnum getResPenultimoPartido() {
+		return resPenultimoPartido;
+	}
+
+	public void setResPenultimoPartido(ResultadoEnum resPenultimoPartido) {
+		this.resPenultimoPartido = resPenultimoPartido;
+	}
+
+	public Liga getLiga() {
+		return liga;
+	}
+
+	public void setLiga(Liga liga) {
+		this.liga = liga;
+	}
 
 }

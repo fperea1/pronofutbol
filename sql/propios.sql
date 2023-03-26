@@ -64,6 +64,8 @@ CREATE TABLE "equipos" (
 	"id_liga" INT NOT NULL
 )
 ALTER TABLE equipos add foreign key (id_liga) references ligas(id);
+ALTER TABLE equipos ADD CHECK (result_ultimo_partido IS null OR result_ultimo_partido in ('1','X','2'));
+ALTER TABLE equipos ADD CHECK (result_penultimo_partido IS null OR result_ultimo_partido in ('1','X','2'));
 
 CREATE TABLE "enfrentamientos" (
 	"id" INT PRIMARY KEY IDENTITY (1,1),  
@@ -74,6 +76,7 @@ CREATE TABLE "enfrentamientos" (
 )
 ALTER TABLE enfrentamientos add foreign key (id_equipo_local) references equipos(id);
 ALTER TABLE enfrentamientos add foreign key (id_equipo_visitante) references equipos(id);
+ALTER TABLE enfrentamientos ADD CHECK (resultado in ('1','X','2'));
 
 CREATE TABLE "porcentajes" (
 	"id" INT PRIMARY KEY IDENTITY (1,1),  
@@ -101,6 +104,7 @@ ALTER TABLE partidos add foreign key (id_equipo_visitante) references equipos(id
 ALTER TABLE partidos add foreign key (id_quiniela) references quinielas(id);
 ALTER TABLE partidos add foreign key (id_porcentaje) references porcentajes(id);
 ALTER TABLE partidos add foreign key (id_arbitro) references arbitros(id);
+ALTER TABLE partidos ADD CHECK (resultado IS null OR resultado in ('1','X','2'));
 
 ALTER TABLE porcentajes add foreign key (id_partido) references partidos(id);
 ALTER TABLE porcentajes add foreign key (id_usuario) references usuarios(id);
@@ -114,7 +118,7 @@ CREATE TABLE "tipo_sorteo" (
 
 CREATE TABLE "pronosticos" (
 	"id" INT PRIMARY KEY IDENTITY (1,1),  
-	"resultado" NVARCHAR(1) NOT NULL,
+	"resultado" NVARCHAR(3) NOT NULL,
 	"id_partido" INT NOT NULL,
 	"id_tipo_sorteo" INT NOT NULL,
 	"id_usuario" INT NOT NULL
@@ -122,3 +126,4 @@ CREATE TABLE "pronosticos" (
 ALTER TABLE pronosticos add foreign key (id_partido) references partidos(id);
 ALTER TABLE pronosticos add foreign key (id_tipo_sorteo) references tipo_sorteo(id);
 ALTER TABLE pronosticos add foreign key (id_usuario) references usuarios(id);
+ALTER TABLE pronosticos ADD CHECK (resultado IS null OR resultado in ('1','X','2','1X','12','X2','1X2'));

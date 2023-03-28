@@ -30,31 +30,18 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency> 
-		    <groupId>org.springframework.boot</groupId> 
-		    <artifactId>spring-boot-starter-validation</artifactId> 
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>test</scope>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-		
+		</dependency>		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -70,7 +57,10 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+		<dependency> 
+		    <groupId>org.springframework.boot</groupId> 
+		    <artifactId>spring-boot-starter-validation</artifactId> 
+		</dependency>
 		<dependency> 
 		    <groupId>io.jsonwebtoken</groupId> 
 		    <artifactId>jjwt</artifactId> 
@@ -80,6 +70,15 @@
 		    <groupId>com.googlecode.jmapper-framework</groupId>
 		    <artifactId>jmapper-core</artifactId>
 		    <version>${jmapper.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
@@ -115,26 +114,6 @@
 	</build>
 	
 	<profiles>
-		<profile>
-			<id>des</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<maven.test.skip>true</maven.test.skip>
-				<spring.profiles.active>des</spring.profiles.active>
-			</properties>
-			<build>
-				<resources>
-					<resource>
-						<directory>src/main/resources</directory>
-						<excludes>
-							<exclude>**/application-pro.properties</exclude>
-						</excludes>
-					</resource>
-				</resources>
-			</build>
-		</profile>
 		
 		<profile>
 			<id>pro</id>
